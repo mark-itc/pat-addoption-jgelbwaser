@@ -37,12 +37,18 @@ const userSchema = {
             minLength: 5,
             maxLength: 15,
             pattern: '^\\d{5,15}$'
-        }
+        },
+        bio: {
+            type: "string",
+            maxLength: 500,
+            pattern: '^\\d{5,15}$'
+        },
+
     },
     errorMessage: {
         'properties': {
-            'lastName':  'lastName should contain only letters from all languages and spaces, and not start or end with a space.' ,
-            'firstName': 'firstName should contain only letters from all languages and spaces, and not start or end with a space.',
+            'lastName':  'lastName must include 2-50 chars. Only letters and single spaces are allowed without starting or ending with a space.' ,
+            'firstName':  'firstName must include 2-50 chars. Only letters and single spaces are allowed without starting or ending with a space.' ,
             'phoneNumber': 'phoneNumber should contain a number of 5 to 15 digits', 
             'password': 'Passwords must NOT have fewer than 6 characters',
             'confirmPassword': 'Passwords must NOT have fewer than 6 characters',

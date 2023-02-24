@@ -15,6 +15,14 @@ class UserDAO {
         return await User.findOne(data)
     }
 
+    static async findByEmail(email) {
+        return await User.findOne({ email: email.toLowerCase() })
+    }
+
+    static async findById(id) {
+        return await User.findById(id)
+    }
+
     static async save (user) {
         return await user.save();
     }
