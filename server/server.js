@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 const helmet = require("helmet");
 const morgan = require("morgan");
+const cors = require('cors');
 const mongoose = require('mongoose');
 const AuthController = require("./controllers/AuthController");
 const {handleError, logger} = require("./lib/logger");
@@ -18,6 +19,7 @@ mongoose.connect(process.env.MONGO_URL).
 
   
 //middleware
+app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));

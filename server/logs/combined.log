@@ -937,3 +937,48 @@
 {"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-24T05:15:02.184Z"}
 {"level":"info","message":"back server running","timestamp":"2023-02-24T06:44:26.375Z"}
 {"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-24T06:44:27.574Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-24T11:41:48.877Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-24T11:41:50.009Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-24T13:38:24.435Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-24T13:38:25.758Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-24T13:39:00.844Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-24T13:39:02.467Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-24T13:45:19.181Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-24T13:45:20.359Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-24T13:47:55.120Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-24T13:57:21.555Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-24T14:00:48.083Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-24T14:06:07.665Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T10:31:59.765Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:23:09.313Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:29:22.899Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:30:16.038Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:30:59.195Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:33:34.023Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:36:14.779Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:36:40.898Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:39:38.989Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:40:13.116Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:40:56.361Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:42:06.199Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:45:05.500Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T11:46:03.918Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-25T12:07:09.886Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-25T12:07:11.029Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-25T12:18:04.373Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-25T12:18:05.487Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-25T12:38:33.321Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-25T12:38:34.479Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T12:40:28.833Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-25T12:44:02.167Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-25T12:44:03.300Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T12:44:14.493Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T12:45:34.036Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-25T12:48:31.994Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-25T12:48:33.190Z"}
+{"level":"info","message":"back server running","timestamp":"2023-02-25T12:48:57.541Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-02-25T12:48:58.697Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T12:49:05.418Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T12:49:34.894Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T12:51:32.063Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-25T12:53:30.122Z"}

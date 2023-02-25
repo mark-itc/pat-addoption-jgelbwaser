@@ -1,0 +1,142 @@
+import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
+const initialState = {
+  accessToken: null,
+  refreshToken: null,
+  user: null,
+  loading: false,
+  error: null,
+};
+
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    setTokens: (state, action) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+    },
+    clearTokens: (state) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.user = null;
+    },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+  },
+});
+
+export const { setTokens, clearTokens, setUser, setLoading, setError } =
+  authSlice.actions;
+
+export const login = (email, password) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    const res = await axios.post('/login', { email, password });
+    const { accessToken, refreshToken } = res.data;
+    dispatch(setTokens({ accessToken, refreshToken }));
+    const user = jwt_decode(accessToken);
+    dispatch(setUser(user));
+    dispatch(setLoading(false));
+    return true;
+  } catch (err) {
+    console.log(err);
+    dispatch(setError('Login failed. Please try again.'));
+    dispatch(setLoading(false));
+    return false;
+  }
+};
+
+export const signUp = (name, email, password) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    const res = await axios.post('/sign-up', { name, email, password });
+    const { accessToken, refreshToken } = res.data;
+    dispatch(setTokens({ accessToken, refreshToken }));
+    const user = jwt_decode(accessToken);
+    dispatch(setUser(user));
+    dispatch(setLoading(false));
+    return true;
+  } catch (err) {
+    console.log(err);
+    dispatch(setError('Sign-up failed. Please try again.'));
+    dispatch(setLoading(false));
+    return false;
+  }
+};
+
+export const logout = (refreshToken) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    await axios.post('/logout', { token: refreshToken });
+    dispatch(clearTokens());
+    dispatch(setLoading(false));
+  } catch (err) {
+    console.log(err);
+    dispatch(setError('Logout failed. Please try again.'));
+    dispatch(setLoading(false));
+  }
+};
+
+// const refreshToken = async () => {
+//     try {
+//       const res = await axios.post("/refresh", { token: user.refreshToken });
+//       setUser({
+//         ...user,
+//         accessToken: res.data.accessToken,
+//         refreshToken: res.data.refreshToken,
+//       });
+//       return res.data;
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+
+
+export const refreshToken = (refreshToken) => async (dispatch) => {
+  try {
+    const res = await axios.post('/refresh', { token: refreshToken });
+    dispatch(setTokens({ accessToken: res.data.accessToken,  refreshToken: res.data.refreshToken }));
+    const user = jwt_decode(res.data.accessToken);
+    dispatch(setUser(user));
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const accessTokenSelector = (state) => state.auth.accessToken;
+export const refreshTokenSelector = (state) => state.auth.refreshToken;
+export const userSelector = (state) => state.auth.user;
+export const loadingSelector = (state) => state.auth.loading;
+export const errorSelector = (state) => state.auth.error;
+
+export default authSlice.reducer;
+
+
+//   const axiosJWT = axios.create()
+
+//   axiosJWT.interceptors.request.use(
+//     async (config) => {
+//       let currentDate = new Date();
+//       const decodedToken = jwt_decode(user.accessToken);
+//       if (decodedToken.exp * 1000 < currentDate.getTime()) {
+//         const data = await refreshToken();
+//         config.headers["authorization"] = "Bearer " + data.accessToken;
+//       }
+//       return config;
+//     },
+//     (error) => {
+//       return Promise.reject(error);
+//     }
+//   );
+

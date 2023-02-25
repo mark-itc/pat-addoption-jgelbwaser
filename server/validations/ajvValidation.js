@@ -41,7 +41,6 @@ const userSchema = {
         bio: {
             type: "string",
             maxLength: 500,
-            pattern: '^\\d{5,15}$'
         },
 
     },

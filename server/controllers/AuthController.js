@@ -102,6 +102,7 @@ module.exports = class AuthController {
             { expiresIn: JWT_ACCESS_TOKEN_EXPIRATION });
     }
 
+
     static async login(req, res) {
         const valid = validateLogin(req.body);
 
@@ -110,31 +111,47 @@ module.exports = class AuthController {
         try {
             //user exists
             const user = await UserDAO.findByEmail(req.body.email);
-            if (!user) return res.status(401).json({ error: "wrong email/password combination" })
+            if (!user) return res.status(401).json({ error: "wrong email/password combination", loggedOut: true })
             //check wait time
             const waitTime = AuthController.getWaitLoginMinutes(user);
-            if (waitTime) return res.status(401).json(`You have reached the maximum login attempts allowed. Please wait ${waitTime} minutes to try again`)
+            if (waitTime) return res.status(401).json({error:`You have reached the maximum login attempts allowed. Please wait ${waitTime} minutes to try again`, loggedOut: true})
             //check password
             const validPassword = await bcrypt.compare(req.body.password, user.hashPassword)
             if (!validPassword) {
                 const errorMsg = await AuthController.handleInvalidPwd(user)
-                return res.status(401).json({ error: errorMsg })
+                return res.status(401).json({ error: errorMsg, loggedOut: true })
             }
 
             //LOGIN SUCCESS:
-            const accessToken = AuthController.generateAccessToken(user);
-            const refreshToken = AuthController.generateRefreshToken(user)
+            // const accessToken = AuthController.generateAccessToken(user);
+            // const refreshToken = AuthController.generateRefreshToken(user)
 
-            user.failedLoginAttempts = 0
-            user.hashRefreshTokenSignature = await bcrypt.hash(refreshToken.split('.')[2], BCRYPT_SALT);
-            await UserDAO.save(user);
+            // user.failedLoginAttempts = 0
+            // user.hashRefreshTokenSignature = await bcrypt.hash(refreshToken.split('.')[2], BCRYPT_SALT);
+            // await UserDAO.save(user);
 
-            return res.status(200).json({ accessToken, refreshToken })
+            // const currentUser = getUserResponseObject(user)
+            const {accessToken, refreshToken,currentUser} =  await AuthController.logUser(user)
+            return res.status(200).json({ accessToken, refreshToken,currentUser })
 
         } catch (error) {
             handleError(error);
             return res.status(500).json({ error: "Server error" })
         }
+    }
+
+    static async logUser(user) {
+        const accessToken = AuthController.generateAccessToken(user);
+        const refreshToken = AuthController.generateRefreshToken(user)
+
+        user.failedLoginAttempts = 0
+        user.hashRefreshTokenSignature = await bcrypt.hash(refreshToken.split('.')[2], BCRYPT_SALT);
+        await UserDAO.save(user);
+        const currentUser = AuthController.getUserResponseObject(user)
+        console.log('logUser accessToken', accessToken);
+        console.log('logUser refreshToken', refreshToken);
+        console.log('logUser currentUser', currentUser);
+        return {accessToken, refreshToken,currentUser}
     }
 
     static async logout(req, res) {
@@ -164,9 +181,9 @@ module.exports = class AuthController {
             jwt.verify(token, process.env.JWT_SECRET_ACCESS_TOKEN, (err, decoded) => {
                 if (err) {
                     if (err.name === 'TokenExpiredError') {
-                        return res.status(403).json({ error: 'Token expired' });
+                        return res.status(403).json({ error: 'Token expired', loggedOut: true});
                     } else {
-                        return res.status(403).json({ error: 'Invalid token' });
+                        return res.status(403).json({ error: 'Invalid token', loggedOut: true });
                     }
                 }
                 req.tokenDecoded = decoded
@@ -182,13 +199,13 @@ module.exports = class AuthController {
         try {
             const checkWithDB = async () => {
                 const user = await UserDAO.findById(req.tokenDecoded.uid)
-                if (!user) return res.status(404).json({ error: 'User in token not found' })
+                if (!user) return res.status(404).json({ error: 'User in token not found', loggedOut: true })
                 console.log('user logout', user.lastLogout)
                 console.log('user iat', req.tokenDecoded.iat)
                 if (user.lastLogout && user.lastLogout.getTime() > req.tokenDecoded.iat * 1000) {
                     console.log('user logout', user.lastLogout.getTime())
                     console.log('user iat', req.tokenDecoded.iat)
-                    return res.status(403).json({ error: 'Token expired' });
+                    return res.status(403).json({ error: 'Token expired', loggedOut: true });
                 }
                 next();
             }
@@ -224,14 +241,31 @@ module.exports = class AuthController {
                 lastName: req.body.lastName,
                 phoneNumber: req.body.phoneNumber
             })
-            logger.debug('savedUser', savedUser)
-            return res.status(200).json({ id: savedUser._id });
+
+            const {accessToken, refreshToken,currentUser} = await AuthController.logUser(savedUser)
+            return res.status(200).json({ accessToken, refreshToken,currentUser });
+
+            //return res.status(200).json({ id: savedUser._id });
 
         } catch (error) {
             handleError(error);
             return res.status(500).json({ error: "Server error" });
         }
     };
+
+    static getUserResponseObject(user) {
+        return {
+            uid: user._id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
+            userPets:user.userPets,
+            userSavedPets:user.userSavedPets,
+            isAdmin: user.isAdmin,
+            bio: user.bio
+        }
+    }
 
 }
 
