@@ -30,21 +30,21 @@ module.exports = class AuthController {
 
             jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH_TOKEN, async (err, decoded) => {
                 if (err) {
-                    return res.status(403).json({ error: 'Invalid token' })
+                    return res.status(403).json({ error: 'Invalid token', loggedOut: true })
                 }
                 const user = await UserDAO.findById(decoded.uid);
                 if (!user.hashRefreshTokenSignature) {
-                    return res.status(403).json({ error: 'Invalid token' })
+                    return res.status(403).json({ error: 'Invalid token', loggedOut: true })
                 }
                 const validToken = await bcrypt.compare(refreshToken.split('.')[2], user.hashRefreshTokenSignature);
                 if (!validToken) {
-                    return res.status(403).json({ error: 'Invalid token' })
+                    return res.status(403).json({ error: 'Invalid token', loggedOut: true })
                 }
                 //Check expiration - TODO exempt TRUSTED devices and/or IPS from Expiration
                 const expirationTimeInSeconds = decoded.iat + JWT_REFRESH_TOKEN_EXPIRATION_SECONDS
                 const currentTimeInSeconds = Date.now() / 1000
                 if (currentTimeInSeconds > expirationTimeInSeconds) {
-                    return res.status(401).json({ error: 'Token expired' })
+                    return res.status(401).json({ error: 'Refresh token expired', loggedOut: true })
                 }
                 const newAccessToken = AuthController.generateAccessToken(user);
                 const newRefreshToken = AuthController.generateRefreshToken(user);

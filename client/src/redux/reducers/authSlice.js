@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     value: 0,
-    accessToken: 'initialAccessToken',
-    refreshToken: 'refreshAccessToken',
+    accessToken: null,
+    refreshToken: null,
     currentUser: null,
     loading: false,
     error: null,
@@ -52,6 +52,9 @@ export const authSlice = createSlice({
         clearErrorState: (state) => {
             state.error = null;
         },
+        setLoadingFalse: (state) => {
+            state.loading = false
+        },
     },
 })
 
@@ -66,6 +69,7 @@ export const {
     setLoginState,
     setErrorState,
     clearErrorState,
+    setLoadingFalse,
 } = authSlice.actions
 
 export default authSlice.reducer

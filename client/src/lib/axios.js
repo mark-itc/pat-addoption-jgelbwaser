@@ -1,24 +1,32 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import  store  from './../redux/store'
+import {setTokensState, setErrorState} from './../redux/reducers/authSlice'
 
 console.log('axios.js called');
- const {accessToken, refreshToken} =  store.getState().auth;
+ //const {accessToken, refreshToken} =  store.getState().auth;
  const api_url = process.env.REACT_APP_API_URL
  
 
- const axiosJWT = axios.create()
- const axiosInstance = axios.create()
+ const axiosAuthCall = axios.create()
+ const axiosCall = axios.create()
 
-axiosJWT.interceptors.request.use(
-  async (config) => {
-    const {accessToken} =  store.getState().auth;
+axiosAuthCall.interceptors.request.use(
+    async (config) => {
+    console.log('axiosJWT.interceptors')
+    console.log('====================')
     let currentDate = new Date();
-    const decodedToken = jwt_decode(accessToken);
-    if (decodedToken.exp * 1000 < currentDate.getTime()) {
-      const data = await getRefreshToken();
-      config.headers["authorization"] = "Bearer " + data.accessToken;
-    }
+    const currentAccessToken =  store.getState().auth.accessToken;
+    console.log('currentAccessToken', currentAccessToken)
+    const decodedToken = jwt_decode(currentAccessToken);
+    console.log('decodedToken', decodedToken)
+    
+    //if access token expired refresh token
+    if (!decodedToken?.exp || decodedToken.exp * 1000 < currentDate.getTime()) {
+        await RefreshToken();
+      }
+      const updatedAccessToken =  store.getState().auth.accessToken;
+      config.headers["authorization"] = "Bearer " + updatedAccessToken;
     return config;
   },
   (error) => {
@@ -26,20 +34,24 @@ axiosJWT.interceptors.request.use(
   }
 );
 
-const getRefreshToken = async () => {
+
+const RefreshToken = async () => {
     const {refreshToken} =  store.getState().auth;
+    if(!refreshToken) {
+        throw new Error('Refresh token is missing')
+    }
     try {
-      const res = await axiosInstance.post(api_url + "/refresh", { token: refreshToken });
-      console.log('getRefreshToken res', res)
-      //   setUser({
-    //     ...user,
-    //     accessToken: res.data.accessToken,
-    //     refreshToken: res.data.refreshToken,
-    //   });
-      return res.data;
-    } catch (err) {
-      console.log(err);
+      const res = await axiosCall.post(api_url + "/refresh", { token: refreshToken });
+      console.log('freshToken res', res);
+      store.dispatch(setTokensState({
+        accessToken: res.data.accessToken,
+        refreshToken: res.data.refreshToken,
+      }))
+    } catch (error) {
+      console.log(error);
+      const errorMsg = error.response?.data?.error || error.message;
+      setErrorState(errorMsg)
     }
   };
 
-export {axiosJWT , axiosInstance, accessToken, refreshToken}
+export {axiosAuthCall , axiosCall}
