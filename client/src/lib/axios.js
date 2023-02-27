@@ -3,11 +3,7 @@ import jwt_decode from "jwt-decode";
 import  store  from './../redux/store'
 import {setTokensState, setErrorState} from './../redux/reducers/authSlice'
 
-console.log('axios.js called');
- //const {accessToken, refreshToken} =  store.getState().auth;
  const api_url = process.env.REACT_APP_API_URL
- 
-
  const axiosAuthCall = axios.create()
  const axiosCall = axios.create()
 
