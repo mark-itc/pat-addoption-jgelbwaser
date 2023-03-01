@@ -1,5 +1,5 @@
 import React from 'react'
-import UiButton from '../uiKit/UiButton'
+import UiButton from '../uiKit/componentsUi/UiButton'
 
 
 export default function AppButton({sx, ...props}) {

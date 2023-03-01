@@ -11,6 +11,7 @@ export  function UiFlexDiv({
     flexWrap = 'nowrap',
     alignContent = 'stretch',
     gap = 0,
+    sx,
     ...props
 }) {
     const StyledFlexDiv = styled(UiDiv)(({ theme }) => ({
@@ -21,6 +22,7 @@ export  function UiFlexDiv({
         flexWrap: flexWrap,
         alignContent: alignContent,
         gap: theme.spacing(gap),
+        ...sx,
     }));
 
     return (
