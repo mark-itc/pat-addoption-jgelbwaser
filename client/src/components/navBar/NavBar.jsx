@@ -1,3 +1,4 @@
+
 import React from 'react'
 import UiAppBar from '../ui/uiKit/componentsUi/UiAppBar'
 import UiToolbar from '../ui/uiKit/layouts/UiToolbar'
@@ -14,12 +15,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import NavIconButton from './NavIconButton'
 import { UiHideFrom, UiShowFrom } from '../ui/uiKit/layouts/UiHide'
 import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName'
+import { useSelector } from 'react-redux'
 
-export default function navBar() {
+export default function NavBar() {
 
+    const authState = useSelector(state => state.auth)
     const firstName = 'Javier'
     const lastName = 'Gelbwaser'
-    const permissionLevel = PERMISSION_LEVEL.user
+    const permissionLevel = authState.permissionLevel;
 
 
     const navLinkArray = NAV_LINKS_PER_STATUS[permissionLevel]
@@ -77,24 +80,32 @@ export default function navBar() {
                     <div>
                         <UiFlexRow sx={{ height: '100%', alignSelf: 'center' }} >
 
-                            {/* When loggedIn: */}
-                            <UiFlexRow gap={1} onClick={handleProfileClick} >
-                                {fullName &&
-                                    <UiFlexRow sx={{ alignItems: 'center' }}>
-                                        <UiAvatarFromName mr={1}>{fullName}</UiAvatarFromName>
-                                    </UiFlexRow>
-                                }
-                                <UiShowFrom from='sm' >
-                                    <NavButton>Profile</NavButton>
-                                </UiShowFrom>
-                            </UiFlexRow>
-                            <NavButton onClick={handleLogoutClick}>Logout</NavButton>
+                            {permissionLevel > PERMISSION_LEVEL.guest ? (
 
-                            {/* When loggedOut: */}
+                                //When loggedIn
+                                <>
+                                <UiFlexRow gap={1} onClick={handleProfileClick} >
+                                    {fullName &&
+                                        <UiFlexRow sx={{ alignItems: 'center' }}>
+                                            <UiAvatarFromName mr={1}>{fullName}</UiAvatarFromName>
+                                        </UiFlexRow>
+                                    }
+                                    <UiShowFrom from='sm' >
+                                        <NavButton>Profile</NavButton>
+                                    </UiShowFrom>
+                                </UiFlexRow>
+                                <NavButton onClick={handleLogoutClick}>Logout</NavButton>
+                                </>
+                            ) : (
+                                //When loggedOut:
+                                <>
                             <NavButton onClick={handleLoginClick}>Login</NavButton>
                             <UiShowFrom from='sm' >
                                 <NavButton onClick={handleSignInClick}>Signin</NavButton>
                             </UiShowFrom>
+                                </>
+
+                            )}
 
                         </UiFlexRow>
                     </div>

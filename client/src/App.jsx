@@ -3,6 +3,7 @@ import './App.css';
 import  Home  from './pages/Home';
 import NavBar from './components/navBar/NavBar'
 import UiStack100Vh from './components/ui/uiKit/layouts/UiStack100Vh';
+import AppDialog from './components/AppDialog/AppDialog';
 
 function App() {
 
@@ -11,8 +12,12 @@ function App() {
       {/* <Login/> */}
     
       <NavBar/>
-      <Home  sx={{backgroundColor:'blue'}}/>
+      <AppDialog/>
+      {/* <Home/> */}
       
+      
+   
+
     </UiStack100Vh>
   );
 }

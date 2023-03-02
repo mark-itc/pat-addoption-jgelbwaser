@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { PERMISSION_LEVEL } from '../../config/config';
 
 const initialState = {
-    value: 0,
+    permissionLevel: PERMISSION_LEVEL.user,
     accessToken: null,
     refreshToken: null,
     currentUser: null,
@@ -14,12 +15,6 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        increment: (state) => {
-            state.value += 1
-        },
-        decrement: (state) => {
-            state.value -= 1
-        },
         incrementByAmount: (state, action) => {
             state.value += action.payload
         },
@@ -36,13 +31,16 @@ export const authSlice = createSlice({
             state.accessToken = null;
             state.refreshToken = null;
             state.currentUser = null
-            state.isLoggedIn = false
+            state.isLoggedIn = false;
+            state.permissionLevel = PERMISSION_LEVEL.guest
+
         },
         setLoginState: (state, action) => {
             state.loading = false;
             state.currentUser = action.payload.currentUser;
             state.accessToken = action.payload.accessToken;
             state.refreshToken = action.payload.refreshToken;
+            state.permissionLevel = action.payload.isAdmin ? PERMISSION_LEVEL.admin : PERMISSION_LEVEL.user;
             state.isLoggedIn = true
         },
         setErrorState: (state, action) => {
