@@ -1,52 +1,50 @@
 import { createSlice } from "@reduxjs/toolkit"
+import Login from "../../components/Modal/Login";
+import PetInfo from "../../components/Modal/PetInfo";
+import SignIn from "../../components/Modal/SignIn";
+import UserInfo from "../../components/Modal/UserInfo";
 
 const initialState = {
     isOpen: false,
-    modalContent: null,
+    selectedModal: null,
 };
 
-const MODAL_CONTENT_OPTIONS = {
+export const MODAL_OPTIONS = {
     login: 1,
     signIn: 2,
-    pet: 3,
-    user: 4
+    petInfo: 3,
+    userInfo: 4
+}
+
+export const MODAL_COMPONENTS = {
+    [MODAL_OPTIONS.login] : <Login/>,
+    [MODAL_OPTIONS.signIn] : <SignIn/>,
+    [MODAL_OPTIONS.petInfo] : <PetInfo/>,
+    [MODAL_OPTIONS.userInfo] : <UserInfo/>,
 }
 
 export const modalSlice = createSlice({
     name: 'modal',
     initialState,
     reducers: {
-        openLoginModal: (state) => {
-            state.modalContent = MODAL_CONTENT_OPTIONS.login;
-            state.isOpen = true;
-        },
-        openSignInModal: (state) => {
-            state.modalContent = MODAL_CONTENT_OPTIONS.signIn;
-            state.isOpen = true;
-        },
-        openPetModal: (state) => {
-            state.modalContent = MODAL_CONTENT_OPTIONS.pet;
-            state.isOpen = true;
-        },
-        openUserModal: (state) => {
-            state.modalContent = MODAL_CONTENT_OPTIONS.user;
+        openModal: (state, action) =>{
+            state.selectedModal = action.payload;
             state.isOpen = true;
         },
         closeModal: (state) => {
-            state.modalContent = null;
+            state.modalOption = null;
             state.isOpen = false;
+            state.componentKey = null;
         },
-
     },
 })
 
 // Action creators are generated for each case reducer function
 export const {
-    openLoginModal,
-    openSignInModal,
-    openPetModal,
-    openUserModal,
+    openModal,
     closeModal
-} = modalSlice.reducer
+} = modalSlice.actions
+
+export const SelectedComponent = (state) => state.modal.components[state.modal.componentKey];
 
 export default modalSlice.reducer

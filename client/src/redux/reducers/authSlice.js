@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { PERMISSION_LEVEL } from '../../config/config';
 
 const initialState = {
-    permissionLevel: PERMISSION_LEVEL.user,
+    permissionLevel: PERMISSION_LEVEL.guest,
     accessToken: null,
     refreshToken: null,
     currentUser: null,
@@ -15,9 +15,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        incrementByAmount: (state, action) => {
-            state.value += action.payload
-        },
+
         startApiCall: state => {
             state.loading = true
             state.error = null

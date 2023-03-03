@@ -15,29 +15,33 @@ import SearchIcon from '@mui/icons-material/Search';
 import NavIconButton from './NavIconButton'
 import { UiHideFrom, UiShowFrom } from '../ui/uiKit/layouts/UiHide'
 import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { MODAL_OPTIONS, openLoginModal, openModal, openSignInModal, openUserModal } from '../../redux/reducers/modalSlice'
 
 export default function NavBar() {
 
+  
     const authState = useSelector(state => state.auth)
+    const modalOptions = MODAL_OPTIONS
     const firstName = 'Javier'
     const lastName = 'Gelbwaser'
     const permissionLevel = authState.permissionLevel;
-
-
     const navLinkArray = NAV_LINKS_PER_STATUS[permissionLevel]
     const fullName = `${firstName} ${lastName}`;
+    const dispatch = useDispatch()
+
+
 
     const handleProfileClick = () => {
-        console.log('profile clicked');
+        dispatch(openModal(MODAL_OPTIONS.userInfo))
     }
 
     const handleLoginClick = () => {
-        console.log('login clicked');
+        dispatch(openModal(MODAL_OPTIONS.login))
     }
 
     const handleSignInClick = () => {
-        console.log('signin clicked');
+        dispatch(openModal(MODAL_OPTIONS.signIn))
     }
 
     const handleLogoutClick = () => {
@@ -53,9 +57,8 @@ export default function NavBar() {
                     <NavBrand />
 
                     {/* NAV LINKS  */}
-
-                    {/* mobile: */}
                     <UiHideFrom from='sm'>
+                        {/* mobile: */}
                         <UiFlexRow gap={1} sx={{ height: '100%' }} >
                             {navLinkArray.map((navLink, index) => {
                                 const Icon = navLink.icon;
@@ -63,9 +66,8 @@ export default function NavBar() {
                             })}
                         </UiFlexRow>
                     </UiHideFrom>
-
-                    {/* desktop: */}
                     <UiShowFrom from='sm' >
+                         {/* desktop: */}
                         <UiFlexRow sx={{ height: '100%' }}>
                             {navLinkArray.map((navLink, index) => {
                                 return <NavButton key={index}>{navLink.title}</NavButton>
