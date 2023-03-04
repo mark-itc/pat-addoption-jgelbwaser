@@ -17,6 +17,7 @@ import { UiHideFrom, UiShowFrom } from '../ui/uiKit/layouts/UiHide'
 import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName'
 import { useDispatch, useSelector } from 'react-redux'
 import { MODAL_OPTIONS, openLoginModal, openModal, openSignInModal, openUserModal } from '../../redux/reducers/modalSlice'
+import { setLogoutState } from '../../redux/reducers/authSlice'
 
 export default function NavBar() {
 
@@ -44,7 +45,7 @@ export default function NavBar() {
     }
 
     const handleLogoutClick = () => {
-        console.log('logout clicked');
+        dispatch(setLogoutState());
     }
 
     return (

@@ -13,7 +13,7 @@ export function UiAlert({ severity="error", ...props }) {
 
 export function UiAlertCloseOption({ ...props }) {
 
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
     const handleClose = () =>  setOpen(false)
 
     return (
@@ -27,9 +27,9 @@ export function UiAlertCloseOption({ ...props }) {
     )
 }
 
-export function UiAlertCollapse({ ...props }) {
+export function UiAlertCollapse({ show, ...props }) {
 
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(show)
     const handleClose = () => setOpen(false);
 
     return (

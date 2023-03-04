@@ -1,47 +1,46 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import UiBox from '../ui/uiKit/layouts/UiBox';
-import { UiFlexCol, UiFlexColToRowFrom, UiFlexRow } from '../ui/uiKit/layouts/UiFlex';
+import { UiFlexCol, UiFlexColToRowFrom, UiFlexDiv, UiFlexRow } from '../ui/uiKit/layouts/UiFlex';
 import UiAvatar from '../ui/uiKit/componentsUi/UiAvatar';
 import TextFontLogo from '../ui/myAppUi/TextFontLogo';
 import ModalTextField from '../ui/myAppUi/ModalTextField';
-// eslint-disable-next-line
 import UiFormControlLabel from '../ui/uiKit/componentsUi/UiFormControlLabel';
-// eslint-disable-next-line
 import UiCheckbox from '../ui/uiKit/componentsUi/UiCheckbox';
 import AppButton from '../ui/myAppUi/AppButton';
-import { UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
+import { UiAlertCloseOption, UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
 import TextLink from '../ui/myAppUi/TextLink';
+import { textAlign } from '@mui/system';
 import { closeModal, MODAL_OPTIONS, openModal } from '../../redux/reducers/modalSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrorState, setErrorState } from '../../redux/reducers/authSlice';
+//import { setErrorState } from '../../redux/reducers/authSlice';
 import UseApi from '../../services/useApi';
 
 
 export default function Login() {
-
-    //const error = 'error';
-   // const loading = false;
-    const { error, loading, currentUser } = useSelector(state => state.auth)
+    const error = 'error';
+    const loading = false;
+    //const { error, loading, currentUser } = useSelector(state => state.auth)
     const dispatch = useDispatch();
     const { login } = UseApi();
-    const showAlert = error ? true : false
 
-    const handleSubmit = (event) => {
-        event.preventDefault();  
-            dispatch(clearErrorState())
-        const formData = new FormData(event.currentTarget);
-        const email = formData.get('email');
-        const password = formData.get('password')
-        console.log(email, password)
-        if (!email || !password) {
-            dispatch(setErrorState('Please enter an email and a password'))
-            return
-        }
-        login({email, password});
+    const handleSubmit = () => { 
+        console.log('handleSubmit')
     }
-
-    useEffect(()=>{ currentUser && dispatch(closeModal())}, [currentUser, dispatch])
+    
+    // const handleSubmitNew = (event) => {
+    //     event.preventDefault();
+    //     const formData = new FormData(event.currentTarget);
+    //     const email = formData.get('email');
+    //     const password = formData.get('password')
+    //     console.log(email, password)
+    //     if (!email || !password) {
+    //         //dispatch(setErrorState('Please enter an email and a password'))
+    //         return
+    //     }
+    //     console.log('form submited');
+    //     login({email, password});
+    // }
 
 
     const handleClose = () => {
@@ -83,7 +82,7 @@ export default function Login() {
                     label="Remember me"
                 /> */}
                 <UiBox my={2}>
-                    <UiAlertCollapse show={showAlert} >{error}</UiAlertCollapse>
+                    <UiAlertCollapse>{error}</UiAlertCollapse>
                 </UiBox>
                 <UiFlexColToRowFrom gap={2} w100 justifyContent='center' >
                     <AppButton type="submit" variant="contained">

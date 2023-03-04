@@ -989,3 +989,15 @@
 {"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-26T13:23:09.637Z"}
 {"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-26T13:25:36.596Z"}
 {"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-02-26T13:30:19.442Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T14:31:29.905Z"}
+{"level":"error","message":{"error":"Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.fr7uspn.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:254:17)"},"timestamp":"2023-03-04T14:31:29.911Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T14:32:00.374Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T14:32:03.918Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T16:14:48.983Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T16:14:50.850Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T16:49:55.519Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T16:52:13.515Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T16:59:57.926Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T17:01:08.527Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T17:06:55.195Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T17:07:52.543Z"}
