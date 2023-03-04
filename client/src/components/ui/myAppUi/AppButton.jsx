@@ -9,3 +9,18 @@ export default function AppButton({sx, ...props}) {
     </UiButton>
   )
 }
+
+// export default function AppButton({sx, variant='contained', ...props}) {
+
+//   const StyledUiButton = styled(UiButton)(({ theme }) => ({
+//     minWidth: '10rem',
+//     [theme.breakpoints.down('sm')]:{width: '100%'},
+//     ...sx
+// }));
+
+//   return (
+//     <StyledUiButton variant={variant}>
+//         {props.children}
+//     </StyledUiButton>
+//   )
+// }

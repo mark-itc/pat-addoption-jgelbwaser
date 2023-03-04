@@ -22,7 +22,6 @@ export default function NavBar() {
 
   
     const authState = useSelector(state => state.auth)
-    const modalOptions = MODAL_OPTIONS
     const firstName = 'Javier'
     const lastName = 'Gelbwaser'
     const permissionLevel = authState.permissionLevel;

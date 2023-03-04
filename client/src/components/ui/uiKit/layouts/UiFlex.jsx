@@ -4,6 +4,7 @@ import UiDiv from './UiDiv';
 
 
 export  function UiFlexDiv({
+    w100 = false,
     display = 'flex',
     direction = 'row',
     justifyContent = 'flex-start',
@@ -16,6 +17,7 @@ export  function UiFlexDiv({
 }) {
     const StyledFlexDiv = styled(UiDiv)(({ theme }) => ({
         display: 'flex',
+        width: w100? '100%' : 'auto',
         flexDirection: direction,
         justifyContent: justifyContent,
         alignItems: alignItems,

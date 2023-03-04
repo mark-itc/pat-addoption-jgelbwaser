@@ -6,8 +6,17 @@ import TextFontAlt from '../components/ui/myAppUi/TextFontAlt'
 import AppButton from '../components/ui/myAppUi/AppButton'
 import { UiFlexCol, UiFlexColToRowFrom } from '../components/ui/uiKit/layouts/UiFlex'
 import UiDiv from '../components/ui/uiKit/layouts/UiDiv'
+import { useDispatch } from 'react-redux'
+import { MODAL_OPTIONS, openModal } from '../redux/reducers/modalSlice'
 
 export default function Home() {
+
+    const dispatch = useDispatch()
+
+    const handleLoginClick = () => {dispatch(openModal(MODAL_OPTIONS.login))}
+    const handleSignInClick = () => {dispatch(openModal(MODAL_OPTIONS.signIn))}
+
+
     return (
             <MyAppUiContainer sx={{flex:1}}>
                 <UiFlexCol justifyContent='space-between' sx={{height:'100%'}}>
@@ -26,8 +35,8 @@ export default function Home() {
                         </UiTextFontAmaticSC> */}
                     </UiDiv>
                     <UiFlexColToRowFrom from='sm' gap={2} justifyContent='center'>
-                        <AppButton size='large' color='primary' variant='contained'>Log In</AppButton>
-                        <AppButton size='large' color='primary' variant='contained'>Sign Up</AppButton>
+                        <AppButton onClick={handleLoginClick} size='large' color='primary' variant='contained'>Log In</AppButton>
+                        <AppButton onClick={handleSignInClick} size='large' color='primary' variant='contained'>Sign Up</AppButton>
                     </UiFlexColToRowFrom>
                     <UiDiv>
                         <img src='/assets/pics/HomeImage3.png' style={
