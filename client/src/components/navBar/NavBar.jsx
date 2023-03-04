@@ -18,16 +18,16 @@ import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName'
 import { useDispatch, useSelector } from 'react-redux'
 import { MODAL_OPTIONS, openLoginModal, openModal, openSignInModal, openUserModal } from '../../redux/reducers/modalSlice'
 import { setLogoutState } from '../../redux/reducers/authSlice'
+import UiText from '../ui/uiKit/componentsUi/UiText'
 
 export default function NavBar() {
 
   
     const authState = useSelector(state => state.auth)
-    const firstName = 'Javier'
-    const lastName = 'Gelbwaser'
+    const currentUser = authState.currentUser
     const permissionLevel = authState.permissionLevel;
     const navLinkArray = NAV_LINKS_PER_STATUS[permissionLevel]
-    const fullName = `${firstName} ${lastName}`;
+    const fullName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : '';
     const dispatch = useDispatch()
 
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import UseApi from '../../services/useApi';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import UiBox from '../ui/uiKit/layouts/UiBox';
 import { UiFlexCol, UiFlexColToRowFrom, UiFlexRow } from '../ui/uiKit/layouts/UiFlex';
@@ -13,23 +14,21 @@ import AppButton from '../ui/myAppUi/AppButton';
 import { UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
 import TextLink from '../ui/myAppUi/TextLink';
 import { closeModal, MODAL_OPTIONS, openModal } from '../../redux/reducers/modalSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { clearErrorState, setErrorState } from '../../redux/reducers/authSlice';
-import UseApi from '../../services/useApi';
+
 
 
 export default function Login() {
 
-    //const error = 'error';
-   // const loading = false;
     const { error, loading, currentUser } = useSelector(state => state.auth)
     const dispatch = useDispatch();
     const { login } = UseApi();
     const showAlert = error ? true : false
 
     const handleSubmit = (event) => {
-        event.preventDefault();  
-            dispatch(clearErrorState())
+        event.preventDefault();
+        dispatch(clearErrorState())
         const formData = new FormData(event.currentTarget);
         const email = formData.get('email');
         const password = formData.get('password')
@@ -38,17 +37,17 @@ export default function Login() {
             dispatch(setErrorState('Please enter an email and a password'))
             return
         }
-        login({email, password});
+        login({ email, password });
     }
 
-    useEffect(()=>{ currentUser && dispatch(closeModal())}, [currentUser, dispatch])
-
+    useEffect(() => { currentUser && dispatch(closeModal()) }, [currentUser, dispatch])
 
     const handleClose = () => {
         dispatch(closeModal())
+        dispatch(clearErrorState())
     }
 
-    const handleSignIn = () => {
+    const handleGoToSignIn = () => {
         dispatch(openModal(MODAL_OPTIONS.signIn))
     }
 
@@ -62,6 +61,10 @@ export default function Login() {
                 <TextFontLogo component="h1" variant="h5">Log In</TextFontLogo>
             </UiFlexRow>
             <UiBox component="form" onSubmit={handleSubmit} >
+
+
+
+
                 <ModalTextField
                     required
                     fullWidth
@@ -86,7 +89,7 @@ export default function Login() {
                     <UiAlertCollapse show={showAlert} >{error}</UiAlertCollapse>
                 </UiBox>
                 <UiFlexColToRowFrom gap={2} w100 justifyContent='center' >
-                    <AppButton type="submit" variant="contained">
+                    <AppButton type="submit" variant="contained" disabled={loading}>
                         {loading ? 'Loading' : 'Login'}
                     </AppButton>
                     <AppButton variant="outlined" onClick={handleClose}>Close</AppButton>
@@ -94,7 +97,7 @@ export default function Login() {
                 <UiBox mt={2}>
 
                     <UiFlexRow justifyContent='center' >
-                        <TextLink href="#" variant="body2" onClick={handleSignIn}>
+                        <TextLink href="#" variant="body2" onClick={handleGoToSignIn}>
                             Don't have an account? Sign Up
                         </TextLink>
                     </UiFlexRow>

@@ -1,11 +1,10 @@
 const { handleError, logger } = require("../lib/logger");
-const bcrypt = require('bcrypt');
 const { validateSignIn, validateLogin } = require("../validations/ajvValidation");
 const UserDAO = require("../models/UsersDAO");
-const { BCRYPT_SALT, WAIT_BETWEEN_FAILED_LOGINS, LOGIN_ATTEMPTS_WITHOUT_WAIT, JWT_ACCESS_TOKEN_EXPIRATION, JWT_REFRESH_TOKEN_EXPIRATION_SECONDS } = require('../config')
-const jwt = require('jsonwebtoken')
 
-module.exports = class AuthController {
+module.exports = class UserController {
+
+    stati
 
     static getWaitLoginMinutes(user) {
 
@@ -22,86 +21,7 @@ module.exports = class AuthController {
         return waitTimeInMinutes
     }
 
-    static async refreshToken(req, res) {
-        try {
-            const refreshToken = req.body.token
-            if (!refreshToken) return res.status(401).json("Token missing");
-
-            jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH_TOKEN, async (err, decoded) => {
-                if (err) {
-                    return res.status(403).json({ error: 'Invalid token', loggedOut: true })
-                }
-                const user = await UserDAO.findById(decoded.uid);
-                if (!user.hashRefreshTokenSignature) {
-                    return res.status(403).json({ error: 'Invalid token', loggedOut: true })
-                }
-                const validToken = await bcrypt.compare(refreshToken.split('.')[2], user.hashRefreshTokenSignature);
-                if (!validToken) {
-                    return res.status(403).json({ error: 'Invalid token', loggedOut: true })
-                }
-                //Check expiration - TODO exempt TRUSTED devices and/or IPS from Expiration
-                const expirationTimeInSeconds = decoded.iat + JWT_REFRESH_TOKEN_EXPIRATION_SECONDS
-                const currentTimeInSeconds = Date.now() / 1000
-                if (currentTimeInSeconds > expirationTimeInSeconds) {
-                    return res.status(401).json({ error: 'Refresh token expired', loggedOut: true })
-                }
-                const newAccessToken = AuthController.generateAccessToken(user);
-                const newRefreshToken = AuthController.generateRefreshToken(user);
-
-                user.hashRefreshTokenSignature = await bcrypt.hash(newRefreshToken.split('.')[2], BCRYPT_SALT);
-                await UserDAO.save(user);
-
-                res.status(200).json({
-                    accessToken: newAccessToken,
-                    refreshToken: newRefreshToken,
-                });
-
-            })
-
-        } catch (error) {
-            handleError(error);
-            return res.status(500).json({ error: "Server error" });
-        }
-    }
-
-
-    static async handleInvalidPwd(user) {
-
-        let errorMsg = "Wrong email/password combination."
-
-        //update failed attempts
-        user.failedLoginAttempts++
-        user.lastFailedLogin = new Date();
-        await UserDAO.save(user);
-
-        //check if there's wait time
-        const newWaitTime = AuthController.getWaitLoginMinutes(user)
-        if (newWaitTime) { errorMsg += `You can try again in ${newWaitTime} minutes.` } //
-        return errorMsg
-    }
-
-
-    static generateRefreshToken(user) {
-        return jwt.sign(
-            {
-                uid: user._id,
-                isAdmin: user.isAdmin
-            },
-            process.env.JWT_SECRET_REFRESH_TOKEN);
-    }
-
-
-    static generateAccessToken(user) {
-        return jwt.sign(
-            {
-                uid: user._id,
-                isAdmin: user.isAdmin
-            },
-            process.env.JWT_SECRET_ACCESS_TOKEN,
-            { expiresIn: JWT_ACCESS_TOKEN_EXPIRATION });
-    }
-
-
+    
     static async login(req, res) {
         const valid = validateLogin(req.body);
 
@@ -121,7 +41,7 @@ module.exports = class AuthController {
                 return res.status(401).json({ error: errorMsg, loggedOut: true })
             }
 
-            //LOGIN SUCCESS:
+           
             const {accessToken, refreshToken,currentUser} =  await AuthController.logUser(user)
             return res.status(200).json({ accessToken, refreshToken,currentUser })
 

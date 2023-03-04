@@ -9,6 +9,7 @@ const initialState = {
     selectedModal: null,
 };
 
+
 export const MODAL_OPTIONS = {
     login: 1,
     signIn: 2,

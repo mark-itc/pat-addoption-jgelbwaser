@@ -1001,3 +1001,52 @@
 {"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T17:01:08.527Z"}
 {"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T17:06:55.195Z"}
 {"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T17:07:52.543Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T20:04:33.533Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:13:08.201Z"}
+{"level":"error","message":{"error":"Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.fr7uspn.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:254:17)"},"timestamp":"2023-03-04T20:13:08.210Z"}
+{"level":"error","message":{"error":"MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout.<anonymous> (/Users/jgelbwaser/Documents/javi/ACADEMIA/webdevelopment/ITC/ITC_Course/assgnemets/HW6-Pet-adoption/pat-addoption-jgelbwaser/server/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:175:23)\n    at listOnTimeout (node:internal/timers:564:17)\n    at process.processTimers (node:internal/timers:507:7)"},"timestamp":"2023-03-04T20:13:42.500Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:14:38.604Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:14:43.183Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T20:14:53.459Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T20:16:55.599Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:23:06.430Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:23:10.449Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:23:24.569Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:23:27.101Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:23:58.420Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:23:59.873Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:24:02.513Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:24:04.465Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:24:06.831Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:24:07.746Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:24:09.739Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:24:12.374Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:25:03.905Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:25:06.745Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:25:09.155Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:25:11.971Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:25:13.125Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:25:15.983Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:25:21.760Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:25:24.322Z"}
+{"level":"info","message":"email: test@mail.com: attempts 0","timestamp":"2023-03-04T20:26:26.740Z"}
+{"level":"info","message":"email: test@mail.com: attempts 1","timestamp":"2023-03-04T20:26:27.101Z"}
+{"level":"info","message":"email: test@mail.com: attempts 1","timestamp":"2023-03-04T20:26:33.570Z"}
+{"level":"info","message":"email: test@mail.com: attempts 2","timestamp":"2023-03-04T20:26:33.862Z"}
+{"level":"info","message":"email: test@mail.com: attempts 2","timestamp":"2023-03-04T20:26:41.568Z"}
+{"level":"info","message":"email: test@mail.com: attempts 3","timestamp":"2023-03-04T20:26:41.875Z"}
+{"level":"info","message":"email: test@mail.com: attempts 3","timestamp":"2023-03-04T20:26:52.763Z"}
+{"level":"info","message":"email: test@mail.com: attempts 4","timestamp":"2023-03-04T20:26:53.088Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:27:28.513Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:27:31.728Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:28:23.843Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:28:26.930Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:28:45.793Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:28:49.602Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:29:05.320Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:29:06.742Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:29:09.999Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:29:40.106Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:29:42.455Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-04T20:30:48.566Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-04T20:30:52.511Z"}

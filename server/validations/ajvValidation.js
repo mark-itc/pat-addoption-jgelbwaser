@@ -58,7 +58,8 @@ const userSchema = {
 
 const requiredFields = {
     signIn: ["email", "password", "confirmPassword", "firstName", "lastName", "phoneNumber"],
-    login: ["email", "password"]
+    login: ["email", "password"],
+    profileUpdate: ["email", "firstName", "lastName", "phoneNumber"]
 }
 
 const signInSchema = {...userSchema, required: [...requiredFields.signIn] };
