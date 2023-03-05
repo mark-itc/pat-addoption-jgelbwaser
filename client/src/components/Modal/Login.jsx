@@ -32,7 +32,6 @@ export default function Login() {
         const formData = new FormData(event.currentTarget);
         const email = formData.get('email');
         const password = formData.get('password')
-        console.log(email, password)
         if (!email || !password) {
             dispatch(setErrorState('Please enter an email and a password'))
             return

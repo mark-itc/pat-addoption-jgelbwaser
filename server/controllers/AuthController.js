@@ -210,6 +210,7 @@ module.exports = class AuthController {
 
 
     static async register(req, res) {
+        console.log('req.body', req.body)
         //validate inputs
         const valid = validateSignIn(req.body);
         if (!valid) return res.status(400).json({ error: validateSignIn.errors[0].message })

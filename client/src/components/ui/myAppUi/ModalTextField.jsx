@@ -1,11 +1,11 @@
 import React from 'react'
 import UiTextField from '../uiKit/componentsUi/UiTextField'
 
-export default function ModalTextField({ sx = {}, bold = false, ...props }) {
+export default function ModalTextField({   ...props }) {
     return (
         <UiTextField
             margin="dense"
-            {...props} {...sx}
+            {...props} 
         >
             {props.children}
         </UiTextField>

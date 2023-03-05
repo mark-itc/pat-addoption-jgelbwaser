@@ -35,6 +35,17 @@ export default function UseApi() {
     }
   }
 
+  const signIn = async (newUserData) => {
+    dispatch(startApiCall())
+    try {
+      const res = await axiosCall.post(api_url + "/register", newUserData );
+      const {accessToken, refreshToken, currentUser} = res.data
+      dispatch(setLoginState({accessToken, refreshToken, currentUser}))
+    } catch (error) {
+      handleApiError(error)
+    }
+  }
+
   const checkAuth = async() => {
     dispatch(startApiCall())
     try {
@@ -51,6 +62,6 @@ export default function UseApi() {
 
 
   return (
-    { login, checkAuth }
+    { login, checkAuth, signIn }
   )
 }

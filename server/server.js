@@ -10,6 +10,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const AuthController = require("./controllers/AuthController");
 const {handleError, logger} = require("./lib/logger");
+const UserController = require("./controllers/UserController");
 
 //connect to MongoDB
 mongoose.set("strictQuery", false);
@@ -27,11 +28,14 @@ app.use(morgan("common"));
 
 app.post("/register", AuthController.register);
 app.post("/login", AuthController.login);
+app.get("/logout", AuthController.logout)
+app.post('/refresh_token', AuthController.refreshToken)
+app.post('/user/:id', AuthController.authenticateWithDB, UserController.updateUser)
 app.get("/auth", AuthController.authenticateWithDB, (req, res) => {
   return res.status(200).json({data: req.tokenDecoded})
 });
-app.get("/logout", AuthController.logout)
-app.post('/refresh_token', AuthController.refreshToken)
+
+
 
 app.listen(8800, () => {
   logger.info("back server running")

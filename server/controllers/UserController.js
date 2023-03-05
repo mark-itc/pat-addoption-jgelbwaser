@@ -4,7 +4,22 @@ const UserDAO = require("../models/UsersDAO");
 
 module.exports = class UserController {
 
-    stati
+    static updateUser(req,res) {
+        console.log('updateUser called')
+//         Route ‘/user/:id’ [PUT] (protected to logged in user)
+// This API allows you to change your settings while logged in.
+// Validate user inputs
+// Ensure that if the email is being changed it’s not already in use
+
+// Fields:
+// Password
+// Email
+// first name
+// last name
+// phone number
+// bio
+
+    }
 
     static getWaitLoginMinutes(user) {
 
@@ -154,7 +169,7 @@ module.exports = class UserController {
             })
 
             const {accessToken, refreshToken,currentUser} = await AuthController.logUser(savedUser)
-            return res.status(200).json({ accessToken, refreshToken,currentUser });
+            return res.status(200).json({ accessToken, refreshToken, currentUser });
 
             //return res.status(200).json({ id: savedUser._id });
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import UseApi from '../../services/useApi';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import UiBox from '../ui/uiKit/layouts/UiBox';
@@ -17,29 +17,22 @@ import { closeModal, MODAL_OPTIONS, openModal } from '../../redux/reducers/modal
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrorState, setErrorState } from '../../redux/reducers/authSlice';
 
-
-
 export default function SignIn() {
 
-  //const error = 'error';
-  // const loading = false;
   const { error, loading, currentUser } = useSelector(state => state.auth)
   const dispatch = useDispatch();
   const { signIn } = UseApi();
   const showAlert = error ? true : false
+  const [newUserData, setNewUserData] = useState({})
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     dispatch(clearErrorState())
     const formData = new FormData(event.currentTarget);
-    const email = formData.get('email');
-    const password = formData.get('password')
-    console.log(email, password)
-    if (!email || !password) {
-      dispatch(setErrorState('Please enter an email and a password'))
-      return
-    }
-    signIn({ email, password });
+    const formObject = Object.fromEntries(formData.entries());
+    signIn(formObject);
+    setNewUserData(formObject);
   }
 
   useEffect(() => { currentUser && dispatch(closeModal()) }, [currentUser, dispatch])
@@ -64,29 +57,32 @@ export default function SignIn() {
       </UiFlexRow>
       <UiBox component="form" onSubmit={handleSubmit} >
         <ModalTextField
+          defaultValue={newUserData.firstName}
           required
           fullWidth
           label="First Name"
           name="firstName"
-          autoFocus
+          autoComplete="firstName"
         />
         <ModalTextField
+          defaultValue={newUserData.lastName}
           required
           fullWidth
           label="Last Name"
           name="lastName"
-          autoFocus
+          autoComplete="lastName"
         />
         <ModalTextField
+          defaultValue={newUserData.email}
           required
           fullWidth
           label="Email"
           name="email"
           autoComplete="email"
-          autoFocus
         />
         <ModalTextField
           required
+          defaultValue={newUserData.password}
           fullWidth
           label="Password"
           name="password"
@@ -94,17 +90,23 @@ export default function SignIn() {
           autoComplete="password"
         />
         <ModalTextField
+          defaultValue={newUserData.confirmPassword}
           required
           fullWidth
           label="Confirm Password"
           name="confirmPassword"
           type="password"
-          autoComplete="password"
+          autoComplete="confirmPassword"
         />
-        {/* <UiFormControlLabel
-                    control={<UiCheckbox value="remember" color="primary" />}
-                    label="Remember me"
-                /> */}
+        <ModalTextField
+          defaultValue={newUserData.phoneNumber}
+          required
+          fullWidth
+          label="Phone Number"
+          name="phoneNumber"
+          autoComplete="confirmPassword"
+        />
+
         <UiBox my={2}>
           <UiAlertCollapse show={showAlert} >{error}</UiAlertCollapse>
         </UiBox>
