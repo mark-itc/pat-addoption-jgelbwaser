@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   startApiCall, setLogoutState, setLoginState,
-  setErrorState, setLoadingFalse
+  setErrorState, setLoadingFalse, resetApi, setUserUpdatedInfo
 } from '../redux/reducers/authSlice';
 import { axiosAuthCall, axiosCall } from '../lib/axios'
 
@@ -46,6 +46,27 @@ export default function UseApi() {
     }
   }
 
+  const updateUser = async (newUserData) => {
+    dispatch(startApiCall())
+    try {
+      let data = {...newUserData}
+      const uid = authState.currentUser.uid
+
+      //remove Password data from requests if they are empty
+      const pwd = newUserData.password
+      if(!pwd) {
+        const {password, confirmPassword, ...dataWithoutPasswords} = data
+        data = dataWithoutPasswords
+      }
+      const res = await axiosAuthCall.post(api_url + `/user/${uid}`, data );
+      const {currentUser} = res.data
+      dispatch(setUserUpdatedInfo(currentUser));
+    } catch (error) {
+      handleApiError(error)
+    }
+  }
+
+
   const checkAuth = async() => {
     dispatch(startApiCall())
     try {
@@ -55,13 +76,10 @@ export default function UseApi() {
     } catch (error) {
       handleApiError(error)
     }
-
   }
-
-  
 
 
   return (
-    { login, checkAuth, signIn }
+    { login, checkAuth, signIn, updateUser }
   )
 }

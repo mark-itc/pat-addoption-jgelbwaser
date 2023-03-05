@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import Login from "../../components/Modal/Login";
 import PetInfo from "../../components/Modal/PetInfo";
 import SignIn from "../../components/Modal/SignIn";
-import UserInfo from "../../components/Modal/UserInfo";
+import UpdateUser from "../../components/Modal/UpdateUser";
 
 const initialState = {
     isOpen: false,
@@ -14,14 +14,14 @@ export const MODAL_OPTIONS = {
     login: 1,
     signIn: 2,
     petInfo: 3,
-    userInfo: 4
+    updateUser: 4
 }
 
 export const MODAL_COMPONENTS = {
     [MODAL_OPTIONS.login] : <Login/>,
     [MODAL_OPTIONS.signIn] : <SignIn/>,
     [MODAL_OPTIONS.petInfo] : <PetInfo/>,
-    [MODAL_OPTIONS.userInfo] : <UserInfo/>,
+    [MODAL_OPTIONS.updateUser] : <UpdateUser/>,
 }
 
 export const modalSlice = createSlice({

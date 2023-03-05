@@ -10,7 +10,6 @@ import UiCollapse from '../ui/uiKit/muiTransitions/UiCollapse';
 export default function Modal() {
   const { isOpen, selectedModal } = useSelector(state => state.modal)
   const component = selectedModal && MODAL_COMPONENTS[selectedModal];
-
   const dispatch = useDispatch()
   const handleClose = () => {
     dispatch(closeModal());

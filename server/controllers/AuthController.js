@@ -198,6 +198,7 @@ module.exports = class AuthController {
                     console.log('user iat', req.tokenDecoded.iat)
                     return res.status(403).json({ error: 'Token expired', loggedOut: true });
                 }
+                req.authUser = user;
                 next();
             }
             AuthController.authenticate(req, res, checkWithDB)

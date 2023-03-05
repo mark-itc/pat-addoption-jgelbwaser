@@ -59,16 +59,17 @@ const userSchema = {
 const requiredFields = {
     signIn: ["email", "password", "confirmPassword", "firstName", "lastName", "phoneNumber"],
     login: ["email", "password"],
-    profileUpdate: ["email", "firstName", "lastName", "phoneNumber"]
+    userUpdate: ["email", "firstName", "lastName", "phoneNumber"]
 }
 
 const signInSchema = {...userSchema, required: [...requiredFields.signIn] };
 const loginSchema = {...userSchema, required: [...requiredFields.login]}
-//console.log('signInSchema', signInSchema)
+const userUpdateSchema = {...userSchema, required: [...requiredFields.userUpdate]}
+
 
 module.exports.validateSignIn = ajv.compile(signInSchema)
 module.exports.validateLogin = ajv.compile(loginSchema)
-
+module.exports.validateUserUpdate = ajv.compile(userUpdateSchema)
 
 
 

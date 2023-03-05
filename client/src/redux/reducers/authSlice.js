@@ -41,6 +41,12 @@ export const authSlice = createSlice({
             state.permissionLevel = action.payload.isAdmin ? PERMISSION_LEVEL.admin : PERMISSION_LEVEL.user;
             state.isLoggedIn = true
         },
+        setUserUpdatedInfo: (state, action) => {
+            state.loading = false;
+            state.currentUser = action.payload;
+            state.permissionLevel = action.payload.isAdmin ? PERMISSION_LEVEL.admin : PERMISSION_LEVEL.user;
+            state.isLoggedIn = true
+        },
         setErrorState: (state, action) => {
             state.error = action.payload;
             state.loading = false;
@@ -51,14 +57,16 @@ export const authSlice = createSlice({
         setLoadingFalse: (state) => {
             state.loading = false
         },
+        resetApi: (state) => {
+            state.loading = false;
+            state.error = false;
+        }
+
     },
 })
 
 // Action creators are generated for each case reducer function
 export const {
-    increment,
-    decrement,
-    incrementByAmount,
     startApiCall,
     setTokensState,
     setLogoutState,
@@ -66,6 +74,8 @@ export const {
     setErrorState,
     clearErrorState,
     setLoadingFalse,
+    setUserUpdatedInfo,
+    resetApi
 } = authSlice.actions
 
 export default authSlice.reducer

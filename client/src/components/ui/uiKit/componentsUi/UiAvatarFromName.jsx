@@ -24,7 +24,7 @@ function stringToColor(string) {
 export default function UiAvatarFromName(props) {
 
   const name = props.children
-  const ArrayFromName = name.split(' ')
+  const ArrayFromName = name.toUpperCase().split(' ')
   let letters = ArrayFromName[0][0]
   letters += ArrayFromName.length > 0 ? ArrayFromName[1][0] : '';
      

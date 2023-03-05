@@ -33,7 +33,7 @@ export default function NavBar() {
 
 
     const handleProfileClick = () => {
-        dispatch(openModal(MODAL_OPTIONS.userInfo))
+        dispatch(openModal(MODAL_OPTIONS.updateUser))
     }
 
     const handleLoginClick = () => {

@@ -1,25 +1,25 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import UseApi from '../../services/useApi';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import UiBox from '../ui/uiKit/layouts/UiBox';
 import { UiFlexCol, UiFlexColToRowFrom, UiFlexRow } from '../ui/uiKit/layouts/UiFlex';
-import UiAvatar from '../ui/uiKit/componentsUi/UiAvatar';
 import TextFontLogo from '../ui/myAppUi/TextFontLogo';
 import ModalTextField from '../ui/myAppUi/ModalTextField';
 import AppButton from '../ui/myAppUi/AppButton';
 import { UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
-import TextLink from '../ui/myAppUi/TextLink';
-import { closeModal, MODAL_OPTIONS, openModal } from '../../redux/reducers/modalSlice';
+import { closeModal } from '../../redux/reducers/modalSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrorState, setErrorState } from '../../redux/reducers/authSlice';
+import { clearErrorState } from '../../redux/reducers/authSlice';
+import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName';
 
-export default function SignIn() {
+export default function UpdateProfile() {
 
   const { error, loading, currentUser } = useSelector(state => state.auth)
   const dispatch = useDispatch();
-  const { signIn } = UseApi();
+  const { updateUser } = UseApi();
   const showAlert = error ? true : false
-  const [newUserData, setNewUserData] = useState({})
+  const [newUserData, setNewUserData] = useState(currentUser)
+  const fullName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : '';
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,29 +27,24 @@ export default function SignIn() {
     dispatch(clearErrorState())
     const formData = new FormData(event.currentTarget);
     const formObject = Object.fromEntries(formData.entries());
-    signIn(formObject);
+    updateUser(formObject);
     setNewUserData(formObject);
   }
-
-  useEffect(() => { currentUser && dispatch(closeModal()) }, [currentUser, dispatch])
 
   const handleClose = () => {
     dispatch(closeModal())
     dispatch(clearErrorState())
   }
 
-  const handleGoToLogin = () => {
-    dispatch(openModal(MODAL_OPTIONS.login))
-  }
+
 
   return (
     <UiFlexCol alignContent='center'>
       <UiFlexRow gapX={2} w100 alignItems='center' justifyContent='center'  >
-
-        <UiAvatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
-        </UiAvatar>
-        <TextFontLogo component="h1" variant="h5">Sign In</TextFontLogo>
+        <UiBox m={1}>
+        {currentUser ? <UiAvatarFromName>{fullName.toUpperCase()}</UiAvatarFromName> : null}
+        </UiBox>
+        <TextFontLogo component="h1" variant="h5">Update User</TextFontLogo>
       </UiFlexRow>
       <UiBox component="form" onSubmit={handleSubmit} >
         <ModalTextField
@@ -77,24 +72,6 @@ export default function SignIn() {
           autoComplete="email"
         />
         <ModalTextField
-          required
-          defaultValue={newUserData.password}
-          fullWidth
-          label="Password"
-          name="password"
-          type="password"
-          autoComplete="password"
-        />
-        <ModalTextField
-          defaultValue={newUserData.confirmPassword}
-          required
-          fullWidth
-          label="Confirm Password"
-          name="confirmPassword"
-          type="password"
-          autoComplete="confirmPassword"
-        />
-        <ModalTextField
           defaultValue={newUserData.phoneNumber}
           required
           fullWidth
@@ -102,23 +79,34 @@ export default function SignIn() {
           name="phoneNumber"
           autoComplete="confirmPassword"
         />
-
+        <ModalTextField
+          defaultValue={newUserData.password}
+          fullWidth
+          label="New Password (Optional)"
+          name="password"
+          type="password"
+          autoComplete="password"
+        />
+        <ModalTextField
+          defaultValue={newUserData.confirmPassword}
+          fullWidth
+          label="Confirm New Password (Optional)"
+          name="confirmPassword"
+          type="password"
+          autoComplete="confirmPassword"
+        />
         <UiBox my={2}>
-          <UiAlertCollapse show={showAlert} >{error}</UiAlertCollapse>
+           <UiAlertCollapse show={showAlert} >{error}</UiAlertCollapse> 
         </UiBox>
         <UiFlexColToRowFrom gap={2} w100 justifyContent='center' >
           <AppButton type="submit" variant="contained" disabled={loading}>
-            {loading ? 'Loading' : 'Sign In'}
+            {loading ? 'Loading' : 'Save'}
           </AppButton>
           <AppButton variant="outlined" onClick={handleClose}>Close</AppButton>
         </UiFlexColToRowFrom>
         <UiBox mt={2}>
 
-          <UiFlexRow justifyContent='center' >
-            <TextLink href="#" variant="body2" onClick={handleGoToLogin}>
-              Already have an account? Login
-            </TextLink>
-          </UiFlexRow>
+
         </UiBox>
       </UiBox>
     </UiFlexCol>
