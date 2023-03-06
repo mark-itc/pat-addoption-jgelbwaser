@@ -15,7 +15,8 @@ export default function Home() {
 
     const handleLoginClick = () => {dispatch(openModal(MODAL_OPTIONS.login))}
     const handleSignInClick = () => {dispatch(openModal(MODAL_OPTIONS.signIn))}
-
+    const picSrc = process.env.REACT_APP_API_PICS_URL + '1678084395989.51275dVsniU.jpg'
+    console.log(picSrc)
 
     return (
             <MyAppUiContainer sx={{flex:1}}>
@@ -39,7 +40,21 @@ export default function Home() {
                         <AppButton onClick={handleSignInClick} size='large' color='primary' variant='contained'>Sign Up</AppButton>
                     </UiFlexColToRowFrom>
                     <UiDiv>
-                        <img src='/assets/pics/HomeImage3.png' style={
+
+
+                         <img crossOrigin="anonymous" src= {picSrc}  style={
+                            {
+                                width: '10%',
+                                margin: '0 auto',
+                                maxWidth: '800px',
+                                height: 'auto'
+                            }
+                            
+
+                        } alt="cat" />
+
+                        
+                          <img src='/assets/pics/HomeImage3.png' style={
                             {
                                 width: '100%',
                                 margin: '0 auto',

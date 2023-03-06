@@ -17,8 +17,16 @@ const UserSchema = new mongoose.Schema({
   hashRefreshTokenSignature: {type:String},
   lastLogout: {type:Date, default:null},
   lastFailedLogin: {type:Date, default:null},
-  userPets:{type:Array, default:[]},
-  userSavedPets:{type:Array, default:[]},
+  //userPets:{type:Array, default:[]},
+  userPets: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Pet'
+  }],
+  //userSavedPets:{type:Array, default:[]},
+  userSavedPets: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Pet'
+  }],
   isAdmin: {type:Boolean, default: "false"},
   bio: {type:String,default:null}
 },

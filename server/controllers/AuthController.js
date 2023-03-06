@@ -139,9 +139,6 @@ module.exports = class AuthController {
         user.hashRefreshTokenSignature = await bcrypt.hash(refreshToken.split('.')[2], BCRYPT_SALT);
         await UserDAO.save(user);
         const currentUser = AuthController.getUserResponseObject(user)
-        console.log('logUser accessToken', accessToken);
-        console.log('logUser refreshToken', refreshToken);
-        console.log('logUser currentUser', currentUser);
         return {accessToken, refreshToken,currentUser}
     }
 
