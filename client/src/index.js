@@ -13,6 +13,8 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+        <BrowserRouter>
+        </BrowserRouter>
         <App />
       </ThemeProvider>
     </Provider>
