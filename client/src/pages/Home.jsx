@@ -4,7 +4,7 @@ import UiText from '../components/ui/uiKit/componentsUi/UiText'
 import UiTextFontLilitaOne from '../components/ui/myAppUi/TextFontLogo'
 import TextFontAlt from '../components/ui/myAppUi/TextFontAlt'
 import AppButton from '../components/ui/myAppUi/AppButton'
-import { UiFlexCol, UiFlexColToRowFrom } from '../components/ui/uiKit/layouts/UiFlex'
+import { UiFlexCol, UiFlexColToRowFrom, UiFlexRow } from '../components/ui/uiKit/layouts/UiFlex'
 import UiDiv from '../components/ui/uiKit/layouts/UiDiv'
 import { useDispatch } from 'react-redux'
 import { MODAL_OPTIONS, openModal } from '../redux/reducers/appSlice'
@@ -15,8 +15,6 @@ export default function Home() {
 
     const handleLoginClick = () => {dispatch(openModal(MODAL_OPTIONS.login))}
     const handleSignInClick = () => {dispatch(openModal(MODAL_OPTIONS.signIn))}
-    const picSrc = process.env.REACT_APP_API_PICS_URL + '1678084395989.51275dVsniU.jpg'
-    console.log(picSrc)
 
     return (
             <MyAppUiContainer sx={{flex:1}}>
@@ -39,21 +37,7 @@ export default function Home() {
                         <AppButton onClick={handleLoginClick} size='large' color='primary' variant='contained'>Log In</AppButton>
                         <AppButton onClick={handleSignInClick} size='large' color='primary' variant='contained'>Sign Up</AppButton>
                     </UiFlexColToRowFrom>
-                    <UiDiv>
-
-
-                         <img crossOrigin="anonymous" src= {picSrc}  style={
-                            {
-                                width: '10%',
-                                margin: '0 auto',
-                                maxWidth: '800px',
-                                height: 'auto'
-                            }
-                            
-
-                        } alt="cat" />
-
-                        
+                    <UiFlexRow justifyContent='center'>
                           <img src='/assets/pics/HomeImage3.png' style={
                             {
                                 width: '100%',
@@ -63,7 +47,7 @@ export default function Home() {
                             }
 
                         } alt="" />
-                    </UiDiv>
+                    </UiFlexRow>
                 </UiFlexCol>
             </MyAppUiContainer>
     )

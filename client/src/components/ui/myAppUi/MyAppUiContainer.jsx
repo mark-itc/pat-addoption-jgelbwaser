@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function AppUiContainer(props) {
   return (
-    <UiContainer  maxWidth='md' {...props}>
+    <UiContainer  maxWidth='lg' {...props}>
         {props.children}
     </UiContainer>
   )

@@ -14,23 +14,6 @@ export const userSlice = createSlice({
         clearCurrentUser: (state) => {
             state.currentUser = null;
         },
-        // setLogout: (state) => {
-        //     state.currentUser = null
-        //     state.isLoggedIn = false;
-        //     state.permissionLevel = PERMISSION_LEVEL.guest
-
-        // },
-        // setUser: (state, action) => {
-        //     state.currentUser = action.payload.currentUser;
-        //     state.accessToken = action.payload.accessToken;
-        //     state.refreshToken = action.payload.refreshToken;
-        //     state.permissionLevel = action.payload.isAdmin ? PERMISSION_LEVEL.admin : PERMISSION_LEVEL.user;
-        //     state.isLoggedIn = true
-        // },
-        // setUserUpdatedInfo: (state, action) => {
-        //     state.currentUser = action.payload;
-        //     state.isLoggedIn = true
-        // },
     },
 })
 

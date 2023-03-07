@@ -44,7 +44,7 @@ module.exports = class PetController {
         
         //{ age: { $gt: 18, $lt: 30 }
         const pets = await  PetsDAO.find(conditions) 
-        return res.status(200).json(pets)
+        return res.status(200).json({pets})
 
             // Route: ‘/pet’ [GET] 
 

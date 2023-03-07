@@ -3,6 +3,15 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     pets: [],
     myPets:[],
+    filters: {
+        type: null,
+        height_min: null, 
+        height_max: null, 
+        weight_max: null, 
+        weight_min: null,
+        status: null, 
+        name: null
+    },
     likedPets:[],
     loading: false,
     error: null,
@@ -13,40 +22,19 @@ export const petSlice = createSlice({
     initialState,
     reducers: {
 
-        startApiCall: state => {
-            state.loading = true
-            state.error = null
-        },
         setPets: (state, action) => {
-            state.loading = false;
-            state.currentUser = action.payload.currentUser;
+            state.pets = action.payload;
         },
-        setErrorState: (state, action) => {
-            state.error = action.payload;
-            state.loading = false;
-        },
-        clearErrorState: (state) => {
-            state.error = null;
-        },
-        setLoadingFalse: (state) => {
-            state.loading = false
-        },
-        resetApi: (state) => {
-            state.loading = false;
-            state.error = false;
+        clearPets: (state) => {
+            state.myPets =[];
         }
-
     },
 })
 
 // Action creators are generated for each case reducer function
 export const {
     setPets,
-    startApiCall,
-    setErrorState,
-    clearErrorState,
-    setLoadingFalse,
-    resetApi
+    clearPets
 } = petSlice.actions
 
 export default petSlice.reducer

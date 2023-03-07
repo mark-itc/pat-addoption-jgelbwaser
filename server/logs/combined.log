@@ -1473,3 +1473,5 @@
 {"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T16:56:03.067Z"}
 {"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T16:57:37.452Z"}
 {"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T16:58:34.171Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-07T17:19:50.988Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-07T17:19:54.597Z"}

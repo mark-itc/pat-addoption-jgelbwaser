@@ -8,6 +8,7 @@ import Modal from './components/Modal/Modal';
 import { Route, Routes } from 'react-router-dom';
 import { ROUTES_PATH } from './config/config';
 import MyPets from './pages/MyPets';
+import Init from './components/Init';
 
 
 
@@ -25,6 +26,7 @@ function App() {
       </Routes>
     </UiStack100Vh>
      <Modal/>
+     <Init/>
     </>
   );
 }

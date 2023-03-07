@@ -30,7 +30,10 @@ import { createTheme, responsiveFontSizes } from '@mui/material'
             dark: '#4C3731',
         },
         soft: {
-            main: 'FFF0E5'
+            light: 'FFF0E5',
+            main: 'FFF0E5',
+            dark: 'FFF0E5'
+
         },
         dark: {
             main: '#443E3A',
