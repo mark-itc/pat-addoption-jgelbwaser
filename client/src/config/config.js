@@ -11,7 +11,7 @@ export const PERMISSION_LEVEL = {
     admin: 2
 }
 
-export const ROUTES_URLS = {
+export const ROUTES_PATH = {
     home: '/',
     search: '/search',
     myPets: '/myPets',
@@ -19,10 +19,10 @@ export const ROUTES_URLS = {
 }
 
 export const NAV_LINKS = {
-    home: { title: 'Home', url: ROUTES_URLS.home, icon: HomeIcon},
-    search: { title: 'Search', url: ROUTES_URLS.search, icon: SearchIcon},
-    myPets: { title: 'My Pets', url: ROUTES_URLS.myPets, icon: PetsIcon },
-    dashboard: { title: 'Dashboard', url: ROUTES_URLS.myPets, icon: TuneIcon},
+    home: { title: 'Home', path: ROUTES_PATH.home, icon: HomeIcon},
+    search: { title: 'Search', path: ROUTES_PATH.search, icon: SearchIcon},
+    myPets: { title: 'My Pets', path: ROUTES_PATH.myPets, icon: PetsIcon },
+    dashboard: { title: 'Dashboard', path: ROUTES_PATH.myPets, icon: TuneIcon},
 }
 
 export const NAV_LINKS_PER_STATUS = {
