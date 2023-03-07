@@ -5,6 +5,7 @@ const { validateUserUpdate, validatePet } = require("../validations/ajvValidatio
 const UserDAO = require("../models/UsersDAO");
 const AuthController = require("./AuthController");
 const PetsDAO = require("../models/PetsDAO");
+const { PET_TYPES_ENUM, PET_STATUS_ENUM } = require("../config");
 
 
 module.exports = class PetController {
@@ -27,20 +28,6 @@ module.exports = class PetController {
           
             const savedPet = await PetsDAO.createPet(petData)
             console.log('savedPet', savedPet)
-            
-            
-            // Fields: 
-            // Type 
-            // Name
-            // Adoption Status (Adopted, Fostered, Available)
-            // Picture (Picture location URL/Path)
-            // Height (number)
-            // Weight (Number)
-            // Color
-            // Bio
-            // Hypoallergenic (Boolean)
-            // Dietary restrictions
-            // Breed
             return res.status(201).json(savedPet)
 
         } catch (error) {
@@ -51,6 +38,13 @@ module.exports = class PetController {
 
     static async getPets(req, res) {
         try {
+
+        //conditions params: type, height_min, height_max, weight_max, weight_min, status, name
+        const conditions = req.query
+        
+        //{ age: { $gt: 18, $lt: 30 }
+        const pets = await  PetsDAO.find(conditions) 
+        return res.status(200).json(pets)
 
             // Route: ‘/pet’ [GET] 
 
@@ -65,7 +59,7 @@ module.exports = class PetController {
             // Height
             // Weight
             // Name
-            res.status(200).json('getPets called')
+         
 
 
         } catch (error) {
@@ -73,6 +67,8 @@ module.exports = class PetController {
             return res.status(500).json({ error: "Server error" });
         }
     }
+
+
 
     static async adoptFosterPet(req, res) {
         try {

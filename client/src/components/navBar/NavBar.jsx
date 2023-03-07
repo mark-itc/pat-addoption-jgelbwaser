@@ -19,10 +19,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { MODAL_OPTIONS, openLoginModal, openModal, openSignInModal, openUserModal } from '../../redux/reducers/modalSlice'
 import { setLogoutState } from '../../redux/reducers/authSlice'
 import UiText from '../ui/uiKit/componentsUi/UiText'
+import { Link } from 'react-router-dom'
 
 export default function NavBar() {
 
-  
+
     const authState = useSelector(state => state.auth)
     const currentUser = authState.currentUser
     const permissionLevel = authState.permissionLevel;
@@ -62,15 +63,27 @@ export default function NavBar() {
                         <UiFlexRow gap={1} sx={{ height: '100%' }} >
                             {navLinkArray.map((navLink, index) => {
                                 const Icon = navLink.icon;
-                                return <NavIconButton key={index}><Icon /></NavIconButton>
+                                return (
+                                    <Link key={index} to={navLink.path} >
+                                        <NavIconButton >
+                                            <Icon />
+                                        </NavIconButton>
+                                    </Link>
+                                )
                             })}
                         </UiFlexRow>
                     </UiHideFrom>
                     <UiShowFrom from='sm' >
-                         {/* desktop: */}
+                        {/* desktop: */}
                         <UiFlexRow sx={{ height: '100%' }}>
                             {navLinkArray.map((navLink, index) => {
-                                return <NavButton key={index}>{navLink.title}</NavButton>
+                                return (
+                                    <Link key={index} to={navLink.path} >
+                                        <NavButton>
+                                            {navLink.title}
+                                        </NavButton>
+                                    </Link>
+                                )
                             })}
 
                         </UiFlexRow>
@@ -86,25 +99,25 @@ export default function NavBar() {
 
                                 //When loggedIn
                                 <>
-                                <UiFlexRow gap={1} onClick={handleProfileClick} >
-                                    {fullName &&
-                                        <UiFlexRow sx={{ alignItems: 'center' }}>
-                                            <UiAvatarFromName mr={1}>{fullName}</UiAvatarFromName>
-                                        </UiFlexRow>
-                                    }
-                                    <UiShowFrom from='sm' >
-                                        <NavButton>Profile</NavButton>
-                                    </UiShowFrom>
-                                </UiFlexRow>
-                                <NavButton onClick={handleLogoutClick}>Logout</NavButton>
+                                    <UiFlexRow gap={1} onClick={handleProfileClick} >
+                                        {fullName &&
+                                            <UiFlexRow sx={{ alignItems: 'center' }}>
+                                                <UiAvatarFromName mr={1}>{fullName}</UiAvatarFromName>
+                                            </UiFlexRow>
+                                        }
+                                        <UiShowFrom from='sm' >
+                                            <NavButton>Profile</NavButton>
+                                        </UiShowFrom>
+                                    </UiFlexRow>
+                                    <NavButton onClick={handleLogoutClick}>Logout</NavButton>
                                 </>
                             ) : (
                                 //When loggedOut:
                                 <>
-                            <NavButton onClick={handleLoginClick}>Login</NavButton>
-                            <UiShowFrom from='sm' >
-                                <NavButton onClick={handleSignInClick}>Signin</NavButton>
-                            </UiShowFrom>
+                                    <NavButton onClick={handleLoginClick}>Login</NavButton>
+                                    <UiShowFrom from='sm' >
+                                        <NavButton onClick={handleSignInClick}>Signin</NavButton>
+                                    </UiShowFrom>
                                 </>
 
                             )}
