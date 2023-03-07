@@ -7,7 +7,7 @@ import AppButton from '../components/ui/myAppUi/AppButton'
 import { UiFlexCol, UiFlexColToRowFrom } from '../components/ui/uiKit/layouts/UiFlex'
 import UiDiv from '../components/ui/uiKit/layouts/UiDiv'
 import { useDispatch } from 'react-redux'
-import { MODAL_OPTIONS, openModal } from '../redux/reducers/modalSlice'
+import { MODAL_OPTIONS, openModal } from '../redux/reducers/appSlice'
 
 export default function Home() {
 

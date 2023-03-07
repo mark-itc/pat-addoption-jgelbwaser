@@ -42,7 +42,6 @@ class PetDAO {
         return await Pet.find(queryArgs)
     }
 
-
     static async findById(id) {
         return await Pet.findById(id)
     }

@@ -13,27 +13,28 @@ import UiCheckbox from '../ui/uiKit/componentsUi/UiCheckbox';
 import AppButton from '../ui/myAppUi/AppButton';
 import { UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
 import TextLink from '../ui/myAppUi/TextLink';
-import { closeModal, MODAL_OPTIONS, openModal } from '../../redux/reducers/modalSlice';
+import { closeModal, MODAL_OPTIONS, openModal, clearAppError,  setAppError } from '../../redux/reducers/appSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearErrorState, setErrorState } from '../../redux/reducers/authSlice';
+//import { clearAppError,  setAppError } from '../../redux/reducers/appSlice';
 
 
 
 export default function Login() {
 
-    const { error, loading, currentUser } = useSelector(state => state.auth)
+    const { error, loading } = useSelector(state => state.app)
+    const { currentUser } = useSelector(state => state.auth)
     const dispatch = useDispatch();
     const { login } = UseApi();
     const showAlert = error ? true : false
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(clearErrorState())
+        dispatch(clearAppError())
         const formData = new FormData(event.currentTarget);
         const email = formData.get('email');
         const password = formData.get('password')
         if (!email || !password) {
-            dispatch(setErrorState('Please enter an email and a password'))
+            dispatch(setAppError('Please enter an email and a password'))
             return
         }
         login({ email, password });
@@ -43,7 +44,7 @@ export default function Login() {
 
     const handleClose = () => {
         dispatch(closeModal())
-        dispatch(clearErrorState())
+        dispatch(clearAppError())
     }
 
     const handleGoToSignIn = () => {

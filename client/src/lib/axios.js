@@ -1,7 +1,8 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import  store  from './../redux/store'
-import {setTokensState, setErrorState} from './../redux/reducers/authSlice'
+import {setTokens} from './../redux/reducers/authSlice'
+import {setAppError} from './../redux/reducers/appSlice'
 
  const api_url = process.env.REACT_APP_API_URL
  const axiosAuthCall = axios.create()
@@ -39,14 +40,14 @@ const RefreshToken = async () => {
     try {
       const res = await axiosCall.post(api_url + "/refresh", { token: refreshToken });
       console.log('freshToken res', res);
-      store.dispatch(setTokensState({
+      store.dispatch(setTokens({
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,
       }))
     } catch (error) {
       console.log(error);
       const errorMsg = error.response?.data?.error || error.message;
-      setErrorState(errorMsg)
+      setAppError(errorMsg)
     }
   };
 

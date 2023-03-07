@@ -6,14 +6,15 @@ import TextFontLogo from '../ui/myAppUi/TextFontLogo';
 import ModalTextField from '../ui/myAppUi/ModalTextField';
 import AppButton from '../ui/myAppUi/AppButton';
 import { UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
-import { closeModal } from '../../redux/reducers/modalSlice';
+import { closeModal, clearAppError } from '../../redux/reducers/appSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrorState } from '../../redux/reducers/authSlice';
 import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName';
 
 export default function UpdateProfile() {
 
-  const { error, loading, currentUser } = useSelector(state => state.auth)
+  const {  currentUser } = useSelector(state => state.auth)
+  const { error, loading } = useSelector(state => state.app)
+
   const dispatch = useDispatch();
   const { updateUser } = UseApi();
   const showAlert = error ? true : false
@@ -24,7 +25,7 @@ export default function UpdateProfile() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    dispatch(clearErrorState())
+    dispatch(clearAppError())
     const formData = new FormData(event.currentTarget);
     const formObject = Object.fromEntries(formData.entries());
     updateUser(formObject);
@@ -33,7 +34,7 @@ export default function UpdateProfile() {
 
   const handleClose = () => {
     dispatch(closeModal())
-    dispatch(clearErrorState())
+    dispatch(clearAppError())
   }
 
 

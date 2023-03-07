@@ -1444,3 +1444,16 @@
 {"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-07T10:44:27.478Z"}
 {"level":"info","message":"back server running","timestamp":"2023-03-07T10:47:26.361Z"}
 {"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-07T10:47:27.623Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-07T10:50:49.616Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-07T10:50:50.889Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T14:30:13.973Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T15:23:47.837Z"}
+{"level":"info","message":"email: david@mail.com: attempts 1","timestamp":"2023-03-07T15:23:48.045Z"}
+{"level":"info","message":"email: david@mail.com: attempts 1","timestamp":"2023-03-07T15:24:00.219Z"}
+{"level":"info","message":"email: david@mail.com: attempts 2","timestamp":"2023-03-07T15:24:00.418Z"}
+{"level":"info","message":"email: david@mail.com: attempts 2","timestamp":"2023-03-07T15:24:13.883Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T15:24:50.469Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T15:29:06.626Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T15:29:56.246Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T15:31:24.455Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-07T15:32:56.100Z"}

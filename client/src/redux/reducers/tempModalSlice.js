@@ -25,7 +25,7 @@ export const MODAL_COMPONENTS = {
 }
 
 export const modalSlice = createSlice({
-    name: 'modal',
+    name: 'app',
     initialState,
     reducers: {
         openModal: (state, action) =>{

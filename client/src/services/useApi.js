@@ -1,9 +1,11 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  startApiCall, setLogoutState, setLoginState,
-  setErrorState, setLoadingFalse, resetApi, setUserUpdatedInfo
+    setLogout, setLogin, setUserUpdatedInfo
 } from '../redux/reducers/authSlice';
+import {
+  startApiCall, setAppError, setLoadingFalse
+} from '../redux/reducers/appSlice';
 import { axiosAuthCall, axiosCall } from '../lib/axios'
 
 
@@ -17,10 +19,10 @@ export default function UseApi() {
 
   const handleApiError = (error) => {
     if(error.response?.data?.logOut === true) {
-      dispatch(setLogoutState());
+      dispatch(setLogout());
     }
     const errorMsg = error.response?.data?.error || error.message;
-    dispatch(setErrorState(errorMsg))
+    dispatch(setAppError(errorMsg))
     console.log(error);
   }
 
@@ -29,7 +31,8 @@ export default function UseApi() {
     try {
       const res = await axiosCall.post(api_url + "/login", { email, password });
       const {accessToken, refreshToken, currentUser} = res.data
-      dispatch(setLoginState({accessToken, refreshToken, currentUser}))
+      dispatch(setLogin({accessToken, refreshToken, currentUser}))
+      dispatch(setLoadingFalse())
     } catch (error) {
       handleApiError(error)
     }
@@ -40,7 +43,8 @@ export default function UseApi() {
     try {
       const res = await axiosCall.post(api_url + "/register", newUserData );
       const {accessToken, refreshToken, currentUser} = res.data
-      dispatch(setLoginState({accessToken, refreshToken, currentUser}))
+      dispatch(setLogin({accessToken, refreshToken, currentUser}))
+      dispatch(setLoadingFalse())
     } catch (error) {
       handleApiError(error)
     }
@@ -61,6 +65,7 @@ export default function UseApi() {
       const res = await axiosAuthCall.post(api_url + `/user/${uid}`, data );
       const {currentUser} = res.data
       dispatch(setUserUpdatedInfo(currentUser));
+      dispatch(setLoadingFalse())
     } catch (error) {
       handleApiError(error)
     }

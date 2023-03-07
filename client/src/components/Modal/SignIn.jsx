@@ -9,13 +9,14 @@ import ModalTextField from '../ui/myAppUi/ModalTextField';
 import AppButton from '../ui/myAppUi/AppButton';
 import { UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
 import TextLink from '../ui/myAppUi/TextLink';
-import { closeModal, MODAL_OPTIONS, openModal } from '../../redux/reducers/modalSlice';
+import { closeModal, MODAL_OPTIONS, openModal, clearAppError } from '../../redux/reducers/appSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrorState, setErrorState } from '../../redux/reducers/authSlice';
 
 export default function SignIn() {
 
-  const { error, loading, currentUser } = useSelector(state => state.auth)
+  const {  currentUser } = useSelector(state => state.auth)
+  const { error, loading } = useSelector(state => state.app)
+
   const dispatch = useDispatch();
   const { signIn } = UseApi();
   const showAlert = error ? true : false
@@ -24,7 +25,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    dispatch(clearErrorState())
+    dispatch(clearAppError())
     const formData = new FormData(event.currentTarget);
     const formObject = Object.fromEntries(formData.entries());
     signIn(formObject);
@@ -35,7 +36,7 @@ export default function SignIn() {
 
   const handleClose = () => {
     dispatch(closeModal())
-    dispatch(clearErrorState())
+    dispatch(clearAppError())
   }
 
   const handleGoToLogin = () => {
