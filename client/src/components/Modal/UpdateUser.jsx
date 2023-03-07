@@ -12,7 +12,7 @@ import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName';
 
 export default function UpdateProfile() {
 
-  const {  currentUser } = useSelector(state => state.auth)
+  const {  currentUser } = useSelector(state => state.user)
   const { error, loading } = useSelector(state => state.app)
 
   const dispatch = useDispatch();

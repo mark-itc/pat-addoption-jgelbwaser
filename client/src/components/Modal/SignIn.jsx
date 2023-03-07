@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function SignIn() {
 
-  const {  currentUser } = useSelector(state => state.auth)
+  const {  currentUser } = useSelector(state => state.user)
   const { error, loading } = useSelector(state => state.app)
 
   const dispatch = useDispatch();

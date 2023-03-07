@@ -22,7 +22,7 @@ import { useSelector, useDispatch } from 'react-redux';
 export default function Login() {
 
     const { error, loading } = useSelector(state => state.app)
-    const { currentUser } = useSelector(state => state.auth)
+    const { currentUser } = useSelector(state => state.user)
     const dispatch = useDispatch();
     const { login } = UseApi();
     const showAlert = error ? true : false

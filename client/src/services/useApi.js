@@ -1,25 +1,21 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-    setLogout, setLogin, setUserUpdatedInfo
-} from '../redux/reducers/authSlice';
-import {
-  startApiCall, setAppError, setLoadingFalse
-} from '../redux/reducers/appSlice';
+import {setLogout, setLogin} from '../redux/reducers/authSlice';
+import {startApiCall, setAppError, setLoadingFalse} from '../redux/reducers/appSlice';
 import { axiosAuthCall, axiosCall } from '../lib/axios'
+import { clearCurrentUser, setCurrentUser } from '../redux/reducers/userSlice';
 
 
 export default function UseApi() {
 
-
-  const authState = useSelector(state => state.auth)
+  const {currentUser} = useSelector(state => state.user)
   const dispatch = useDispatch();
 
   const api_url = process.env.REACT_APP_API_URL
 
   const handleApiError = (error) => {
-    if(error.response?.data?.logOut === true) {
-      dispatch(setLogout());
+    if (error.response?.data?.logOut === true) {
+      logout();
     }
     const errorMsg = error.response?.data?.error || error.message;
     dispatch(setAppError(errorMsg))
@@ -30,20 +26,27 @@ export default function UseApi() {
     dispatch(startApiCall())
     try {
       const res = await axiosCall.post(api_url + "/login", { email, password });
-      const {accessToken, refreshToken, currentUser} = res.data
-      dispatch(setLogin({accessToken, refreshToken, currentUser}))
+      const { accessToken, refreshToken, currentUser } = res.data
+      dispatch(setLogin({ accessToken, refreshToken}))
+      dispatch(setCurrentUser(currentUser))
       dispatch(setLoadingFalse())
     } catch (error) {
       handleApiError(error)
     }
   }
 
+  const logout = () => {
+    dispatch(setLogout());
+    dispatch(clearCurrentUser());
+  }
+
   const signIn = async (newUserData) => {
     dispatch(startApiCall())
     try {
-      const res = await axiosCall.post(api_url + "/register", newUserData );
-      const {accessToken, refreshToken, currentUser} = res.data
-      dispatch(setLogin({accessToken, refreshToken, currentUser}))
+      const res = await axiosCall.post(api_url + "/register", newUserData);
+      const { accessToken, refreshToken, currentUser } = res.data
+      dispatch(setLogin({ accessToken, refreshToken }))
+      dispatch(setCurrentUser(currentUser))
       dispatch(setLoadingFalse())
     } catch (error) {
       handleApiError(error)
@@ -53,18 +56,19 @@ export default function UseApi() {
   const updateUser = async (newUserData) => {
     dispatch(startApiCall())
     try {
-      let data = {...newUserData}
-      const uid = authState.currentUser.uid
-
+      let data = { ...newUserData }
+      console.log(currentUser)
+      const uid = currentUser.uid
       //remove Password data from requests if they are empty
       const pwd = newUserData.password
-      if(!pwd) {
-        const {password, confirmPassword, ...dataWithoutPasswords} = data
+      if (!pwd) {
+        const { password, confirmPassword, ...dataWithoutPasswords } = data
         data = dataWithoutPasswords
       }
-      const res = await axiosAuthCall.post(api_url + `/user/${uid}`, data );
-      const {currentUser} = res.data
-      dispatch(setUserUpdatedInfo(currentUser));
+      const res = await axiosAuthCall.post(api_url + `/user/${uid}`, data);
+      const updatedCurrentUser  = res.data.currentUser
+      console.log('res.data', res.data)
+      dispatch(setCurrentUser(updatedCurrentUser));
       dispatch(setLoadingFalse())
     } catch (error) {
       handleApiError(error)
@@ -72,7 +76,7 @@ export default function UseApi() {
   }
 
 
-  const checkAuth = async() => {
+  const checkAuth = async () => {
     dispatch(startApiCall())
     try {
       const res = await axiosAuthCall.get(api_url + "/auth", {});
@@ -83,8 +87,7 @@ export default function UseApi() {
     }
   }
 
-
   return (
-    { login, checkAuth, signIn, updateUser }
+    { login, checkAuth, logout, signIn, updateUser }
   )
 }

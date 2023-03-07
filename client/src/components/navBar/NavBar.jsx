@@ -1,5 +1,6 @@
 
 import React from 'react'
+import UseApi from '../../services/useApi'
 import UiAppBar from '../ui/uiKit/componentsUi/UiAppBar'
 import UiToolbar from '../ui/uiKit/layouts/UiToolbar'
 import NavBrand from './NavBrand'
@@ -17,19 +18,19 @@ import { UiHideFrom, UiShowFrom } from '../ui/uiKit/layouts/UiHide'
 import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName'
 import { useDispatch, useSelector } from 'react-redux'
 import { MODAL_OPTIONS,  openModal } from '../../redux/reducers/appSlice'
-import {  setLogout } from '../../redux/reducers/authSlice'
-import UiText from '../ui/uiKit/componentsUi/UiText'
 import { Link } from 'react-router-dom'
 
 export default function NavBar() {
 
 
-    const {currentUser, permissionLevel} = useSelector(state => state.auth)
+    const { permissionLevel} = useSelector(state => state.auth)
+    const {currentUser} = useSelector(state => state.user)
     // const {currentUser, permissionLevel} = authState.currentUser
     // const permissionLevel = authState.permissionLevel;
     const navLinkArray = NAV_LINKS_PER_STATUS[permissionLevel]
     const fullName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : '';
     const dispatch = useDispatch()
+    const {logout} = UseApi()
 
 
 
@@ -46,7 +47,7 @@ export default function NavBar() {
     }
 
     const handleLogoutClick = () => {
-        dispatch(setLogout());
+        logout();
     }
 
     return (
