@@ -20,7 +20,6 @@ module.exports = class PetController {
             //if(!dbUser.isAdmin) return res.status(403).json({error: 'Only admins can add pets '})
 
             //validate inputs:
-            
             console.log(petData)
             const valid = validatePet(petData);
             //if (!valid) return res.status(400).json({ error: validateUserUpdate?.errors})
@@ -36,33 +35,18 @@ module.exports = class PetController {
         }
     }
 
+    
     static async getPets(req, res) {
         try {
-
         //conditions params: type, height_min, height_max, weight_max, weight_min, status, name
         const conditions = req.query
         
         //{ age: { $gt: 18, $lt: 30 }
         const pets = await  PetsDAO.find(conditions) 
         return res.status(200).json({pets})
-
-            // Route: ‘/pet’ [GET] 
-
-            // The get pets API is responsible for retrieving pets that match the criteria given.
-            // Can receive query parameters to search the database
-            // Retrieve results to match query. If no parameters are passed it should return all the results.
-            // Should only return the fields necessary 
-
-            // Search Fields: 
-            // Adoption Status
-            // Type
-            // Height
-            // Weight
-            // Name
-         
-
-
-        } catch (error) {
+        } 
+        catch (error) 
+        {
             handleError(error);
             return res.status(500).json({ error: "Server error" });
         }

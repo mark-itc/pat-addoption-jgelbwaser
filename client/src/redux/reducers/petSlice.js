@@ -3,8 +3,10 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     pets: [],
     myPets:[],
+    myLikedPets:[],
+    selectedPet: null,
     filters: {
-        type: null,
+        type: 0,
         height_min: null, 
         height_max: null, 
         weight_max: null, 
@@ -27,14 +29,21 @@ export const petSlice = createSlice({
         },
         clearPets: (state) => {
             state.myPets =[];
-        }
+        },
+        setFilterType:  (state, action) => {
+            state.filters.type = action.payload;
+        },
+        setSelectedPet: (state, action) => {
+            state.selectedPet = action.payload;
+        },
     },
 })
 
 // Action creators are generated for each case reducer function
 export const {
     setPets,
-    clearPets
+    setFilterType,
+    clearPets,
 } = petSlice.actions
 
 export default petSlice.reducer

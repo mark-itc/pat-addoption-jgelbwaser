@@ -23,7 +23,7 @@ export default function Home() {
                         <UiTextFontLilitaOne align="center" color='main.dark' variant="h1" >Furever Friends</UiTextFontLilitaOne>
                         <TextFontAlt align="center" color='secondary.dark' bold={true} variant="h2" >Adopt a pet and find your forever companion</TextFontAlt>
                     </UiDiv>
-                    <UiText variant="body1" color='mainAlt.main' >Our mission is to find loving homes for furry friends in need. We believe that every pet deserves a forever home. Browse our selection of adoptable pets today and find your new best friend.
+                    <UiText variant="body1" color='mainAlt.main' mx='auto' sx={{maxWidth:'md', textAlign:'center'}} >Our mission is to find loving homes for furry friends in need. We believe that every pet deserves a forever home. Browse our selection of adoptable pets today and find your new best friend.
                     </UiText>
                     <UiDiv>
                         <TextFontAlt align="center" color='secondary' bold={true} variant="h4">

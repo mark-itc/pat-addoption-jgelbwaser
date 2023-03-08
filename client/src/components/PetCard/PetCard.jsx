@@ -9,8 +9,8 @@ import TextFontAlt from '../ui/myAppUi/TextFontAlt';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import TextFont from '../ui/myAppUi/TextFont';
-import theme from '../../theme';
 import styled from '@emotion/styled';
+import { FILTER_OPTIONS } from '../../config/config';
 
 const StyledCard = styled(UiCard)(({theme})=>({
     width:'300px', 
@@ -21,6 +21,17 @@ const StyledCard = styled(UiCard)(({theme})=>({
         backgroundColor: '#FFF0E5'
     }
 }))
+
+const StyledFavoriteBorderIcon = styled(FavoriteBorderIcon)(({ theme }) => ({
+    color: theme.palette.secondary.main,
+
+
+    '&:hover': {
+        color: theme.palette.primary.main,
+    },
+  }));
+
+
 
 export default function PetCard({name, id, status, picture, liked}) {
   return (
@@ -36,11 +47,11 @@ export default function PetCard({name, id, status, picture, liked}) {
             <UiFlexRow justifyContent='space-between' alignItems='center'>
             <UiFlexRow gap={1} alignItems='center'>
                 
-            <FavoriteBorderIcon color='primary' />
-           <TextFontLogo color='main.dark' variant='h5' >{name}</TextFontLogo> 
+            <StyledFavoriteBorderIcon  />
+           <TextFontLogo color='main.dark' variant='h6' >{name}</TextFontLogo> 
             </UiFlexRow>
             <TextFontLogo color='main.main' variant='h6' >
-            available
+            {FILTER_OPTIONS.status[status].toLowerCase() }
            </TextFontLogo>
             </UiFlexRow>
         </UiCardContent>

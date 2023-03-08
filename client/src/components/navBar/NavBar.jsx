@@ -19,6 +19,8 @@ import UiAvatarFromName from '../ui/uiKit/componentsUi/UiAvatarFromName'
 import { useDispatch, useSelector } from 'react-redux'
 import { MODAL_OPTIONS,  openModal } from '../../redux/reducers/appSlice'
 import { Link } from 'react-router-dom'
+import MyAppUiContainer from '../ui/myAppUi/MyAppUiContainer'
+
 
 export default function NavBar() {
 
@@ -53,15 +55,16 @@ export default function NavBar() {
     return (
         <UiAppBar position="sticky" color='dark'>
             <UiToolbar>
-                <UiFlexRow justifyContent='space-between' sx={{ width: '100%' }}>
-
+            <MyAppUiContainer>
+                <UiFlexRow justifyContent='space-between' alignItems='center' sx={{ width: '100%' }}>
+                <UiFlexRow  gap={1} alignItems='stretch'>
                     {/* LOGO AND ORG NAME  */}
                     <NavBrand />
 
                     {/* NAV LINKS  */}
                     <UiHideFrom from='sm'>
                         {/* mobile: */}
-                        <UiFlexRow gap={1} sx={{ height: '100%' }} >
+                        <UiFlexRow gap={1} sx={{ height: '100%' }} alignItems='center' >
                             {navLinkArray.map((navLink, index) => {
                                 const Icon = navLink.icon;
                                 return (
@@ -91,7 +94,7 @@ export default function NavBar() {
 
 
                     </UiShowFrom>
-
+                    </UiFlexRow>
                     {/* USER INFO */}
                     <div>
                         <UiFlexRow sx={{ height: '100%', alignSelf: 'center' }} >
@@ -126,6 +129,7 @@ export default function NavBar() {
                         </UiFlexRow>
                     </div>
                 </UiFlexRow>
+                </MyAppUiContainer>
             </UiToolbar>
         </UiAppBar>
     )

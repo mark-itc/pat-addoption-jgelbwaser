@@ -41,6 +41,30 @@ export const NAV_LINKS_PER_STATUS = {
 }
 
 
+export const FILTER_OPTIONS ={
+    type: {
+        1: 'cat',
+        2: 'dog'
+    },
+    status:{
+        1: 'Available',
+        2: 'Fostered',
+        3: 'Adopted'
+    }
+}
+
+export const PET_STATUS = {
+    all: 0,
+    available: 1,
+    fostered: 2,
+    adopted: 3
+}
+
+export const PET_TYPES = {
+    all: 0,
+    cat: 1,
+    dog: 2
+}
     
 
 
