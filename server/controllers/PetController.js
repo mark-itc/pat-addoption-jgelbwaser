@@ -22,7 +22,6 @@ module.exports = class PetController {
             //validate inputs:
             console.log(petData)
             const valid = validatePet(petData);
-            //if (!valid) return res.status(400).json({ error: validateUserUpdate?.errors})
             if (!valid) return res.status(400).json({ error: validatePet.errors[0].message })
           
             const savedPet = await PetsDAO.createPet(petData)
@@ -124,10 +123,13 @@ module.exports = class PetController {
 
     static async getPetByID(req, res) {
         try {
+            const id = req.params.id
+            const pet = await PetsDAO.findById(id)
+            //findById
             // Get a pet by ID should take an id and return 
             // the corresponding pet from the database. 
 
-            res.status(200).json('getPetById called')
+            res.status(200).json({pet})
 
         } catch (error) {
             handleError(error);

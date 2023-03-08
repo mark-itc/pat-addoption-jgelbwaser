@@ -16,6 +16,10 @@ class PetDAO {
         return await Pet.findOne(data)
     }
 
+    static async findById(id) {
+        return await Pet.findById(id)
+    }
+
     static async find(conditions = {}) {
         const {type, height_min, height_max, weight_max, weight_min, status, name} = conditions;
         const queryArgs = {}

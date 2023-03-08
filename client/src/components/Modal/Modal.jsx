@@ -17,9 +17,9 @@ export default function Modal() {
 
   return (
     <UiDialog open={isOpen} onClose={handleClose}>
-      <UiBox p={3}>
+
         {component}
-      </UiBox>
+
     </UiDialog>
   );
 }

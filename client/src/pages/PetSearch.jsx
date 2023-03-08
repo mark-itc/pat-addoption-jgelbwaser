@@ -13,6 +13,13 @@ import Search from '../components/Search/Search';
 export default function PetSearch() {
 
   const { pets } = useSelector(state => state.pet);
+  const { error, loading } = useSelector(state => state.app)
+
+
+  const handleCardClick = (pet) => {
+    console.log('pet name', pet.name)
+    console.log('pet', pet)
+  }
 
   return (
     <div>
@@ -25,18 +32,20 @@ export default function PetSearch() {
             <Search />
           </UiFlexCol>
           <UiBox mt={5}>
-            {pets.length == 0} ? (
-              <TextFontAlt align="center" color='primary' bold={true} variant="h2" >
-              No results were found
-            </TextFontAlt>
-            ):(
-            <UiFlexRow gap={3} justifyContent="center" flexWrap="wrap">
-              {pets && pets.map(pet => {
-                return <PetCard key={pet._id} {...pet} />
-              })
-              }
-)
-            </UiFlexRow>
+            {pets && pets.length ?
+              (
+                <UiFlexRow gap={3} justifyContent="center" flexWrap="wrap">
+                {pets && pets.map(pet => {
+                  return <PetCard key={pet._id} {...pet} />
+                })}
+              </UiFlexRow>
+              ) : (
+                <TextFontAlt align="center" color='primary' bold={true} variant="h4" >
+                {loading ? 'Loading...' : 'No results were found'}
+              </TextFontAlt>
+              )
+            }
+
           </UiBox>
         </UiFlexCol>
       </MyAppUiContainer>

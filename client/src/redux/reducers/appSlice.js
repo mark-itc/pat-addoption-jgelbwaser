@@ -8,14 +8,14 @@ import UpdateUser from "../../components/Modal/UpdateUser";
 export const MODAL_OPTIONS = {
     login: 1,
     signIn: 2,
-    petInfo: 3,
+    pet: 3,
     updateUser: 4
 }
 
 export const MODAL_COMPONENTS = {
     [MODAL_OPTIONS.login] : <Login/>,
     [MODAL_OPTIONS.signIn] : <SignIn/>,
-    [MODAL_OPTIONS.petInfo] : <PetInfo/>,
+    [MODAL_OPTIONS.pet] : <PetInfo/>,
     [MODAL_OPTIONS.updateUser] : <UpdateUser/>,
 }
 

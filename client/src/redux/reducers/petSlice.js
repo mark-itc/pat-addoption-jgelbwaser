@@ -42,6 +42,7 @@ export const petSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
     setPets,
+    setSelectedPet,
     setFilterType,
     clearPets,
 } = petSlice.actions

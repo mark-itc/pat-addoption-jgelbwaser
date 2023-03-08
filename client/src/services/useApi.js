@@ -4,7 +4,7 @@ import { setLogout, setLogin } from '../redux/reducers/authSlice';
 import { startApiCall, setAppError, setLoadingFalse } from '../redux/reducers/appSlice';
 import { axiosAuthCall, axiosCall } from '../lib/axios'
 import { clearCurrentUser, setCurrentUser } from '../redux/reducers/userSlice';
-import { setPets } from '../redux/reducers/petSlice';
+import { setPets, setSelectedPet } from '../redux/reducers/petSlice';
 
 
 export default function UseApi() {
@@ -34,7 +34,7 @@ export default function UseApi() {
   const logout = useCallback(() => {
     dispatch(setLogout());
     dispatch(clearCurrentUser());
-  },[dispatch])
+  }, [dispatch])
 
   const handleApiError = useCallback((error) => {
     if (error.response?.data?.logOut === true) {
@@ -43,7 +43,7 @@ export default function UseApi() {
     const errorMsg = error.response?.data?.error || error.message;
     dispatch(setAppError(errorMsg))
     console.log(error);
-  },[dispatch, logout])
+  }, [dispatch, logout])
 
 
   const signIn = async (newUserData) => {
@@ -60,23 +60,39 @@ export default function UseApi() {
   }
 
   const getPets = useCallback(async () => {
-      try {
-        dispatch(startApiCall())
-        const res = await axiosCall.get(api_url + "/pet", { params: filters });
-        console.log(res.data)
-        dispatch(setPets(res.data.pets))
-        dispatch(setLoadingFalse())
-      } catch (error) {
-        handleApiError(error)
-      }
-    }, [filters, api_url, handleApiError, dispatch])
+    try {
+      dispatch(startApiCall())
+      const res = await axiosCall.get(api_url + "/pet", { params: filters });
+      dispatch(setPets(res.data.pets))
+      dispatch(setLoadingFalse())
+    } catch (error) {
+      handleApiError(error)
+    }
+  }, [filters, api_url, handleApiError, dispatch])
+
+
+  const getPetByID = async (id) => {
+    try {
+      dispatch(startApiCall())
+      const res = await axiosCall.get(api_url + "/pet/" + id);
+      console.log(api_url + "/pet/" + id)
+      dispatch(setLoadingFalse())
+      return res.data.pet
+    } catch (error) {
+      handleApiError(error)
+    }
+  }
+
+  const setSelectedPetByID = async (id) => {
+    const pet = await getPetByID(id)
+    dispatch(setSelectedPet(pet))
+  }
 
 
   const updateUser = async (newUserData) => {
     dispatch(startApiCall())
     try {
       let data = { ...newUserData }
-      console.log(currentUser)
       const uid = currentUser.uid
       //remove Password data from requests if they are empty
       const pwd = newUserData.password
@@ -107,6 +123,6 @@ export default function UseApi() {
   }
 
   return (
-    { login, checkAuth, logout, signIn, updateUser, getPets }
+    { login, checkAuth, logout, signIn, updateUser, getPets, getPetByID, setSelectedPetByID }
   )
 }

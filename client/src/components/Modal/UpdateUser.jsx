@@ -40,6 +40,7 @@ export default function UpdateProfile() {
 
 
   return (
+    <UiBox p={3}>
     <UiFlexCol alignContent='center'>
       <UiFlexRow gapX={2} w100 alignItems='center' justifyContent='center'  >
         <UiBox m={1}>
@@ -111,6 +112,7 @@ export default function UpdateProfile() {
         </UiBox>
       </UiBox>
     </UiFlexCol>
+    </UiBox>
   )
 }
 

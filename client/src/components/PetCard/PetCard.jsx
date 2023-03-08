@@ -11,6 +11,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import TextFont from '../ui/myAppUi/TextFont';
 import styled from '@emotion/styled';
 import { FILTER_OPTIONS } from '../../config/config';
+import UiDiv from '../ui/uiKit/layouts/UiDiv';
+import { useDispatch } from 'react-redux';
+import { MODAL_OPTIONS, openModal } from '../../redux/reducers/appSlice';
+import UseApi from '../../services/useApi';
 
 const StyledCard = styled(UiCard)(({theme})=>({
     width:'300px', 
@@ -24,8 +28,6 @@ const StyledCard = styled(UiCard)(({theme})=>({
 
 const StyledFavoriteBorderIcon = styled(FavoriteBorderIcon)(({ theme }) => ({
     color: theme.palette.secondary.main,
-
-
     '&:hover': {
         color: theme.palette.primary.main,
     },
@@ -33,8 +35,19 @@ const StyledFavoriteBorderIcon = styled(FavoriteBorderIcon)(({ theme }) => ({
 
 
 
-export default function PetCard({name, id, status, picture, liked}) {
+export default function PetCard({name, _id, status, picture, liked}) {
+  
+  const dispatch = useDispatch();
+  const {setSelectedPetByID} = UseApi()
+  
+
+ const handleClick =  () => {
+  dispatch(openModal(MODAL_OPTIONS.pet))
+   setSelectedPetByID(_id)
+ }
+
   return (
+    <UiDiv onClick={handleClick}>
     <StyledCard variant='outlined'>
         <UiCardMedia
                 crossOrigin="anonymous"
@@ -59,5 +72,6 @@ export default function PetCard({name, id, status, picture, liked}) {
            hi
         </UiCardActions> */}
     </StyledCard>
+    </UiDiv>
   )
 }

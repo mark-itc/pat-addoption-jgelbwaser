@@ -44,6 +44,7 @@ export default function SignIn() {
   }
 
   return (
+    <UiBox p={3}>
     <UiFlexCol alignContent='center'>
       <UiFlexRow gapX={2} w100 alignItems='center' justifyContent='center'  >
 
@@ -123,6 +124,7 @@ export default function SignIn() {
         </UiBox>
       </UiBox>
     </UiFlexCol>
+    </UiBox>
   )
 }
 

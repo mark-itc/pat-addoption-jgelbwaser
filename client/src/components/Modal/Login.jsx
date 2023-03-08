@@ -52,6 +52,7 @@ export default function Login() {
     }
 
     return (
+        <UiBox p={3}>
         <UiFlexCol alignContent='center'>
             <UiFlexRow gapX={2} w100 alignItems='center' justifyContent='center'  >
 
@@ -104,6 +105,7 @@ export default function Login() {
                 </UiBox>
             </UiBox>
         </UiFlexCol>
+        </UiBox>
     )
 }
 
