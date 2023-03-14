@@ -1,7 +1,7 @@
 import React from 'react'
 import UiText from '../uiKit/componentsUi/UiText'
 
-export default function FontAlt({sx={}, bold=false, ...props}) {
+export default function FontAlt({sx={}, bold, ...props}) {
     return (
         <UiText {...props} sx={{ 
             fontFamily: 'Amatic SC,cursive',

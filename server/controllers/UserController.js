@@ -29,17 +29,13 @@ module.exports = class UserController {
             //if email changed check if already exists
             const emailChanged = (newUserData.email.toLowerCase() !== dbUser.email)
             if (emailChanged) {
-                console.log('email changed')
                 const emailExists = await UserDAO.exists({ email: newUserData.email.toLowerCase() });
                 if (emailExists) return res.status(401).json({ error: 'Email already registered: ' + newUserData.email.toLowerCase() })
             }
 
             //if phone changed check if already exists
             const phoneChanged = newUserData.phoneNumber.toString() !== dbUser.phoneNumber.toString()
-            console.log(newUserData.phoneNumber, 'newUserData.phoneNumber')
-            console.log(dbUser.phoneNumber, 'dbData.phoneNumber')
             if (phoneChanged) {
-                console.log('phoneNumber changed')
                 const phoneExists = await UserDAO.exists({ phoneNumber: newUserData.phoneNumber });
                 if (phoneExists) return res.status(401).json({ error: 'try a different phone number' })
             }

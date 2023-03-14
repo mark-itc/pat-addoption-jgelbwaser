@@ -9,7 +9,7 @@ export  function UiFlexDiv({
     direction = 'row',
     justifyContent = 'flex-start',
     alignItems = 'stretch',
-    flexWrap = 'nowrap',
+    flexWrap = 'wrap',
     alignContent = 'stretch',
     gap = 0,
     sx,

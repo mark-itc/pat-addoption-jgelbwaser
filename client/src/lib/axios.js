@@ -38,7 +38,7 @@ const RefreshToken = async () => {
         throw new Error('Refresh token is missing')
     }
     try {
-      const res = await axiosCall.post(api_url + "/refresh", { token: refreshToken });
+      const res = await axiosCall.post(api_url + "/refresh_token", { token: refreshToken });
       console.log('freshToken res', res);
       store.dispatch(setTokens({
         accessToken: res.data.accessToken,

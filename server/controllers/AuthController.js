@@ -122,8 +122,8 @@ module.exports = class AuthController {
             }
 
             //LOGIN SUCCESS:
-            const {accessToken, refreshToken,currentUser} =  await AuthController.logUser(user)
-            return res.status(200).json({ accessToken, refreshToken,currentUser })
+            const {accessToken, refreshToken,currentUser,petsInUserCare, petsSavedByUser} =  await AuthController.logUser(user)
+            return res.status(200).json({ accessToken, refreshToken,currentUser,petsInUserCare, petsSavedByUser })
 
         } catch (error) {
             handleError(error);
@@ -139,7 +139,9 @@ module.exports = class AuthController {
         user.hashRefreshTokenSignature = await bcrypt.hash(refreshToken.split('.')[2], BCRYPT_SALT);
         await UserDAO.save(user);
         const currentUser = AuthController.getUserResponseObject(user)
-        return {accessToken, refreshToken,currentUser}
+        const petsInUserCare = await UserDAO.getUserPets(user._id)
+        const petsSavedByUser = await UserDAO.getUserSavedPets(user._id)
+        return {accessToken, refreshToken,currentUser, petsInUserCare, petsSavedByUser}
     }
 
     static async logout(req, res) {
@@ -188,11 +190,11 @@ module.exports = class AuthController {
             const checkWithDB = async () => {
                 const user = await UserDAO.findById(req.tokenDecoded.uid)
                 if (!user) return res.status(404).json({ error: 'User in token not found', loggedOut: true })
-                console.log('user logout', user.lastLogout)
-                console.log('user iat', req.tokenDecoded.iat)
+                // console.log('user logout', user.lastLogout)
+                // console.log('user iat', req.tokenDecoded.iat)
                 if (user.lastLogout && user.lastLogout.getTime() > req.tokenDecoded.iat * 1000) {
-                    console.log('user logout', user.lastLogout.getTime())
-                    console.log('user iat', req.tokenDecoded.iat)
+                    // console.log('user logout', user.lastLogout.getTime())
+                    // console.log('user iat', req.tokenDecoded.iat)
                     return res.status(403).json({ error: 'Token expired', loggedOut: true });
                 }
                 req.authUser = user;
@@ -208,7 +210,7 @@ module.exports = class AuthController {
 
 
     static async register(req, res) {
-        console.log('req.body', req.body)
+        
         //validate inputs
         const valid = validateSignIn(req.body);
         if (!valid) return res.status(400).json({ error: validateSignIn.errors[0].message })
@@ -232,8 +234,8 @@ module.exports = class AuthController {
                 phoneNumber: req.body.phoneNumber
             })
 
-            const {accessToken, refreshToken,currentUser} = await AuthController.logUser(savedUser)
-            return res.status(200).json({ accessToken, refreshToken,currentUser });
+            const {accessToken, refreshToken,currentUser, petsInUserCare, petsSavedByUser} = await AuthController.logUser(savedUser)
+            return res.status(200).json({ accessToken, refreshToken, currentUser, petsInUserCare, petsSavedByUser });
 
             //return res.status(200).json({ id: savedUser._id });
 

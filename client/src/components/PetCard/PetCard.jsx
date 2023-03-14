@@ -15,6 +15,7 @@ import UiDiv from '../ui/uiKit/layouts/UiDiv';
 import { useDispatch } from 'react-redux';
 import { MODAL_OPTIONS, openModal } from '../../redux/reducers/appSlice';
 import UseApi from '../../services/useApi';
+import SaveHeartIcon from '../saveHeartIcon';
 
 const StyledCard = styled(UiCard)(({theme})=>({
     width:'300px', 
@@ -25,14 +26,6 @@ const StyledCard = styled(UiCard)(({theme})=>({
         backgroundColor: '#FFF0E5'
     }
 }))
-
-const StyledFavoriteBorderIcon = styled(FavoriteBorderIcon)(({ theme }) => ({
-    color: theme.palette.secondary.main,
-    '&:hover': {
-        color: theme.palette.primary.main,
-    },
-  }));
-
 
 
 export default function PetCard({name, _id, status, picture, liked}) {
@@ -60,7 +53,7 @@ export default function PetCard({name, _id, status, picture, liked}) {
             <UiFlexRow justifyContent='space-between' alignItems='center'>
             <UiFlexRow gap={1} alignItems='center'>
                 
-            <StyledFavoriteBorderIcon  />
+            <SaveHeartIcon petId={_id}/>
            <TextFontLogo color='main.dark' variant='h6' >{name}</TextFontLogo> 
             </UiFlexRow>
             <TextFontLogo color='main.main' variant='h6' >

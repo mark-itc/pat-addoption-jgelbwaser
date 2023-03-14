@@ -5,27 +5,25 @@ const { validateUserUpdate, validatePet } = require("../validations/ajvValidatio
 const UserDAO = require("../models/UsersDAO");
 const AuthController = require("./AuthController");
 const PetsDAO = require("../models/PetsDAO");
-const { PET_TYPES_ENUM, PET_STATUS_ENUM } = require("../config");
+const { PET_STATUS } = require("../config");
 
 
 module.exports = class PetController {
 
     static async addPet(req, res) {
         try {
-            
+
             const dbUser = req.authUser;
             const petData = req.body
-            
+
             // TO DO: Uncomment (Protected to admin only)
             //if(!dbUser.isAdmin) return res.status(403).json({error: 'Only admins can add pets '})
 
             //validate inputs:
-            console.log(petData)
             const valid = validatePet(petData);
             if (!valid) return res.status(400).json({ error: validatePet.errors[0].message })
-          
+
             const savedPet = await PetsDAO.createPet(petData)
-            console.log('savedPet', savedPet)
             return res.status(201).json(savedPet)
 
         } catch (error) {
@@ -34,70 +32,74 @@ module.exports = class PetController {
         }
     }
 
-    
+
     static async getPets(req, res) {
         try {
-        //conditions params: type, height_min, height_max, weight_max, weight_min, status, name
-        const conditions = req.query
-        
-        //{ age: { $gt: 18, $lt: 30 }
-        const pets = await  PetsDAO.find(conditions) 
-        return res.status(200).json({pets})
-        } 
-        catch (error) 
-        {
+            //conditions params: type, height_min, height_max, weight_max, weight_min, status, name
+            const conditions = req.query
+            const pets = await PetsDAO.find(conditions)
+            return res.status(200).json({ pets })
+        }
+        catch (error) {
             handleError(error);
             return res.status(500).json({ error: "Server error" });
         }
     }
-
 
 
     static async adoptFosterPet(req, res) {
         try {
+            //validations
+            const user = req.authUser
+            const petId = req.params.id
+            if (!petId) return res.status(400).json({ error: 'pet id missing' })
+            const newStatus = req.body.Type
+            if (newStatus !== PET_STATUS.adopted && newStatus !== PET_STATUS.fostered) {
+                return res.status(400).json({ error: 'No valid pet action: adopt or foster missing' })
+            }
+            const pet = await PetsDAO.findById(petId)
+            if (!pet) return res.status(404).json({ error: 'pet not found' })
 
-            // Route ‘/pet/:id/adopt’ [POST] (protected to logged in users)
-            // The Adopt/Foster API is responsible for adding the pet to the current users pets.
-            // This API also should change the pet’s adoption status. 
+            //update pet
+            pet.status = newStatus
+            pet.careGiver = user._id
+            await PetsDAO.save(pet)
 
-            // Field: 
-            // Type (Adopt or foster)
-
-            res.status(200).json('adoptFosterPet called')
-
+            //update userPets array
+            user.userPets = [...new Set([...user.userPets, petId])]
+            await UserDAO.save(user)
+            const userPetsPopulated = await UserDAO.getUserPets(user._id)
+            
+            res.status(200).json({ userPets: user.userPets, petsInUserCare: userPetsPopulated })
 
         } catch (error) {
             handleError(error);
             return res.status(500).json({ error: "Server error" });
         }
     }
+
 
     static async returnPet(req, res) {
-        try {
+        try {  //validations
+            const user = req.authUser
+            const petId = req.params.id
+            if (!petId) return res.status(400).json({ error: 'pet id missing' })
+            const pet = await PetsDAO.findById(petId)
+            if (!pet) return res.status(404).json({ error: 'pet not found' })
 
-            // Route ‘/pet/:id/return’ [POST] (protected to logged in users)
-            // The Return Pet API is responsible for returning the pet to the agency. 
-            // The API should change the pets status back to available
-            // The API should remove the pet from the users pets.
-            // // 
-            res.status(200).json('Return Pet called')
+            //update pet
+            pet.status = PET_STATUS.available
+            pet.careGiver = null
+            await PetsDAO.save(pet)
 
+            //update userPets array
+            const newUserPets = user.userPets.filter(pet => pet != petId)
+            user.userPets = newUserPets
 
-        } catch (error) {
-            handleError(error);
-            return res.status(500).json({ error: "Server error" });
-        }
-    }
-
-    static async likePet(req, res) {
-        try {
-            // Route ‘/pet/:id/save’ [POST] (protected to logged in users)
-            // The save PET api allows a user to save a pet for later
-            // The saved pet should be stored as saved in the users account
-
-            res.status(200).json('likePet called')
-
-
+            await UserDAO.save(user)
+            const userPetsPopulated = await UserDAO.getUserPets(user._id)
+            
+            res.status(200).json({ userPets: user.userPets, petsInUserCare: userPetsPopulated })
 
         } catch (error) {
             handleError(error);
@@ -105,14 +107,21 @@ module.exports = class PetController {
         }
     }
 
-    static async unLikePet(req, res) {
+    static async savePet(req, res) {
         try {
-            // Route ‘/pet/:id/save’ [DELETE] (protected to logged in users)
-            // The save PET api allows a user to remove a saved pet.
-
-
-            res.status(200).json('unLikePet called')
-
+            //validations
+            const user = req.authUser
+            const petId = req.params.id
+            if (!petId) return res.status(400).json({ error: 'pet id missing' })
+            const pet = await PetsDAO.findById(petId)
+            if (!pet) return res.status(404).json({ error: 'pet not found' })
+           
+            //update userSavedPets array
+            user.userSavedPets = [...new Set([...user.userSavedPets, petId])]
+            await UserDAO.save(user)
+            const userSavedPetsPopulated = await UserDAO.getUserSavedPets(user._id)
+            
+            res.status(200).json({ userSavedPets: user.userSavedPets, petsSavedByUser: userSavedPetsPopulated })
 
         } catch (error) {
             handleError(error);
@@ -120,6 +129,32 @@ module.exports = class PetController {
         }
     }
 
+
+    static async unSavePet(req, res) {
+        try {
+            //validations
+            const user = req.authUser
+            const petId = req.params.id
+            if (!petId) return res.status(400).json({ error: 'pet id missing' })
+            const pet = await PetsDAO.findById(petId)
+            if (!pet) return res.status(404).json({ error: 'pet not found' })
+
+              //update userPets array
+              const newUserPets = user.userSavedPets.filter(pet => {
+                return pet != petId})
+              user.userSavedPets = newUserPets 
+              await UserDAO.save(user) 
+              const userSavedPetsPopulated = await UserDAO.getUserSavedPets(user._id)
+            
+            res.status(200).json({ userSavedPets: user.userSavedPets, petsSavedByUser: userSavedPetsPopulated })
+          
+        } catch (error) {
+            handleError(error);
+            return res.status(500).json({ error: "Server error" });
+        }
+    }
+
+   
 
     static async getPetByID(req, res) {
         try {
@@ -129,7 +164,7 @@ module.exports = class PetController {
             // Get a pet by ID should take an id and return 
             // the corresponding pet from the database. 
 
-            res.status(200).json({pet})
+            res.status(200).json({ pet })
 
         } catch (error) {
             handleError(error);
@@ -159,8 +194,8 @@ module.exports = class PetController {
 
     static async handlePicUpload(req, res) {
         try {
-            console.log(req.file.path)
-            console.log('reqFile:', req.file)
+        //     console.log(req.file.path)
+        //     console.log('reqFile:', req.file)
             return res.json({
                 fileName: req.file.filename
             })

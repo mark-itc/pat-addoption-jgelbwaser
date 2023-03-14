@@ -14,6 +14,12 @@ export const userSlice = createSlice({
         clearCurrentUser: (state) => {
             state.currentUser = null;
         },
+        updateUserPets: (state, action) => {
+            state.currentUser = {...state.currentUser, userPets: action.payload}
+        },
+        updateUserSavedPets: (state, action) => {
+            state.currentUser = {...state.currentUser, userSavedPets: action.payload}
+        }
     },
 })
 
@@ -21,6 +27,8 @@ export const userSlice = createSlice({
 export const {
     setCurrentUser,
     clearCurrentUser,
+    updateUserPets,
+    updateUserSavedPets
 } = userSlice.actions
 
 export default userSlice.reducer

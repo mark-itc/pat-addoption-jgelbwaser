@@ -7,10 +7,8 @@ export default function Init() {
 
   useEffect(() => {
     getPets();
-    console.log('Init Mounted');
     //On unmount
     return () => {
-        console.log('Init UnMounted');
     };
   }, [getPets])
 

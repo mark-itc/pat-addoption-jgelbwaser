@@ -17,9 +17,16 @@ export default function Modal() {
 
   return (
     <UiDialog open={isOpen} onClose={handleClose}>
+      <UiBox sx={{ 
+              borderStyle: 'solid',
+              borderWidth: '2px',
+              borderColor: 'secondary.dark',
+              borderRadius: '5px',
+              overflow: 'hidden'
+        }}>
 
         {component}
-
+      </UiBox>
     </UiDialog>
   );
 }

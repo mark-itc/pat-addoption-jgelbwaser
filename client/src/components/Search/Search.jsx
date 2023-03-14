@@ -20,7 +20,6 @@ export default function Search() {
     const [selectedValue, setSelectedValue] = React.useState('a');
 
     const handleChange = (event) => {
-        console.log(event.target.value)
         dispatch(setFilterType(event.target.value))
     };
 
@@ -37,7 +36,7 @@ export default function Search() {
                     value={filters.type}
                     onChange={handleChange}
                 >
-                    <SearchFormRadioControl value={PET_TYPES.all} label='Cats o rDogs'/>
+                    <SearchFormRadioControl value={PET_TYPES.all} label='Cats or Dogs'/>
                     <SearchFormRadioControl value={PET_TYPES.cat} label='Only Cats'/>
                     <SearchFormRadioControl value={PET_TYPES.dog} label='Only Dogs'/>
                 </RadioGroup>

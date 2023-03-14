@@ -17,7 +17,6 @@ const { upload } = require("./lib/multer");
 const PetController = require("./controllers/PetController");
 
 
-
 //connect to MongoDB
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL).
@@ -28,9 +27,14 @@ mongoose.connect(process.env.MONGO_URL).
 //middleware
 app.use(cors());
 app.use(express.json());
-app.use(helmet());
+app.use(helmet(
+  {crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: false,
+  }
+));
 app.use(morgan("common"));
 app.use(`/${process.env.UPLOADS_FOLDER_PICS}`, cors(), express.static(process.env.UPLOADS_FOLDER_PICS))
+
 
 //TODO ONLY ADMIN
 app.post('/upload_pic', upload.single('file'), PetController.handlePicUpload)
@@ -44,10 +48,10 @@ app.post( '/pet', PetController.addPet), //Only Admin
 app.get( '/pet/:id', PetController.getPetByID),
 app.put( '/pet/:id', PetController.editPet),//Only Admin
 app.get( '/pet', PetController.getPets),
-app.post( '/pet/:id/adopt', PetController.adoptFosterPet),//Only users
-app.post( '/pet/:id/return', PetController.returnPet),//Only users
-app.post( 'pet/:id/save', PetController.returnPet),//Only users
-app.delete( 'pet/:id/save', PetController.returnPet),//Only users
+app.post( '/pet/:id/adopt', AuthController.authenticateWithDB, PetController.adoptFosterPet),//Only users
+app.post( '/pet/:id/return', AuthController.authenticateWithDB, PetController.returnPet),//Only users
+app.post( '/pet/:id/save', AuthController.authenticateWithDB, PetController.savePet),//Only users
+app.delete( '/pet/:id/save', AuthController.authenticateWithDB, PetController.unSavePet),//Only users
 
 
 app.get("/auth", AuthController.authenticateWithDB, (req, res) => {

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import Login from "../../components/Modal/Login";
-import PetInfo from "../../components/Modal/PetInfo";
+import PetInfo from "../../components/Modal/petModal/PetInfo";
 import SignIn from "../../components/Modal/SignIn";
 import UpdateUser from "../../components/Modal/UpdateUser";
 
