@@ -1,10 +1,8 @@
 import * as React from 'react';
-import UiDiv from '../ui/uiKit/layouts/UiDiv';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, MODAL_COMPONENTS } from '../../redux/reducers/appSlice';
 import UiDialog from '../ui/uiKit/componentsUi/UiDialog';
 import UiBox from '../ui/uiKit/layouts/UiBox';
-import UiCollapse from '../ui/uiKit/muiTransitions/UiCollapse';
 
 
 export default function Modal() {

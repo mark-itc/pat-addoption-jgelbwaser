@@ -4,7 +4,7 @@ import { setLogout, setLogin } from '../redux/reducers/authSlice';
 import { startApiCall, setAppError, setLoadingFalse } from '../redux/reducers/appSlice';
 import { axiosAuthCall, axiosCall } from '../lib/axios'
 import { clearCurrentUser, setCurrentUser, updateUserPets, updateUserSavedPets } from '../redux/reducers/userSlice';
-import { clearPetsInUserCare, clearPetsSavedByUser, setPets, setPetsInUserCare, setPetsSavedByUser, setSelectedPet, updatePetStatus } from '../redux/reducers/petSlice';
+import { clearPetsInUserCare, clearPetsSavedByUser, setPets, setPetsInUserCare, setPetsSavedByUser, setSelectedPet } from '../redux/reducers/petSlice';
 import { PET_STATUS } from '../config/config';
 
 
@@ -119,6 +119,7 @@ export default function UseApi() {
     dispatch(startApiCall())
     try {
       const res = await axiosAuthCall.get(api_url + "/auth", {});
+      console.log(res.data)
       dispatch(setLoadingFalse())
     } catch (error) {
       handleApiError(error)
@@ -189,14 +190,14 @@ export default function UseApi() {
     } catch (error) {
       handleApiError(error)
     }
-  }, [api_url, dispatch, handleApiError])
+  }, [api_url, dispatch, handleApiError, currentUser?.userSavedPets])
 
 
   const unSavePet = useCallback(async (petId) => {
     try {
       //dispatch(startApiCall())
       dispatch(updateUserSavedPets(
-        currentUser.userSavedPets.filter(pet =>  pet != petId)
+        currentUser.userSavedPets.filter(pet =>  pet !== petId)
       ))
 
       const res = await axiosAuthCall.delete(api_url + `/pet/${petId}/save`);
@@ -206,7 +207,7 @@ export default function UseApi() {
     } catch (error) {
       handleApiError(error)
     }
-  }, [api_url, dispatch, handleApiError])
+  }, [api_url, dispatch, handleApiError, currentUser?.userSavedPets])
 
 
   const editPet = useCallback((petId) => {

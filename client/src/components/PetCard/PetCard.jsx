@@ -2,13 +2,8 @@ import React from 'react'
 import UiCard from '../ui/uiKit/componentsUi/UiCard/UiCard';
 import UiCardMedia from '../ui/uiKit/componentsUi/UiCard/UiCardMedia';
 import UiCardContent from '../ui/uiKit/componentsUi/UiCard/UiCardContent';
-import UiCardActions from '../ui/uiKit/componentsUi/UiCard/UiCardContent';
 import TextFontLogo from '../ui/myAppUi/TextFontLogo';
 import { UiFlexRow } from '../ui/uiKit/layouts/UiFlex';
-import TextFontAlt from '../ui/myAppUi/TextFontAlt';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import TextFont from '../ui/myAppUi/TextFont';
 import styled from '@emotion/styled';
 import { FILTER_OPTIONS } from '../../config/config';
 import UiDiv from '../ui/uiKit/layouts/UiDiv';

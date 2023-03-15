@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { PET_STATUS } from '../config/config';
+import { useNavigate } from 'react-router-dom';
+import { PET_STATUS, ROUTES_PATH } from '../config/config';
 import { closeModal, MODAL_OPTIONS, openModal } from '../redux/reducers/appSlice';
 import UseApi from '../services/useApi';
 
@@ -18,6 +19,7 @@ export default function UsePet() {
     const [ctaTxt, setCtaTxt] = useState('Looking your new best friend?');
     const [buttonLeftData, setButtonLeft] = useState();
     const [buttonRightData, setButtonRight] = useState();
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -62,6 +64,7 @@ export default function UsePet() {
             setButtonLeft({
                 txt: 'Return Pet', action: () => {
                     returnPet(pet._id)
+                    dispatch(closeModal())
                 }});
             setButtonRight({
                 txt: 'More Pets', action: () => {
@@ -95,13 +98,17 @@ export default function UsePet() {
         setButtonLeft({
             txt: 'Adopt', action: () => {
                 adoptPet(pet._id)
+                dispatch(closeModal())
+                navigate(ROUTES_PATH.myPets)
             }});
         setButtonRight({
             txt: 'Foster', action: () => {
                 fosterPet(pet._id)
+                dispatch(closeModal())
+                navigate(ROUTES_PATH.myPets)
             }});
 
-    }, [currentUser, pet, deletePet, dispatch, adoptPet, editPet,  fosterPet, returnPet,savePet, unSavePet])
+    }, [currentUser, pet, deletePet, dispatch, adoptPet, editPet,  fosterPet, returnPet,savePet, unSavePet, navigate])
 
     return (
         { ctaTxt, buttonLeftData, buttonRightData }

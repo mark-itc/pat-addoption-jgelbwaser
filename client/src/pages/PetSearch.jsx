@@ -1,25 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux';
 import MyAppUiContainer from '../components/ui/myAppUi/MyAppUiContainer'
-import UiDiv from '../components/ui/uiKit/layouts/UiDiv';
-import { UiFlexCol, UiFlexColToRowFrom, UiFlexRow } from '../components/ui/uiKit/layouts/UiFlex';
+import { UiFlexCol, UiFlexRow } from '../components/ui/uiKit/layouts/UiFlex';
 import TextFontAlt from '../components/ui/myAppUi/TextFontAlt'
 import UiBox from '../components/ui/uiKit/layouts/UiBox';
 import PetCard from '../components/PetCard/PetCard';
 import Search from '../components/Search/Search';
-
-// import UseApi from '../services/useApi';
+import { UiAlertCollapse } from '../components/ui/uiKit/componentsUi/UiAlert';
 
 export default function PetSearch() {
 
   const { pets } = useSelector(state => state.pet);
   const { error, loading } = useSelector(state => state.app)
-
-
-  const handleCardClick = (pet) => {
-    console.log('pet name', pet.name)
-    console.log('pet', pet)
-  }
+  const showAlert = error ? true : false
 
   return (
     <div>
@@ -30,12 +23,15 @@ export default function PetSearch() {
               Find your forever companion
             </TextFontAlt>
             <Search />
+            <UiBox mt={3}>
+              <UiAlertCollapse show={showAlert} >{error}</UiAlertCollapse>
+            </UiBox>
           </UiFlexCol>
-          <UiBox mt={5}>
+          <UiBox mt={2}>
             {pets && pets.length ?
               (
                 <UiFlexRow gap={3} justifyContent="center" flexWrap="wrap">
-                {pets && pets.map(pet => {
+                {pets.map(pet => {
                   return <PetCard key={pet._id} {...pet} />
                 })}
               </UiFlexRow>

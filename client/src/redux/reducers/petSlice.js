@@ -34,7 +34,7 @@ export const petSlice = createSlice({
             state.petsSavedByUser = action.payload;
         },
         clearPets: (state) => {
-            state.myPets =[];
+            state.pets =[];
         },
         clearPetsInUserCare: (state) => {
             state.petsInUserCare = [];
