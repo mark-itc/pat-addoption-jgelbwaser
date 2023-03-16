@@ -37,7 +37,7 @@ export default function BasicTabs() {
 
   return (
     <MyAppUiContainer>
-      <UiBox mt={3}>
+      <UiBox mt={4}>
         <Box sx={{ width: '100%' }}>
           <Box>
             <Tabs
@@ -71,7 +71,7 @@ export default function BasicTabs() {
           <UiAlertCollapse show={showAlert} >{error}</UiAlertCollapse>
         </UiBox>
       </UiBox>
-      <UiBox mt={2}>
+      <UiBox mt={3}>
         {selectedTab === TABS.myPets ?
           (
             petsInUserCare && petsInUserCare.length ?

@@ -18,7 +18,7 @@ export default function PetSearch() {
     <div>
       <MyAppUiContainer>
         <UiFlexCol justifyContent='space-between' sx={{ height: '100%' }}>
-          <UiFlexCol>
+          <UiFlexCol alignItems='stretch'>
             <TextFontAlt mt={5} align="center" color='secondary.dark' bold={true} variant="h2" >
               Find your forever companion
             </TextFontAlt>

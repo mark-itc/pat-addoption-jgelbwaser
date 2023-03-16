@@ -11,6 +11,9 @@ module.exports.PET_STATUS = {
 }
 
 module.exports.PET_STATUS_ENUM = [1,2, 3]
+module.exports.PET_MAX_WEIGHT_IN_gr = 20000
+module.exports.PET_MAX_HEIGHT_IN_cm = 150
+
 
 module.exports.PET_TYPES = {
     cat: 1,

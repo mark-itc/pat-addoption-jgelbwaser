@@ -1,6 +1,6 @@
 const Ajv = require("ajv")
 const addFormats = require("ajv-formats");
-const { PET_TYPES_ENUM, PET_STATUS_ENUM } = require("../config");
+const { PET_TYPES_ENUM, PET_STATUS_ENUM, PET_MAX_HEIGHT_IN_cm, PET_MAX_WEIGHT_IN_gr } = require("../config");
 
 const ajv = new Ajv({ allErrors: true })
 require("ajv-errors")(ajv, { singleError: true })
@@ -93,12 +93,12 @@ const petSchema = {
         height: {
             type: 'number',
             minimum: 0,
-            maximum: 150
+            maximum: PET_MAX_HEIGHT_IN_cm
         },
         weight: {
             type: 'number',
             minimum: 0,
-            maximum: 40000
+            maximum: PET_MAX_WEIGHT_IN_gr
         },
         color: {
             type: "string",

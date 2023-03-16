@@ -40,6 +40,11 @@ export const NAV_LINKS_PER_STATUS = {
     ],
 }
 
+export const PET_MAX_HEIGHT_IN_cm = 150
+export const PET_MAX_WEIGHT_IN_gr = 20000
+export const PET_MAX_WEIGHT_IN_Kg = parseFloat((PET_MAX_WEIGHT_IN_gr / 1000).toFixed(1))
+
+
 
 export const FILTER_OPTIONS ={
     type: {
@@ -47,6 +52,7 @@ export const FILTER_OPTIONS ={
         2: 'dog'
     },
     status:{
+        0: 'All',
         1: 'Available',
         2: 'Fostered',
         3: 'Adopted'
