@@ -173,7 +173,6 @@ export default function Search() {
                         />
                         <ModalTextField
                             sx={{ flex: 1 }}
-                            //sx={{ minWidth: '10rem' }}
                             select
                             flex={1}
                             label="Pet Status"

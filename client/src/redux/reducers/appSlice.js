@@ -3,13 +3,15 @@ import Login from "../../components/Modal/Login";
 import PetInfo from "../../components/Modal/petModal/PetInfo";
 import SignIn from "../../components/Modal/SignIn";
 import UpdateUser from "../../components/Modal/UpdateUser";
+import NewPet from "../../components/Modal/NewPet";
 
 
 export const MODAL_OPTIONS = {
     login: 1,
     signIn: 2,
     pet: 3,
-    updateUser: 4
+    updateUser: 4,
+    addPet: 5
 }
 
 export const MODAL_COMPONENTS = {
@@ -17,6 +19,8 @@ export const MODAL_COMPONENTS = {
     [MODAL_OPTIONS.signIn] : <SignIn/>,
     [MODAL_OPTIONS.pet] : <PetInfo/>,
     [MODAL_OPTIONS.updateUser] : <UpdateUser/>,
+    [MODAL_OPTIONS.addPet] : <NewPet/>,
+
 }
 
 const initialState = {

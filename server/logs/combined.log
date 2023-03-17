@@ -1732,3 +1732,7 @@
 {"level":"info","message":"back server running","timestamp":"2023-03-16T13:44:36.533Z"}
 {"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-16T13:44:37.829Z"}
 {"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-16T17:42:38.544Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-16T18:00:13.164Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-16T18:02:01.035Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-16T20:59:24.925Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-16T20:59:26.101Z"}

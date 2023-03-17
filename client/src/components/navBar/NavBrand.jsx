@@ -11,9 +11,9 @@ export default function NavBrand() {
     <UiFlexRow gap={1} >
     <UiBox sx={{
         height: '3.5rem',
-        width: '5rem',
+        width: '3.5rem',
         backgroundImage: `url(./assets/logo.png)`,
-        backgroundSize: '75px 75px',
+        backgroundSize: '2.5rem 2.5rem',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
     }}>

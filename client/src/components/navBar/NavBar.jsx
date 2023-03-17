@@ -35,6 +35,9 @@ export default function NavBar() {
     const {logout} = UseApi()
 
 
+    const handleAddPetClick = () => {
+        dispatch(openModal(MODAL_OPTIONS.addPet))
+    }
 
     const handleProfileClick = () => {
         dispatch(openModal(MODAL_OPTIONS.updateUser))
@@ -121,6 +124,7 @@ export default function NavBar() {
                                     <NavButton onClick={handleLoginClick}>Login</NavButton>
                                     <UiShowFrom from='sm' >
                                         <NavButton onClick={handleSignInClick}>Signin</NavButton>
+                                        <NavButton onClick={handleAddPetClick}>Add pet</NavButton>
                                     </UiShowFrom>
                                 </>
 
