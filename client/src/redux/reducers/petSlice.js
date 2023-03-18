@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { PET_STATUS, PET_TYPES } from '../../config/config';
 
 const initialState = {
     pets: [],
@@ -6,13 +7,13 @@ const initialState = {
     petsSavedByUser:[],
     selectedPet: null,
     filters: {
-        type: 0,
-        height_min: '', 
-        height_max: '', 
-        weight_max: '', 
-        weight_min: '',
-        status: 0, 
-        name: ''
+        type: PET_TYPES.all,
+        height_min: null, 
+        height_max: null, 
+        weight_max: null, 
+        weight_min: null,
+        status: PET_STATUS.all, 
+        name: null
     },
     showExtraFilters: false,
     extraFiltersAreActive: false,
@@ -62,14 +63,16 @@ export const petSlice = createSlice({
         toggleShowExtraFilters: (state) => {
             state.showExtraFilters = !state.showExtraFilters
         },
-
-
+        addNewPet: (state, action) => {
+            state.pets = [...state.pets,  action.payload]
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
 export const {
     setPets,
+    addNewPet,
     setSelectedPet,
     setFilterType,
     clearPets,

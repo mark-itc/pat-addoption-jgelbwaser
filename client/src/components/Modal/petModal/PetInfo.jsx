@@ -77,7 +77,7 @@ export default function PetInfo() {
                 </UiFlexRow>
                 <UiFlexRow gap={1} justifyContent='space-between' >
                   <PetInfoListItem keyName='Height' value={pet.height} units='cm' />
-                  <PetInfoListItem keyName='Weight' value={pet.weight} units='gr' />
+                  <PetInfoListItem keyName='Weight' value={pet.weight / 1000} units='kg' />
                 </UiFlexRow>
                 <UiFlexRow gap={1} justifyContent='space-between' >
                   <PetInfoListItem keyName='Color' value={pet.color} />

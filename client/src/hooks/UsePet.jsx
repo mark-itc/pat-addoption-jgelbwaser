@@ -2,7 +2,7 @@ import  { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { PET_STATUS, ROUTES_PATH } from '../config/config';
-import { closeModal, MODAL_OPTIONS, openModal } from '../redux/reducers/appSlice';
+import { closeModal, MODAL_OPTIONS, openModal, setAppError } from '../redux/reducers/appSlice';
 import UseApi from '../services/useApi';
 
 //dispatch(openModal(MODAL_OPTIONS.login))
@@ -13,7 +13,7 @@ export default function UsePet() {
     const dispatch = useDispatch();
     const{
         adoptPet, fosterPet, editPet, deletePet, 
-        returnPet, savePet, unSavePet
+        returnPet, savePet, unSavePet, uploadAppPic, addPetToDb
     } = UseApi()
     //local state:
     const [ctaTxt, setCtaTxt] = useState('Looking your new best friend?');
@@ -21,6 +21,22 @@ export default function UsePet() {
     const [buttonRightData, setButtonRight] = useState();
     const navigate = useNavigate()
 
+
+    const addPet = async (petData, petPicture) =>{
+        if(!(currentUser?.isAdmin === true)) {
+            return ( dispatch(setAppError('Only Admin can add pets')))
+        }
+        if(petPicture) {
+            const picFileName = await uploadAppPic(petPicture)
+            petData.picture = picFileName  
+        }
+        petData.type = parseInt(petData.type)
+        petData.weight = parseFloat(petData.weight) * 1000
+        petData.height = parseInt(petData.height)
+        petData.status = PET_STATUS.available
+        petData.hypoallergenic = petData.hypoallergenic === "true";
+        addPetToDb(petData)
+    }
     useEffect(() => {
 
         if (!pet) return
@@ -108,10 +124,11 @@ export default function UsePet() {
                 navigate(ROUTES_PATH.myPets)
             }});
 
-    }, [currentUser, pet, deletePet, dispatch, adoptPet, editPet,  fosterPet, returnPet,savePet, unSavePet, navigate])
+    }, [currentUser, pet, deletePet, dispatch, adoptPet, editPet,
+          fosterPet, returnPet,savePet, unSavePet, navigate])
 
     return (
-        { ctaTxt, buttonLeftData, buttonRightData }
+        { ctaTxt, buttonLeftData, buttonRightData, addPet }
     )
 }
 

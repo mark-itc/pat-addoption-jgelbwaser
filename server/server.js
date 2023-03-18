@@ -44,9 +44,9 @@ app.get("/logout", AuthController.logout)
 app.post('/refresh_token', AuthController.refreshToken)
 app.post('/user/:id', AuthController.authenticateWithDB, UserController.updateUser)
 
-app.post( '/pet', PetController.addPet), //Only Admin
+app.post( '/pet', AuthController.authenticateWithDB, PetController.addPet), //Only Admin
 app.get( '/pet/:id', PetController.getPetByID),
-app.put( '/pet/:id', PetController.editPet),//Only Admin
+app.put( '/pet/:id', AuthController.authenticateWithDB, PetController.editPet),//Only Admin
 app.get( '/pet', PetController.getPets),
 app.post( '/pet/:id/adopt', AuthController.authenticateWithDB, PetController.adoptFosterPet),//Only users
 app.post( '/pet/:id/return', AuthController.authenticateWithDB, PetController.returnPet),//Only users

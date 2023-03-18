@@ -1,6 +1,6 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeModal, MODAL_COMPONENTS } from '../../redux/reducers/appSlice';
+import { clearAppError, closeModal, MODAL_COMPONENTS } from '../../redux/reducers/appSlice';
 import UiDialog from '../ui/uiKit/componentsUi/UiDialog';
 import UiBox from '../ui/uiKit/layouts/UiBox';
 
@@ -12,6 +12,10 @@ export default function Modal() {
   const handleClose = () => {
     dispatch(closeModal());
   };
+
+ useEffect(()=>{
+    dispatch(clearAppError())
+  },[isOpen])
 
   return (
     <UiDialog open={isOpen} onClose={handleClose}>

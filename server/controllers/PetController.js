@@ -12,12 +12,11 @@ module.exports = class PetController {
 
     static async addPet(req, res) {
         try {
-
             const dbUser = req.authUser;
             const petData = req.body
 
-            // TO DO: Uncomment (Protected to admin only)
-            //if(!dbUser.isAdmin) return res.status(403).json({error: 'Only admins can add pets '})
+            // Protected to admin only
+            if(!dbUser.isAdmin) return res.status(403).json({error: 'Only admins can add pets '})
 
             //validate inputs:
             const valid = validatePet(petData);

@@ -11,23 +11,24 @@ import { UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
 import TextLink from '../ui/myAppUi/TextLink';
 import { closeModal, MODAL_OPTIONS, openModal, clearAppError } from '../../redux/reducers/appSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { FILTER_OPTIONS, PET_MAX_HEIGHT_IN_cm, PET_MAX_WEIGHT_IN_gr } from '../../config/config';
+import { FILTER_OPTIONS, PET_MAX_HEIGHT_IN_cm, PET_MAX_WEIGHT_IN_gr, PET_MAX_WEIGHT_IN_Kg } from '../../config/config';
 import UiMenuItem from '../ui/uiKit/componentsUi/UiMenuItem';
-import PetsIcon from '@mui/icons-material/Pets';
-import UiDiv from '../ui/uiKit/layouts/UiDiv';
 import ImageContainedBlurBG from '../ui/uiKit/componentsUi/ImageContainedBlurBG';
-import UiInput from '../ui/uiKit/componentsUi/UiInput';
-import ImageUploader from '../tests/ImageUploader';
+import UsePet from '../../hooks/UsePet';
 
-export default function MewPet() {
+export default function NewPet() {
 
     const { currentUser } = useSelector(state => state.user)
     const { error, loading } = useSelector(state => state.app)
-
+    
     const dispatch = useDispatch();
     const { signIn } = UseApi();
     const showAlert = error ? true : false
     const [newPetData, setNewPetData] = useState({})
+    const [imageToRender, setImageToRender] = useState(null);
+    const [fileImageToUpload, setFileImageToUpload] = useState(null);
+    const fileInputRef = useRef(null);
+    const {addPet} = UsePet();
 
     const petTypeKeyArray = Object.keys(FILTER_OPTIONS.type)
     const selectMenuOptions = petTypeKeyArray.map(type => {
@@ -36,58 +37,52 @@ export default function MewPet() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         dispatch(clearAppError())
         const formData = new FormData(event.currentTarget);
         const formObject = Object.fromEntries(formData.entries());
+        setNewPetData(formObject)
+        addPet( formObject,fileImageToUpload)
     }
 
-    useEffect(() => { currentUser && dispatch(closeModal()) }, [currentUser, dispatch])
+    
+    useEffect(() => { !currentUser && dispatch(closeModal()) }, [currentUser, dispatch])
 
     const handleClose = () => {
         dispatch(closeModal())
         dispatch(clearAppError())
     }
- 
+
 
     ///PICTURE
-    const picture = false
+    const handleImageSelect = () => {
+        fileInputRef.current.click();
+    };
 
-    const [selectedImage, setSelectedImage] = useState(null);
-  const fileInputRef = useRef(null);
-
-  const handleImageSelect = () => {
-    console.log('handleImageSelect called')
-    fileInputRef.current.click();
-  };
-
-  const handleImageUpload = (event) => {
-    console.log('handleImageUpload called')
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-   
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        setFileImageToUpload(file)
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageToRender(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <UiBox >
-            {!selectedImage ? (
-                <UiBox 
-                onClick={handleImageSelect}
-                sx={{
-                    display: 'flex', flexDirection:'column',  justifyContent: 'center', alignItems: 'center', gap: '0',
-                    height: '200px', width: '100%', backgroundColor: '#EFD6C5', cursor: 'pointer',
-                    '&:hover': {backgroundColor: '#F9BF98'}
+            {!imageToRender ? (
+                <UiBox
+                    onClick={handleImageSelect}
+                    sx={{
+                        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '0',
+                        height: '200px', width: '100%', backgroundColor: '#EFD6C5', cursor: 'pointer',
+                        '&:hover': { backgroundColor: '#F9BF98' }
 
-                }}>
-                    <UiBox 
-                    sx={{ height: '100px', width: '100px' }}>
+                    }}>
+                    <UiBox
+                        sx={{ height: '100px', width: '100px' }}>
                         <img src="./assets/logo-outline.png" alt="" style={{
                             width: '100%', heigh: '100%'
                         }}
@@ -97,7 +92,8 @@ export default function MewPet() {
                 </UiBox>
             ) : (
                 < ImageContainedBlurBG
-                    image={selectedImage}
+                onClick={handleImageSelect}
+                    image={imageToRender}
                     crossOrigin="anonymous"
                     height='200px'
                 />
@@ -108,9 +104,9 @@ export default function MewPet() {
                 onChange={handleImageUpload}
                 ref={fileInputRef}
                 accept="image/*"
-                style={{display:'none'}}
+                style={{ display: 'none' }}
             />
-            <UiBox px={3} pt={1}>
+            <UiBox px={3} py={2}>
                 <UiFlexCol alignContent='center'>
                     <UiFlexRow gapX={2} w100 alignItems='center' justifyContent='center'  >
 
@@ -122,7 +118,7 @@ export default function MewPet() {
                     <UiBox component="form" onSubmit={handleSubmit} >
 
                         <ModalTextField
-                            defaultValue={newPetData.name}
+                            defaultValue={newPetData?.name || ''}
                             size='small'
                             required
                             fullWidth
@@ -141,7 +137,7 @@ export default function MewPet() {
                                 size='small'
                                 label='Pet Type'
                                 name="type"
-                                defaultValue={  newPetData.status || ''}
+                                defaultValue={newPetData?.type || ''}
                             >
                                 {selectMenuOptions.map((option) => (
                                     <UiMenuItem key={option.value} value={option.value}>
@@ -151,7 +147,7 @@ export default function MewPet() {
                             </ModalTextField>
                             <ModalTextField
                                 sx={{ flex: 1 }}
-                                defaultValue={newPetData.height}
+                                defaultValue={newPetData?.height || ''}
                                 size='small'
                                 InputProps={{
                                     inputProps: {
@@ -167,17 +163,17 @@ export default function MewPet() {
                             />
                             <ModalTextField
                                 sx={{ flex: 1 }}
-                                defaultValue={newPetData.weight}
+                                defaultValue={(newPetData?.weight/1000) || ''}
                                 size='small'
                                 InputProps={{
                                     inputProps: {
-                                        min: 0, max: PET_MAX_WEIGHT_IN_gr
+                                        min: 0, max: PET_MAX_WEIGHT_IN_Kg, step:"0.01"
                                     }
                                 }}
                                 required
                                 // fullWidth
                                 type="number"
-                                label="Weight(gr)"
+                                label="Weight(Kg)"
                                 name="weight"
                                 autoComplete="weight"
                             />
@@ -185,7 +181,7 @@ export default function MewPet() {
                         <UiFlexColToRowFrom gapX={2}>
                             <ModalTextField
                                 sx={{ flex: 1 }}
-                                defaultValue={newPetData.breed}
+                                defaultValue={newPetData?.breed || ''}
                                 size='small'
                                 label="Breed"
                                 name="breed"
@@ -193,7 +189,7 @@ export default function MewPet() {
                             />
                             <ModalTextField
                                 sx={{ flex: 1 }}
-                                defaultValue={newPetData.color}
+                                defaultValue={newPetData?.color || ''}
                                 size='small'
                                 fullWidth
                                 label="Color"
@@ -208,16 +204,15 @@ export default function MewPet() {
                                 flex={1}
                                 size='small'
                                 label="Hypoallergenic"
-                                //size="small"
                                 name="hypoallergenic"
-                                defaultValue={newPetData.status || ''} >
+                                defaultValue={newPetData?.hypoallergenic || ''} >
                                 <UiMenuItem value={true}>Yes</UiMenuItem>
                                 <UiMenuItem value={false}>No</UiMenuItem>
                             </ModalTextField>
                         </UiFlexColToRowFrom>
 
                         <ModalTextField
-                            defaultValue={newPetData.DietaryRestrictions}
+                            defaultValue={newPetData?.DietaryRestrictions || ''}
                             size='small'
                             fullWidth
                             label="Dietary Restrictions"
@@ -227,7 +222,7 @@ export default function MewPet() {
 
                         <ModalTextField
                             size='small'
-                            defaultValue={newPetData.bio}
+                            defaultValue={newPetData?.bio || ''}
                             fullWidth
                             multiline
                             maxRows={3}
@@ -242,11 +237,11 @@ export default function MewPet() {
                         </UiBox>
                         <UiFlexColToRowFrom gap={2} w100 justifyContent='center' >
                             <AppButton type="submit" variant="contained" disabled={loading}>
-                                {loading ? 'Loading' : 'Sign In'}
+                                {loading ? 'Loading' : 'Add Pet'}
                             </AppButton>
                             <AppButton variant="outlined" onClick={handleClose}>Close</AppButton>
                         </UiFlexColToRowFrom>
-                        <UiBox mt={2}>
+                        <UiBox my={2} >
 
                             {/* <UiFlexRow justifyContent='center' >
                             <TextLink href="#" variant="body2" onClick={handleGoToLogin}>

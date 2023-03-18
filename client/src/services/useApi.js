@@ -1,17 +1,17 @@
 import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setLogout, setLogin } from '../redux/reducers/authSlice';
-import { startApiCall, setAppError, setLoadingFalse } from '../redux/reducers/appSlice';
+import { startApiCall, setAppError, setLoadingFalse, closeModal } from '../redux/reducers/appSlice';
 import { axiosAuthCall, axiosCall } from '../lib/axios'
 import { clearCurrentUser, setCurrentUser, updateUserPets, updateUserSavedPets } from '../redux/reducers/userSlice';
-import { clearPetsInUserCare, clearPetsSavedByUser, setPets, setPetsInUserCare, setPetsSavedByUser, setSelectedPet } from '../redux/reducers/petSlice';
+import { addNewPet, clearExtraFilters, clearPetsInUserCare, clearPetsSavedByUser, setPets, setPetsInUserCare, setPetsSavedByUser, setSelectedPet } from '../redux/reducers/petSlice';
 import { PET_STATUS } from '../config/config';
 
 
 export default function UseApi() {
 
   const { currentUser } = useSelector(state => state.user)
-  const { filters, pets } = useSelector(state => state.pet)
+  const { filters, pets, extraFiltersAreActive } = useSelector(state => state.pet)
   const dispatch = useDispatch();
   const api_url = process.env.REACT_APP_API_URL
 
@@ -21,7 +21,7 @@ export default function UseApi() {
     try {
       const res = await axiosCall.post(api_url + "/login", { email, password });
       const { accessToken, refreshToken, currentUser, petsInUserCare, petsSavedByUser } = res.data
-      dispatch(setLogin({ accessToken, refreshToken }))
+      dispatch(setLogin({ accessToken, refreshToken, isAdmin: currentUser.isAdmin }))
       dispatch(setCurrentUser(currentUser))
       dispatch(setPetsInUserCare(petsInUserCare))
       dispatch(setPetsSavedByUser(petsSavedByUser))
@@ -54,7 +54,7 @@ export default function UseApi() {
       dispatch(startApiCall())
       const res = await axiosCall.post(api_url + "/register", newUserData);
       const { accessToken, refreshToken, currentUser, petsInUserCare, petsSavedByUser } = res.data
-      dispatch(setLogin({ accessToken, refreshToken }))
+      dispatch(setLogin({ accessToken, refreshToken, isAdmin: currentUser.isAdmin }))
       dispatch(setCurrentUser(currentUser))
       dispatch(setPetsInUserCare(petsInUserCare))
       dispatch(setPetsSavedByUser(petsSavedByUser))
@@ -75,7 +75,7 @@ export default function UseApi() {
       handleApiError(error) }
   }, [filters, api_url, handleApiError, dispatch])
 
-
+ 
   const getPetByID = async (id) => {
     try {
       dispatch(startApiCall())
@@ -106,7 +106,6 @@ export default function UseApi() {
         data = dataWithoutPasswords   }
       const res = await axiosAuthCall.post(api_url + `/user/${uid}`, data);
       const updatedCurrentUser = res.data.currentUser
-      console.log('res.data', res.data)
       dispatch(setCurrentUser(updatedCurrentUser));
       dispatch(setLoadingFalse())
     } catch (error) {
@@ -125,6 +124,39 @@ export default function UseApi() {
       handleApiError(error)
     }
   }
+
+ const uploadAppPic = async (file) => {
+    dispatch(startApiCall())
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await axiosAuthCall.post(api_url + "/upload_pic", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }});
+      return res.data.fileName
+    } catch (error) {
+      handleApiError(error)
+    }
+  }
+
+  const addPetToDb = async (newPet) => {
+    dispatch(startApiCall())
+    try {
+      const res = await axiosAuthCall.post(api_url + "/pet", newPet);
+      const savedPet = res.data
+      if(extraFiltersAreActive) {
+         dispatch(clearExtraFilters())
+      }
+      dispatch(addNewPet(savedPet))
+      dispatch(setLoadingFalse())
+      dispatch(closeModal())
+    } catch (error) {
+      handleApiError(error)
+    }
+  }
+
+
 
     
   const takeCareOfPet = useCallback( async (petId, newStatus) => {
@@ -152,13 +184,9 @@ export default function UseApi() {
 
 
   const returnPet = useCallback(async (petId) => {
-    console.log(`the pet ${petId} has been returned`)
     try {
       dispatch(startApiCall())
       const res = await axiosAuthCall.post(api_url + `/pet/${petId}/return`);
-      console.log('res', res)
-      console.log('res.userPets', res.data.userPets)
-      
       ////add pet  uid and status to pet
       const newPets = pets.map((currentPet) => {
         const newPet = {...currentPet}
@@ -233,6 +261,7 @@ export default function UseApi() {
   return (
     { login, checkAuth, logout, signIn, updateUser, getPets, 
       getPetByID, setSelectedPetByID, adoptPet, fosterPet, 
-      editPet, deletePet, returnPet, savePet, unSavePet}
+      editPet, deletePet, returnPet, savePet, unSavePet,
+      uploadAppPic, addPetToDb}
   )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import UiBox from '../ui/uiKit/layouts/UiBox'
 import { UiFlexColToRowFrom, UiFlexRow } from '../ui/uiKit/layouts/UiFlex'
 import TextFontAlt from '../ui/myAppUi/TextFontAlt'
-import { FILTER_OPTIONS, PET_MAX_HEIGHT_IN_cm, PET_MAX_WEIGHT_IN_Kg, PET_TYPES } from '../../config/config'
+import { FILTER_OPTIONS, PET_MAX_HEIGHT_IN_cm, PET_MAX_WEIGHT_IN_Kg, PET_STATUS, PET_TYPES } from '../../config/config'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearExtraFilters, setExtraFiltersAreActive, setFilterType, setMoreFilters, toggleShowExtraFilters } from '../../redux/reducers/petSlice'
 import SearchFormRadioControl from './SearchFormRadioControl'
@@ -66,11 +66,10 @@ export default function Search() {
         const formData = new FormData(event.currentTarget);
         moreFilters.name = formData.get('name');
         moreFilters.status = formData.get('status');
-        moreFilters.weight_min = weightRef.current[0] === 0 ? '' : weightRef.current[0] * 1000 //kg -> gr
-        moreFilters.weight_max = weightRef.current[1] === PET_MAX_WEIGHT_IN_Kg ? '' : weightRef.current[1] * 1000 //kg -> gr
-        moreFilters.height_min = heightRef.current[0] === 0 ? '' : heightRef.current[0]
-        moreFilters.height_max = heightRef.current[1] === PET_MAX_HEIGHT_IN_cm ? '' : heightRef.current[1]
-        console.log(formData.get('status', moreFilters.status))
+        moreFilters.weight_min = weightRef.current[0] === 0 ? null : weightRef.current[0] * 1000 //kg -> gr
+        moreFilters.weight_max = weightRef.current[1] === PET_MAX_WEIGHT_IN_Kg ? null : weightRef.current[1] * 1000 //kg -> gr
+        moreFilters.height_min = heightRef.current[0] === 0 ? null : heightRef.current[0]
+        moreFilters.height_max = heightRef.current[1] === PET_MAX_HEIGHT_IN_cm ? null : heightRef.current[1]
         dispatch(setMoreFilters(moreFilters))
     }
 
@@ -81,20 +80,21 @@ export default function Search() {
     //const[extraFiltersActive, setExtraFiltersActive] = useState(false)
     useEffect(() => {
         let areActive = false
-        areActive = filters.name === '' ? areActive : true;
-        areActive = filters.weight_min === '' ? areActive : true;
-        areActive = filters.weight_max === '' ? areActive : true;
-        areActive = filters.height_min === '' ? areActive : true;
-        areActive = filters.height_max === '' ? areActive : true;
+        areActive = filters.name === null ? areActive : true;
+        areActive = filters.weight_min === null ? areActive : true;
+        areActive = filters.weight_max === null ? areActive : true;
+        areActive = filters.height_min === null ? areActive : true;
+        areActive = filters.height_max === null ? areActive : true;
         areActive = filters.status === 0 || filters.status === '0' ? areActive : true;
         dispatch(setExtraFiltersAreActive(areActive))
     }, [filters, dispatch])
 
 
     //Weight slider
-    const weightRef = useRef([0, PET_MAX_WEIGHT_IN_Kg])
     const minWeightInKg = filters.weight_min ? (parseFloat((filters.weight_min / 1000).toFixed(1))) : 0
     const maxWeightInKg = filters.weight_max ? (parseFloat((filters.weight_max / 1000).toFixed(1))) : PET_MAX_WEIGHT_IN_Kg
+    const weightRef = useRef([minWeightInKg, maxWeightInKg])
+
 
     const handleWeightChange = (event, newValue) => {
         weightRef.current = newValue
@@ -115,9 +115,10 @@ export default function Search() {
 
 
     //height slider
-    const heightRef = useRef([0, PET_MAX_HEIGHT_IN_cm])
     const minHeightInCm = filters.height_min ? filters.height_min : 0
     const maxHeightInCm = filters.height_max ? filters.height_max : PET_MAX_HEIGHT_IN_cm
+    const heightRef = useRef([minHeightInCm, maxHeightInCm ])
+
 
     const handleHeightChange = (event, newValue) => {
         heightRef.current = newValue
@@ -134,7 +135,7 @@ export default function Search() {
                 <UiRadioGroup
                     row
                     name="pet-type-radio-buttons-group"
-                    value={filters.type}
+                    value={filters.type || PET_TYPES.all}
                     onChange={handleTypeChange}
                 >
                     <SearchFormRadioControl value={PET_TYPES.all} label='Cats or Dogs' />
@@ -164,7 +165,7 @@ export default function Search() {
                         <ModalTextField
                             //sx={{ minWidth: '10rem' }}
                             sx={{ flex: 1 }}
-                            defaultValue={filters.name}
+                            defaultValue={filters.name || ''}
                             label="Pet Name"
                             name="name"
                             size="small"
@@ -178,7 +179,7 @@ export default function Search() {
                             label="Pet Status"
                             size="small"
                             name="status"
-                            defaultValue={filters.status}
+                            defaultValue={filters.status || PET_STATUS.all}
                             variant="standard"
                         >
                             {selectMenuOptions.map((option) => (
