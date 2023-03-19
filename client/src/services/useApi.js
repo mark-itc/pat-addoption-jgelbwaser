@@ -4,7 +4,7 @@ import { setLogout, setLogin } from '../redux/reducers/authSlice';
 import { startApiCall, setAppError, setLoadingFalse, closeModal } from '../redux/reducers/appSlice';
 import { axiosAuthCall, axiosCall } from '../lib/axios'
 import { clearCurrentUser, setCurrentUser, updateUserPets, updateUserSavedPets } from '../redux/reducers/userSlice';
-import { addNewPet, clearExtraFilters, clearPetsInUserCare, clearPetsSavedByUser, setPets, setPetsInUserCare, setPetsSavedByUser, setSelectedPet, updatePetInState } from '../redux/reducers/petSlice';
+import { addNewPet, clearExtraFilters, clearPetsInUserCare, clearPetsSavedByUser, removePetFromPets, setPets, setPetsInUserCare, setPetsSavedByUser, setSelectedPet, updatePetInPets } from '../redux/reducers/petSlice';
 import { PET_STATUS } from '../config/config';
 
 
@@ -148,9 +148,10 @@ export default function UseApi() {
       if(extraFiltersAreActive) {
          dispatch(clearExtraFilters())
       }
+      
       dispatch(addNewPet(savedPet))
-      dispatch(setLoadingFalse())
-      dispatch(closeModal())  
+      dispatch(closeModal()) 
+      dispatch(setLoadingFalse()) 
     } catch (error) {
       handleApiError(error)
     }
@@ -166,12 +167,26 @@ export default function UseApi() {
       }
       dispatch(setLoadingFalse())
       dispatch(closeModal()) 
-      dispatch(updatePetInState(savedPet)) 
+      dispatch(updatePetInPets(savedPet)) 
       return savedPet
     } catch (error) {
       handleApiError(error)
     }
   }
+
+  const deletePetFromDb = useCallback( async (petId) => {
+    try {
+      dispatch(startApiCall())
+      const res = await axiosAuthCall.delete(api_url + `/pet/${petId}`);
+      const deletedPetId = res.data
+      dispatch(setLoadingFalse())
+      dispatch(closeModal()) 
+      dispatch(removePetFromPets(deletedPetId)) 
+    } catch (error) {
+      handleApiError(error)
+    }
+  },[api_url, dispatch, handleApiError])
+
 
   const takeCareOfPet = useCallback( async (petId, newStatus) => {
       try {
@@ -251,11 +266,6 @@ export default function UseApi() {
   }, [api_url, dispatch, handleApiError, currentUser?.userSavedPets])
 
 
-  const deletePet = useCallback((petId) => {
-    console.log(`the pet ${petId} has been deleted`)
-  }, [])
-
-
   const adoptPet = useCallback( (petId) => {
     takeCareOfPet(petId, PET_STATUS.adopted)
   }, [takeCareOfPet])
@@ -269,7 +279,7 @@ export default function UseApi() {
   return (
     { login, checkAuth, logout, signIn, updateUser, getPets, 
       getPetByID, setSelectedPetByID, adoptPet, fosterPet, 
-       deletePet, returnPet, savePet, unSavePet,
-      uploadAppPic, addPetToDb, updatePetInDb}
+        returnPet, savePet, unSavePet,
+      uploadAppPic, addPetToDb, updatePetInDb, deletePetFromDb}
   )
 }
