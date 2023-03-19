@@ -18,6 +18,7 @@ import ImageContainedBlurBG from '../../ui/uiKit/componentsUi/ImageContainedBlur
 import PetInfoListItem from './PetInfoListItem'
 import UsePet from '../../../hooks/UsePet'
 import SaveHeartIcon from '../../../components/saveHeartIcon'
+import { setSelectedPet } from '../../../redux/reducers/petSlice'
 
 export default function PetInfo() {
 
@@ -38,6 +39,7 @@ export default function PetInfo() {
 
   const handleClose = () => {
     dispatch(closeModal())
+    dispatch(setSelectedPet())
   }
 
 

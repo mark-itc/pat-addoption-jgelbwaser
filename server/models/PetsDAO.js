@@ -52,7 +52,7 @@ class PetDAO {
 
 
     static async save(pet) {
-        return await pet.save();
+        return await pet.save(pet);
     }
 }
 

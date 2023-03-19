@@ -3,21 +3,21 @@ import { PET_STATUS, PET_TYPES } from '../../config/config';
 
 const initialState = {
     pets: [],
-    petsInUserCare:[],
-    petsSavedByUser:[],
+    petsInUserCare: [],
+    petsSavedByUser: [],
     selectedPet: null,
     filters: {
         type: PET_TYPES.all,
-        height_min: null, 
-        height_max: null, 
-        weight_max: null, 
+        height_min: null,
+        height_max: null,
+        weight_max: null,
         weight_min: null,
-        status: PET_STATUS.all, 
+        status: PET_STATUS.all,
         name: null
     },
     showExtraFilters: false,
     extraFiltersAreActive: false,
-    likedPets:[],
+    likedPets: [],
     loading: false,
     error: null,
 };
@@ -37,7 +37,7 @@ export const petSlice = createSlice({
             state.petsSavedByUser = action.payload;
         },
         clearPets: (state) => {
-            state.pets =[];
+            state.pets = [];
         },
         clearPetsInUserCare: (state) => {
             state.petsInUserCare = [];
@@ -45,17 +45,17 @@ export const petSlice = createSlice({
         clearPetsSavedByUser: (state) => {
             state.petsSavedByUser = [];
         },
-        setFilterType:  (state, action) => {
+        setFilterType: (state, action) => {
             state.filters.type = action.payload;
         },
         setMoreFilters: (state, action) => {
-            state.filters = {...state.filters, ...action.payload}
+            state.filters = { ...state.filters, ...action.payload }
         },
         setExtraFiltersAreActive: (state, action) => {
             state.extraFiltersAreActive = action.payload
         },
         clearExtraFilters: (state) => {
-            state.filters = {...initialState.filters, type: state.filters.type}
+            state.filters = { ...initialState.filters, type: state.filters.type }
         },
         setSelectedPet: (state, action) => {
             state.selectedPet = action.payload;
@@ -64,7 +64,16 @@ export const petSlice = createSlice({
             state.showExtraFilters = !state.showExtraFilters
         },
         addNewPet: (state, action) => {
-            state.pets = [...state.pets,  action.payload]
+            state.pets = [...state.pets, action.payload]
+        },
+        updatePetInState: (state, action) => {
+            const updatedPets = state.pets.map(pet => {
+                if (pet._id === action.payload._id) {
+                    return action.payload
+                }
+                return pet
+            })
+             state.pets = updatedPets
         }
     },
 })
@@ -83,7 +92,8 @@ export const {
     setMoreFilters,
     clearExtraFilters,
     toggleShowExtraFilters,
-    setExtraFiltersAreActive
+    setExtraFiltersAreActive,
+    updatePetInState
 } = petSlice.actions
 
 export default petSlice.reducer

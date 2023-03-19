@@ -15,16 +15,18 @@ import { FILTER_OPTIONS, PET_MAX_HEIGHT_IN_cm, PET_MAX_WEIGHT_IN_gr, PET_MAX_WEI
 import UiMenuItem from '../ui/uiKit/componentsUi/UiMenuItem';
 import ImageContainedBlurBG from '../ui/uiKit/componentsUi/ImageContainedBlurBG';
 import UsePet from '../../hooks/UsePet';
+import { setSelectedPet } from '../../redux/reducers/petSlice';
 
-export default function NewPet() {
+export default function CreateEditPet() {
 
     const { currentUser } = useSelector(state => state.user)
     const { error, loading } = useSelector(state => state.app)
+    const {selectedPet} = useSelector(state => state.pet)
     
     const dispatch = useDispatch();
     const { signIn } = UseApi();
     const showAlert = error ? true : false
-    const [newPetData, setNewPetData] = useState({})
+    const [newPetData, setNewPetData] = useState({...selectedPet} || {})
     const [imageToRender, setImageToRender] = useState(null);
     const [fileImageToUpload, setFileImageToUpload] = useState(null);
     const fileInputRef = useRef(null);
@@ -44,12 +46,14 @@ export default function NewPet() {
         addPet( formObject,fileImageToUpload)
     }
 
-    
+
     useEffect(() => { !currentUser && dispatch(closeModal()) }, [currentUser, dispatch])
 
     const handleClose = () => {
+
         dispatch(closeModal())
         dispatch(clearAppError())
+        dispatch(setSelectedPet())
     }
 
 
@@ -70,11 +74,13 @@ export default function NewPet() {
         }
     };
 
+
     return (
         <UiBox >
-            {!imageToRender ? (
-                <UiBox
-                    onClick={handleImageSelect}
+            <UiBox onClick={handleImageSelect}>
+            {!imageToRender  && !newPetData?.picture ? 
+            (
+                <UiBox 
                     sx={{
                         display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '0',
                         height: '200px', width: '100%', backgroundColor: '#EFD6C5', cursor: 'pointer',
@@ -92,13 +98,13 @@ export default function NewPet() {
                 </UiBox>
             ) : (
                 < ImageContainedBlurBG
-                onClick={handleImageSelect}
-                    image={imageToRender}
+                    image={imageToRender || process.env.REACT_APP_API_PICS_URL + newPetData?.picture}
                     crossOrigin="anonymous"
                     height='200px'
                 />
             )
             }
+            </UiBox>
             <input
                 type="file"
                 onChange={handleImageUpload}
@@ -113,7 +119,7 @@ export default function NewPet() {
                         {/* <UiAvatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <PetsIcon />
                         </UiAvatar> */}
-                        <TextFontLogo component="h1" variant="h5">Add Pet</TextFontLogo>
+                        <TextFontLogo component="h1" variant="h5">{newPetData? 'Edit Pet' : 'Add Pet'}</TextFontLogo>
                     </UiFlexRow>
                     <UiBox component="form" onSubmit={handleSubmit} >
 
@@ -237,9 +243,9 @@ export default function NewPet() {
                         </UiBox>
                         <UiFlexColToRowFrom gap={2} w100 justifyContent='center' >
                             <AppButton type="submit" variant="contained" disabled={loading}>
-                                {loading ? 'Loading' : 'Add Pet'}
+                                {loading ? 'Loading' : 'Save Pet'}
                             </AppButton>
-                            <AppButton variant="outlined" onClick={handleClose}>Close</AppButton>
+                            <AppButton variant="outlined" onClick={handleClose}>Cancel</AppButton>
                         </UiFlexColToRowFrom>
                         <UiBox my={2} >
 

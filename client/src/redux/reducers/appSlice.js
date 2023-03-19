@@ -3,7 +3,7 @@ import Login from "../../components/Modal/Login";
 import PetInfo from "../../components/Modal/petModal/PetInfo";
 import SignIn from "../../components/Modal/SignIn";
 import UpdateUser from "../../components/Modal/UpdateUser";
-import NewPet from "../../components/Modal/NewPet";
+import CreateEditPet from "../../components/Modal/CreateEditPet";
 
 
 export const MODAL_OPTIONS = {
@@ -11,7 +11,7 @@ export const MODAL_OPTIONS = {
     signIn: 2,
     pet: 3,
     updateUser: 4,
-    addPet: 5
+    addEditPet: 5
 }
 
 export const MODAL_COMPONENTS = {
@@ -19,7 +19,7 @@ export const MODAL_COMPONENTS = {
     [MODAL_OPTIONS.signIn] : <SignIn/>,
     [MODAL_OPTIONS.pet] : <PetInfo/>,
     [MODAL_OPTIONS.updateUser] : <UpdateUser/>,
-    [MODAL_OPTIONS.addPet] : <NewPet/>,
+    [MODAL_OPTIONS.addEditPet] : <CreateEditPet/>,
 
 }
 

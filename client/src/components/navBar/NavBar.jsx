@@ -36,7 +36,7 @@ export default function NavBar() {
 
 
     const handleAddPetClick = () => {
-        dispatch(openModal(MODAL_OPTIONS.addPet))
+        dispatch(openModal(MODAL_OPTIONS.addEditPet))
     }
 
     const handleProfileClick = () => {

@@ -10,10 +10,12 @@ export default function UsePet() {
 
     const currentUser = useSelector(state => state.user.currentUser)
     const pet = useSelector(state => state.pet.selectedPet)
+    const pets = useSelector(state => state.pet.pets)
     const dispatch = useDispatch();
     const{
         adoptPet, fosterPet, editPet, deletePet, 
-        returnPet, savePet, unSavePet, uploadAppPic, addPetToDb
+        returnPet, savePet, unSavePet, uploadAppPic, 
+        addPetToDb, updatePetInDb
     } = UseApi()
     //local state:
     const [ctaTxt, setCtaTxt] = useState('Looking your new best friend?');
@@ -22,7 +24,7 @@ export default function UsePet() {
     const navigate = useNavigate()
 
 
-    const addPet = async (petData, petPicture) =>{
+    const addEditPet = async (petData, petPicture) =>{
         if(!(currentUser?.isAdmin === true)) {
             return ( dispatch(setAppError('Only Admin can add pets')))
         }
@@ -35,8 +37,10 @@ export default function UsePet() {
         petData.height = parseInt(petData.height)
         petData.status = PET_STATUS.available
         petData.hypoallergenic = petData.hypoallergenic === "true";
-        addPetToDb(petData)
+        !pet._id ?  addPetToDb(petData) : updatePetInDb(petData, pet._id)
     }
+
+
     useEffect(() => {
 
         if (!pet) return
@@ -62,10 +66,10 @@ export default function UsePet() {
 
         //user is admin:  
         if (currentUser.isAdmin) {
-            setCtaTxt('As an admin you can edit or delete this pet:');
+            setCtaTxt('Edit or delete this pet:');
             setButtonLeft({
                 txt: 'Edit Pet', action: () => {
-                    editPet(pet._id)
+                    dispatch(openModal(MODAL_OPTIONS.addEditPet))
                 }});
             setButtonRight({
                 txt: 'Delete', action: () => {
@@ -101,7 +105,6 @@ export default function UsePet() {
                     txt: 'UnSave', action: () => {unSavePet(pet._id)}
                 });
             } else {
-                console.log('pet not liked ')
                 setButtonLeft({
                     txt: 'Save', action: () => {savePet(pet._id) }
                 });
@@ -128,7 +131,7 @@ export default function UsePet() {
           fosterPet, returnPet,savePet, unSavePet, navigate])
 
     return (
-        { ctaTxt, buttonLeftData, buttonRightData, addPet }
+        { ctaTxt, buttonLeftData, buttonRightData, addPet: addEditPet }
     )
 }
 
