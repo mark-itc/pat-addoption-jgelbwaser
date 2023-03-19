@@ -1,9 +1,7 @@
 const appEnv = require("dotenv").config();
 const { handleError, logger } = require("../lib/logger");
-const bcrypt = require('bcrypt');
-const { validateUserUpdate, validatePet } = require("../validations/ajvValidation");
+const { validatePet } = require("../validations/ajvValidation");
 const UserDAO = require("../models/UsersDAO");
-const AuthController = require("./AuthController");
 const PetsDAO = require("../models/PetsDAO");
 const { PET_STATUS } = require("../config");
 
@@ -16,7 +14,7 @@ module.exports = class PetController {
             const petData = req.body
 
             // Protected to admin only
-            if(!dbUser.isAdmin) return res.status(403).json({error: 'Only admins can add pets '})
+            if (!dbUser.isAdmin) return res.status(403).json({ error: 'Only admins can add pets ' })
 
             //validate inputs:
             const valid = validatePet(petData);
@@ -30,6 +28,32 @@ module.exports = class PetController {
             return res.status(500).json({ error: "Server error" });
         }
     }
+
+    static async editPet(req, res) {
+        try {
+            const dbUser = req.authUser;
+            const petData = req.body
+            const petIdParams = req.params.id
+            // Protected to admin only
+            if (!dbUser.isAdmin) return res.status(403).json({ error: 'Only admins can add pets ' })
+
+            //validate inputs:
+            const valid = validatePet(petData);
+            if (!valid) return res.status(400).json({ error: validatePet.errors[0].message })
+
+            //
+            const dbPet = await PetsDAO.findById(petIdParams)
+            if (!dbPet) return res.status(404).json({ error: 'Pet not found' })
+            Object.assign(dbPet, petData)
+            const savedPet = await PetsDAO.save(dbPet)
+            return res.status(201).json(savedPet)
+
+        } catch (error) {
+            handleError(error);
+            return res.status(500).json({ error: "Server error" });
+        }
+    }
+
 
 
     static async getPets(req, res) {
@@ -68,7 +92,7 @@ module.exports = class PetController {
             user.userPets = [...new Set([...user.userPets, petId])]
             await UserDAO.save(user)
             const userPetsPopulated = await UserDAO.getUserPets(user._id)
-            
+
             res.status(200).json({ userPets: user.userPets, petsInUserCare: userPetsPopulated })
 
         } catch (error) {
@@ -97,7 +121,7 @@ module.exports = class PetController {
 
             await UserDAO.save(user)
             const userPetsPopulated = await UserDAO.getUserPets(user._id)
-            
+
             res.status(200).json({ userPets: user.userPets, petsInUserCare: userPetsPopulated })
 
         } catch (error) {
@@ -114,12 +138,12 @@ module.exports = class PetController {
             if (!petId) return res.status(400).json({ error: 'pet id missing' })
             const pet = await PetsDAO.findById(petId)
             if (!pet) return res.status(404).json({ error: 'pet not found' })
-           
+
             //update userSavedPets array
             user.userSavedPets = [...new Set([...user.userSavedPets, petId])]
             await UserDAO.save(user)
             const userSavedPetsPopulated = await UserDAO.getUserSavedPets(user._id)
-            
+
             res.status(200).json({ userSavedPets: user.userSavedPets, petsSavedByUser: userSavedPetsPopulated })
 
         } catch (error) {
@@ -138,22 +162,23 @@ module.exports = class PetController {
             const pet = await PetsDAO.findById(petId)
             if (!pet) return res.status(404).json({ error: 'pet not found' })
 
-              //update userPets array
-              const newUserPets = user.userSavedPets.filter(pet => {
-                return pet != petId})
-              user.userSavedPets = newUserPets 
-              await UserDAO.save(user) 
-              const userSavedPetsPopulated = await UserDAO.getUserSavedPets(user._id)
-            
+            //update userPets array
+            const newUserPets = user.userSavedPets.filter(pet => {
+                return pet != petId
+            })
+            user.userSavedPets = newUserPets
+            await UserDAO.save(user)
+            const userSavedPetsPopulated = await UserDAO.getUserSavedPets(user._id)
+
             res.status(200).json({ userSavedPets: user.userSavedPets, petsSavedByUser: userSavedPetsPopulated })
-          
+
         } catch (error) {
             handleError(error);
             return res.status(500).json({ error: "Server error" });
         }
     }
 
-   
+
 
     static async getPetByID(req, res) {
         try {
@@ -171,16 +196,26 @@ module.exports = class PetController {
         }
     }
 
-    static async editPet(req, res) {
-        try {
-            //  (protected to admin only)
-            // The add pet api is responsible for editing pets
-            // Validate all the user input is valid
-            // Handle photo upload
-            // Store pet information in the database
 
-            // Fields: Same as Add Pet API
-            res.status(200).json('getPetById called')
+    static async deletePet(req, res) {
+        try {
+            //confirm delete pet
+
+            //delete pet from CareTaker
+
+            //update userPets array
+            if (deletedPet.careGiver) {
+                const careGiver = UserDAO.findById(deletedPet.careGiver)
+                
+            }
+            const newUserPets = user.userPets.filter(pet => pet != petId)
+            user.userPets = newUserPets
+
+
+
+            //delete pet from liked
+
+
 
 
         } catch (error) {
@@ -190,11 +225,8 @@ module.exports = class PetController {
     }
 
 
-
     static async handlePicUpload(req, res) {
         try {
-        //     console.log(req.file.path)
-        //     console.log('reqFile:', req.file)
             return res.json({
                 fileName: req.file.filename
             })
