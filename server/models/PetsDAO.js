@@ -50,6 +50,10 @@ class PetDAO {
         return await Pet.findById(id)
     }
 
+    static async deletePetFromDB(id) {
+        return await Pet.findOneAndDelete({ _id: id })
+    }
+
 
     static async save(pet) {
         return await pet.save(pet);

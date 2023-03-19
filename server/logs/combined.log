@@ -1888,3 +1888,42 @@
 {"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-19T21:09:02.501Z"}
 {"level":"info","message":"back server running","timestamp":"2023-03-19T21:49:34.636Z"}
 {"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T21:49:35.852Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T22:04:38.682Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T22:04:39.885Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T22:08:49.665Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T22:08:50.843Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T22:09:14.716Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T22:09:15.878Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T22:12:00.763Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T22:12:02.109Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T22:12:03.273Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T22:14:47.687Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T22:14:48.840Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-19T22:44:43.536Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-19T22:56:33.087Z"}
+{"level":"info","message":"email: admin@mail.com: attempts 0","timestamp":"2023-03-19T22:58:21.234Z"}
+{"level":"error","message":{"error":"ReferenceError: deletedPet is not defined\n    at deletePet (/Users/jgelbwaser/Documents/javi/ACADEMIA/webdevelopment/ITC/ITC_Course/assgnemets/HW6-Pet-adoption/pat-addoption-jgelbwaser/server/controllers/PetController.js:209:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"timestamp":"2023-03-19T22:59:12.539Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T23:05:32.009Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T23:05:33.237Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T23:07:11.638Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T23:07:12.865Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T23:13:51.150Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T23:13:52.336Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-19T23:16:23.714Z"}
+{"level":"info","message":"email: david@mail.com: attempts 0","timestamp":"2023-03-19T23:17:25.281Z"}
+{"level":"info","message":"email: admin@mail.com: attempts 0","timestamp":"2023-03-19T23:18:01.834Z"}
+{"level":"error","message":{"error":"ReferenceError: deletedPet is not defined\n    at deletePet (/Users/jgelbwaser/Documents/javi/ACADEMIA/webdevelopment/ITC/ITC_Course/assgnemets/HW6-Pet-adoption/pat-addoption-jgelbwaser/server/controllers/PetController.js:210:52)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"timestamp":"2023-03-19T23:18:50.717Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T23:19:55.676Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T23:19:56.905Z"}
+{"level":"error","message":{"error":"TypeError: Cannot read properties of undefined (reading 'filter')\n    at deletePet (/Users/jgelbwaser/Documents/javi/ACADEMIA/webdevelopment/ITC/ITC_Course/assgnemets/HW6-Pet-adoption/pat-addoption-jgelbwaser/server/controllers/PetController.js:211:57)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"timestamp":"2023-03-19T23:20:13.903Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T23:22:29.513Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T23:22:30.815Z"}
+{"level":"error","message":{"error":"TypeError: Cannot read properties of undefined (reading 'filter')\n    at deletePet (/Users/jgelbwaser/Documents/javi/ACADEMIA/webdevelopment/ITC/ITC_Course/assgnemets/HW6-Pet-adoption/pat-addoption-jgelbwaser/server/controllers/PetController.js:212:57)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"timestamp":"2023-03-19T23:22:41.955Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T23:23:37.308Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T23:23:38.515Z"}
+{"level":"error","message":{"error":"TypeError: Cannot read properties of undefined (reading 'filter')\n    at deletePet (/Users/jgelbwaser/Documents/javi/ACADEMIA/webdevelopment/ITC/ITC_Course/assgnemets/HW6-Pet-adoption/pat-addoption-jgelbwaser/server/controllers/PetController.js:213:57)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"timestamp":"2023-03-19T23:23:42.695Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T23:23:58.360Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T23:23:59.496Z"}
+{"level":"error","message":{"error":"ReferenceError: user is not defined\n    at deletePet (/Users/jgelbwaser/Documents/javi/ACADEMIA/webdevelopment/ITC/ITC_Course/assgnemets/HW6-Pet-adoption/pat-addoption-jgelbwaser/server/controllers/PetController.js:214:36)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"},"timestamp":"2023-03-19T23:24:08.841Z"}
+{"level":"info","message":"back server running","timestamp":"2023-03-19T23:24:31.807Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2023-03-19T23:24:32.965Z"}

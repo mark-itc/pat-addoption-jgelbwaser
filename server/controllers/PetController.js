@@ -196,28 +196,28 @@ module.exports = class PetController {
         }
     }
 
-
     static async deletePet(req, res) {
         try {
-            //confirm delete pet
+            const dbUser = req.authUser;
+            const petId = req.params.id
 
+            // Protected to admin only
+            if (!dbUser.isAdmin) return res.status(403).json({ error: 'Only admins can add pets ' })
+            const pet = await PetsDAO.findById(petId)
+            if (!pet) return res.status(404).json({ error: 'pet not found' })
             //delete pet from CareTaker
-
-            //update userPets array
-            if (deletedPet.careGiver) {
-                const careGiver = UserDAO.findById(deletedPet.careGiver)
-                
+            if (pet.careGiver) {
+                console.log('pet.careGiver', pet.careGiver)
+                const careGiver = await UserDAO.findById(pet.careGiver)
+                console.log('careGiver', careGiver)
+                careGiver.userPets = careGiver.userPets.filter(pet => pet != petId)
+                await UserDAO.save(careGiver)
             }
-            const newUserPets = user.userPets.filter(pet => pet != petId)
-            user.userPets = newUserPets
-
-
-
-            //delete pet from liked
-
-
-
-
+            //delete pet from All users saved pets
+            await UserDAO.removePetFromAllSavedPets(petId)
+            //delete Pet
+            await PetsDAO.deletePetFromDB(petId)
+            return res.status(200).json(petId);
         } catch (error) {
             handleError(error);
             return res.status(500).json({ error: "Server error" });

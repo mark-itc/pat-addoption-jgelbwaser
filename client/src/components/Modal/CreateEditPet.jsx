@@ -24,13 +24,12 @@ export default function CreateEditPet() {
     const {selectedPet} = useSelector(state => state.pet)
     
     const dispatch = useDispatch();
-    const { signIn } = UseApi();
     const showAlert = error ? true : false
     const [newPetData, setNewPetData] = useState({...selectedPet} || {})
     const [imageToRender, setImageToRender] = useState(null);
     const [fileImageToUpload, setFileImageToUpload] = useState(null);
     const fileInputRef = useRef(null);
-    const {addPet} = UsePet();
+    const {addEditPet} = UsePet();
 
     const petTypeKeyArray = Object.keys(FILTER_OPTIONS.type)
     const selectMenuOptions = petTypeKeyArray.map(type => {
@@ -43,7 +42,7 @@ export default function CreateEditPet() {
         const formData = new FormData(event.currentTarget);
         const formObject = Object.fromEntries(formData.entries());
         setNewPetData(formObject)
-        addPet( formObject,fileImageToUpload)
+        addEditPet( formObject,fileImageToUpload)
     }
 
 

@@ -40,6 +40,12 @@ class UserDAO {
             .select('userSavedPets')
         return data.userSavedPets
     }
+
+    static async removePetFromAllSavedPets(deletedPetId) {
+       await User.updateMany(
+            { userSavedPets: deletedPetId },
+            { $pull: { userSavedPets: deletedPetId } })
+    }
 }
 
 module.exports = UserDAO

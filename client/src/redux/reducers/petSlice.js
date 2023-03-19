@@ -66,7 +66,7 @@ export const petSlice = createSlice({
         addNewPet: (state, action) => {
             state.pets = [...state.pets, action.payload]
         },
-        updatePetInState: (state, action) => {
+        updatePetInPets: (state, action) => {
             const updatedPets = state.pets.map(pet => {
                 if (pet._id === action.payload._id) {
                     return action.payload
@@ -74,6 +74,10 @@ export const petSlice = createSlice({
                 return pet
             })
              state.pets = updatedPets
+        },
+        removePetFromPets: (state, action) => {
+            const deletedPetId = action.payload
+            state.pets = state.pets.filter( pet => pet._id !== deletedPetId)
         }
     },
 })
@@ -93,7 +97,8 @@ export const {
     clearExtraFilters,
     toggleShowExtraFilters,
     setExtraFiltersAreActive,
-    updatePetInState
+    updatePetInPets,
+    removePetFromPets
 } = petSlice.actions
 
 export default petSlice.reducer

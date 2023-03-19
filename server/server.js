@@ -47,6 +47,8 @@ app.post('/user/:id', AuthController.authenticateWithDB, UserController.updateUs
 app.post( '/pet', AuthController.authenticateWithDB, PetController.addPet), //Only Admin
 app.get( '/pet/:id', PetController.getPetByID),
 app.put( '/pet/:id', AuthController.authenticateWithDB, PetController.editPet),//Only Admin
+app.delete( '/pet/:id', AuthController.authenticateWithDB, PetController.deletePet),//Only Admin
+
 app.get( '/pet', PetController.getPets),
 app.post( '/pet/:id/adopt', AuthController.authenticateWithDB, PetController.adoptFosterPet),//Only users
 app.post( '/pet/:id/return', AuthController.authenticateWithDB, PetController.returnPet),//Only users
