@@ -1,21 +1,21 @@
 import React, { useEffect, useState, useRef } from 'react';
-import UseApi from '../../services/useApi';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import UiBox from '../ui/uiKit/layouts/UiBox';
 import { UiFlexCol, UiFlexColToRowFrom, UiFlexRow } from '../ui/uiKit/layouts/UiFlex';
-import UiAvatar from '../ui/uiKit/componentsUi/UiAvatar';
 import TextFontLogo from '../ui/myAppUi/TextFontLogo';
 import ModalTextField from '../ui/myAppUi/ModalTextField';
 import AppButton from '../ui/myAppUi/AppButton';
 import { UiAlertCollapse } from '../ui/uiKit/componentsUi/UiAlert';
-import TextLink from '../ui/myAppUi/TextLink';
-import { closeModal, MODAL_OPTIONS, openModal, clearAppError } from '../../redux/reducers/appSlice';
+import { closeModal, clearAppError } from '../../redux/reducers/appSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { FILTER_OPTIONS, PET_MAX_HEIGHT_IN_cm, PET_MAX_WEIGHT_IN_gr, PET_MAX_WEIGHT_IN_Kg } from '../../config/config';
+import { FILTER_OPTIONS, PET_MAX_HEIGHT_IN_cm, PET_MAX_WEIGHT_IN_Kg } from '../../config/config';
 import UiMenuItem from '../ui/uiKit/componentsUi/UiMenuItem';
 import ImageContainedBlurBG from '../ui/uiKit/componentsUi/ImageContainedBlurBG';
 import UsePet from '../../hooks/UsePet';
 import { setSelectedPet } from '../../redux/reducers/petSlice';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import UiAbsoluteDivCentered from '../ui/uiKit/layouts/UiAbsoluteDivCentered';
+import UiAvatar from '../ui/uiKit/componentsUi/UiAvatar.jsx'
+import ImagePlaceHolder from '../ImagePlaceHolder';
 
 export default function CreateEditPet() {
 
@@ -45,11 +45,9 @@ export default function CreateEditPet() {
         addEditPet( formObject,fileImageToUpload)
     }
 
-
     useEffect(() => { !currentUser && dispatch(closeModal()) }, [currentUser, dispatch])
 
     const handleClose = () => {
-
         dispatch(closeModal())
         dispatch(clearAppError())
         dispatch(setSelectedPet())
@@ -76,25 +74,10 @@ export default function CreateEditPet() {
 
     return (
         <UiBox >
-            <UiBox onClick={handleImageSelect}>
+            <UiBox onClick={handleImageSelect} sx={{position:'relative'}}>
             {!imageToRender  && !newPetData?.picture ? 
             (
-                <UiBox 
-                    sx={{
-                        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '0',
-                        height: '200px', width: '100%', backgroundColor: '#EFD6C5', cursor: 'pointer',
-                        '&:hover': { backgroundColor: '#F9BF98' }
-
-                    }}>
-                    <UiBox
-                        sx={{ height: '100px', width: '100px' }}>
-                        <img src="./assets/logo-outline.png" alt="" style={{
-                            width: '100%', heigh: '100%'
-                        }}
-                        />
-                    </UiBox>
-                    <TextFontLogo component="h1" color='secondary.main' variant="h5">Click to add Picture</TextFontLogo>
-                </UiBox>
+                <ImagePlaceHolder height = '200px' />
             ) : (
                 < ImageContainedBlurBG
                     image={imageToRender || process.env.REACT_APP_API_PICS_URL + newPetData?.picture}
@@ -103,6 +86,11 @@ export default function CreateEditPet() {
                 />
             )
             }
+            <UiAbsoluteDivCentered top='80%' >
+            <UiAvatar sx={{ m: 1, backgroundColor:'rgb(0,0,0)', border:'1px solid white', borderColor: 'white' }}>
+            <AddAPhotoIcon />
+                </UiAvatar>
+            </UiAbsoluteDivCentered >
             </UiBox>
             <input
                 type="file"
@@ -118,7 +106,7 @@ export default function CreateEditPet() {
                         {/* <UiAvatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <PetsIcon />
                         </UiAvatar> */}
-                        <TextFontLogo component="h1" variant="h5">{newPetData? 'Edit Pet' : 'Add Pet'}</TextFontLogo>
+                        <TextFontLogo component="h1" variant="h5">{selectedPet? 'Edit Pet' : 'Add Pet'}</TextFontLogo>
                     </UiFlexRow>
                     <UiBox component="form" onSubmit={handleSubmit} >
 
@@ -210,7 +198,7 @@ export default function CreateEditPet() {
                                 size='small'
                                 label="Hypoallergenic"
                                 name="hypoallergenic"
-                                defaultValue={newPetData?.hypoallergenic || ''} >
+                                defaultValue={newPetData.hasOwnProperty("hypoallergenic") ?  newPetData.hypoallergenic : ''} >
                                 <UiMenuItem value={true}>Yes</UiMenuItem>
                                 <UiMenuItem value={false}>No</UiMenuItem>
                             </ModalTextField>

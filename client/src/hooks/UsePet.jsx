@@ -51,7 +51,7 @@ export default function UsePet() {
         petData.height = parseInt(petData.height)
         petData.status = PET_STATUS.available
         petData.hypoallergenic = petData.hypoallergenic === "true";
-        !pet._id ? addPetToDb(petData) : updatePetInDb(petData, pet._id)
+        pet?._id ?  updatePetInDb(petData, pet._id) : addPetToDb(petData)
     }
 
 

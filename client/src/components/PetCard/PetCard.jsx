@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { MODAL_OPTIONS, openModal } from '../../redux/reducers/appSlice';
 import UseApi from '../../services/useApi';
 import SaveHeartIcon from '../saveHeartIcon';
+import ImagePlaceHolder from '../ImagePlaceHolder';
 
 const StyledCard = styled(UiCard)(({theme})=>({
     width:'300px', 
@@ -37,13 +38,18 @@ export default function PetCard({name, _id, status, picture, liked}) {
   return (
     <UiDiv onClick={handleClick}>
     <StyledCard variant='outlined'>
-        <UiCardMedia
-                crossOrigin="anonymous"
-                component="img"
-                alt="green iguana"
-                height="140"
-                image={process.env.REACT_APP_API_PICS_URL + picture}
-        />
+        {picture ? (
+          <UiCardMedia
+                  crossOrigin="anonymous"
+                  component="img"
+                  alt={name  + ' picture'} 
+                  height="140"
+                  image={
+                    picture? process.env.REACT_APP_API_PICS_URL + picture : "./assets/logo-outline.png"}
+          />
+          ):(
+          <ImagePlaceHolder height = '140px' alt='Pet picture' />
+        )}
         <UiCardContent>
             <UiFlexRow justifyContent='space-between' alignItems='center'>
             <UiFlexRow gap={1} alignItems='center'>

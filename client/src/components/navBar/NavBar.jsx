@@ -59,13 +59,13 @@ export default function NavBar() {
         <UiAppBar position="sticky" color='dark'>
             <UiToolbar>
                 <MyAppUiContainer>
-                    <UiFlexRow justifyContent='space-between' alignItems='center' sx={{ width: '100%' }}>
+                    <UiFlexRow justifyContent='space-between' alignItems='stretch' sx={{ width: '100%' }}>
                         <UiFlexRow gap={1} alignItems='stretch'>
                             {/* LOGO AND ORG NAME  */}
                             <NavBrand />
 
                             {/* NAV LINKS  */}
-                            <UiHideFrom from='sm'>
+                            <UiHideFrom from='md'>
                                 {/* mobile: */}
                                 <UiFlexRow gap={1} sx={{ height: '100%' }} alignItems='center' >
                                     {navLinkArray.map((navLink, index) => {
@@ -80,7 +80,7 @@ export default function NavBar() {
                                     })}
                                 </UiFlexRow>
                             </UiHideFrom>
-                            <UiShowFrom from='sm' >
+                            <UiShowFrom from='md' >
                                 {/* desktop: */}
                                 <UiFlexRow sx={{ height: '100%' }}>
                                     {navLinkArray.map((navLink, index) => {
@@ -99,39 +99,39 @@ export default function NavBar() {
                             </UiShowFrom>
                         </UiFlexRow>
                         {/* USER INFO */}
-                        <div>
-                            <UiFlexRow sx={{ height: '100%', alignSelf: 'center' }} >
 
-                                {permissionLevel > PERMISSION_LEVEL.guest ? (
+                        <UiFlexRow alignItems='stretch' sx={{ alignSelf: 'stretch' }} >
 
-                                    //When loggedIn
-                                    <>
-                                        <UiFlexRow gap={1} onClick={handleProfileClick} >
-                                            {fullName &&
-                                                <UiFlexRow sx={{ alignItems: 'center' }}>
-                                                    <UiAvatarFromName mr={1}>{fullName}</UiAvatarFromName>
-                                                </UiFlexRow>
-                                            }
-                                            {permissionLevel === PERMISSION_LEVEL.admin || <UiShowFrom from='sm' >
-                                                <NavButton>Profile</NavButton>
-                                            </UiShowFrom>}
-                                        </UiFlexRow>
-                                        {permissionLevel === PERMISSION_LEVEL.admin && <NavButton onClick={handleAddPetClick}>Add pet</NavButton>}
-                                        <NavButton onClick={handleLogoutClick}>Logout</NavButton>
-                                    </>
-                                ) : (
-                                    //When loggedOut:
-                                    <>
-                                        <NavButton onClick={handleLoginClick}>Login</NavButton>
-                                        <UiShowFrom from='sm' >
-                                            <NavButton onClick={handleSignInClick}>Sign In</NavButton>
-                                        </UiShowFrom>
-                                    </>
+                            {permissionLevel > PERMISSION_LEVEL.guest ? (
 
-                                )}
+                                //When loggedIn
+                                <>
+                                    <UiFlexRow gap={1} alignItems='stretch' onClick={handleProfileClick} >
+                                        {fullName &&
+                                            <UiFlexRow sx={{ alignItems: 'center' }}>
+                                                <UiAvatarFromName mr={1}>{fullName}</UiAvatarFromName>
+                                            </UiFlexRow>
+                                        }
+                                        {permissionLevel === PERMISSION_LEVEL.admin || <UiShowFrom from='md' >
+                                            <NavButton>Profile</NavButton>
+                                        </UiShowFrom>}
+                                    </UiFlexRow>
+                                    {permissionLevel === PERMISSION_LEVEL.admin && <NavButton onClick={handleAddPetClick}>Add pet</NavButton>}
+                                    <NavButton onClick={handleLogoutClick}>Logout</NavButton>
+                                </>
+                            ) : (
+                                //When loggedOut:
+                                <>
+                                    <NavButton onClick={handleLoginClick}>Login</NavButton>
+                                    <UiShowFrom from='md' >
+                                        <NavButton onClick={handleSignInClick}>Sign In</NavButton>
+                                    </UiShowFrom>
+                                </>
 
-                            </UiFlexRow>
-                        </div>
+                            )}
+
+                        </UiFlexRow>
+
                     </UiFlexRow>
                 </MyAppUiContainer>
             </UiToolbar>

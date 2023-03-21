@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {  closeModal } from '../../../redux/reducers/appSlice'
+import { closeModal } from '../../../redux/reducers/appSlice'
 import AppButton from '../../ui/myAppUi/AppButton'
 import TextFontLogo from '../../ui/myAppUi/TextFontLogo'
 import TextFontAlt from '../../ui/myAppUi/TextFontAlt'
@@ -19,14 +19,15 @@ import PetInfoListItem from './PetInfoListItem'
 import UsePet from '../../../hooks/UsePet'
 import SaveHeartIcon from '../../../components/saveHeartIcon'
 import { setSelectedPet } from '../../../redux/reducers/petSlice'
+import ImagePlaceHolder from '../../ImagePlaceHolder'
 
 export default function PetInfo() {
 
-   const { error, loading } = useSelector(state => state.app)
+  const { error, loading } = useSelector(state => state.app)
   const pet = useSelector(state => state.pet.selectedPet)
-  const {ctaTxt, buttonLeftData, buttonRightData } = UsePet();
+  const { ctaTxt, buttonLeftData, buttonRightData } = UsePet();
 
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const showAlert = error ? true : false
 
   const handleLeftButtonClick = () => {
@@ -39,21 +40,20 @@ export default function PetInfo() {
 
   const handleClose = () => {
     dispatch(closeModal())
-    dispatch(setSelectedPet())
   }
 
 
   return (
     <UiBox sx={{ width: '500px', maxWidth: '95vw' }}>
       <UiFlexCol alignContent='center'>
-        {loading || !pet ? (
-          <UiDiv style={{ height: '200px', backgroundColor: 'secondary.light' }}></UiDiv>
-        ) : (
+        {pet?.picture ? (
           < ImageContainedBlurBG
             image={process.env.REACT_APP_API_PICS_URL + pet?.picture}
             crossOrigin="anonymous"
             height='200px'
           />
+        ) : (
+          <ImagePlaceHolder height='200px' alt='Pet picture' />
         )}
 
         <UiBox px={5} py={3}>
@@ -62,7 +62,7 @@ export default function PetInfo() {
             ) : (<>
               <UiFlexRow justifyContent='space-between'>
                 <UiFlexRow gap={1} alignItems='center'>
-                  <SaveHeartIcon petId={pet._id}/>
+                  <SaveHeartIcon petId={pet._id} />
                   <TextFontLogo color='main.dark' variant='h6' >{pet.name}</TextFontLogo>
                 </UiFlexRow>
                 <TextFontLogo color='main.main' variant='h6' >
@@ -92,12 +92,15 @@ export default function PetInfo() {
             {/* Error */}
             <UiBox mt={3}>
               <UiAlertCollapse show={showAlert} >{error}</UiAlertCollapse>
-              {loading ? <TextFontAlt bold textAlign='center' variant='h4' color='primary'>Loading ...</TextFontAlt> : null}
             </UiBox>
             {/* Actions */}
-            <TextFontAlt variant='h4' bold color='secondary.main' mb={2} sx={{ textAlign: 'center' }}>
-              {ctaTxt}
-            </TextFontAlt>
+            {loading ? (
+              <TextFontAlt bold textAlign='center' mb={2} variant='h4' color='primary'>Loading ...</TextFontAlt>
+            ) : (
+              <TextFontAlt variant='h4' bold color='secondary.main' mb={2} sx={{ textAlign: 'center' }}>
+                {ctaTxt}
+              </TextFontAlt>
+            )}
             <UiFlexColToRowFrom gap={2} w100 justifyContent='center' >
               <AppButton type="submit" variant="contained" onClick={handleLeftButtonClick} disabled={loading}>
                 {buttonLeftData?.txt}

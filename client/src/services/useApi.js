@@ -165,9 +165,9 @@ export default function UseApi() {
       if(extraFiltersAreActive) {
          dispatch(clearExtraFilters())
       }
-      dispatch(setLoadingFalse())
-      dispatch(closeModal()) 
       dispatch(updatePetInPets(savedPet)) 
+      dispatch(closeModal()) 
+      dispatch(setLoadingFalse())
       return savedPet
     } catch (error) {
       handleApiError(error)
@@ -179,9 +179,9 @@ export default function UseApi() {
       dispatch(startApiCall())
       const res = await axiosAuthCall.delete(api_url + `/pet/${petId}`);
       const deletedPetId = res.data
-      dispatch(setLoadingFalse())
-      dispatch(closeModal()) 
       dispatch(removePetFromPets(deletedPetId)) 
+      dispatch(closeModal()) 
+      dispatch(setLoadingFalse())
     } catch (error) {
       handleApiError(error)
     }

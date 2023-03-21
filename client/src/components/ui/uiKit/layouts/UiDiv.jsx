@@ -9,7 +9,7 @@ export default function UiDiv({sx={}, p, m,  ...props}) {
         ...sx
     }));
   return (
-    <StyledDiv {...props} >
+    <StyledDiv {...props}  >
         {props.children}
     </StyledDiv>
   )
